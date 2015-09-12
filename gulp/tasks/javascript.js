@@ -22,15 +22,17 @@ var opts = assign({}, watchify.args, customOpts);
 function buildBundle(watch) {
   var b = browserify(opts);
 
+  b.transform(require('partialify'));
+  b.transform(require('babelify').configure({
+    loose: 'all'
+  }));
+
   if (watch) {
     b = watchify(b);
     b.on('update', bundle(b, true));
     b.on('log', gutil.log);
     b.bundle().on('data', function() {});
   }
-
-  b.transform(require('partialify'));
-  b.transform(require('babelify'));
 
   return b;
 }

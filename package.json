@@ -11,9 +11,11 @@
   },
   "author": "Tim Smart <tim.smart@designworks.co.nz",
   "devDependencies": {
+    "babel-eslint": "^4.1.1",
     "babelify": "^6.3.0",
     "browserify": "^11.1.0",
     "coverageify": "^1.0.4",
+    "eslint": "^1.4.1",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.1",
     "gulp-batch": "^1.0.5",
@@ -44,10 +46,15 @@
     "watchify": "^3.4.0"
   },
   "dependencies": {
+    "bluebird": "^2.10.0",
     "bootstrap": "twbs/bootstrap#v4-dev",
+    "co": "^4.6.0",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
     "oop-utils": "^0.2.3",
-    "raf": "^3.1.0"
+    "raf": "^3.1.0",
+    "vue": "^0.12.14",
+    "vue-router": "^0.6.0",
+    "vue-validator": "^1.4.3"
   }
 }

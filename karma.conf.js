@@ -11,8 +11,8 @@ module.exports = function(config) {
     browserify: {
       transform: [
         'partialify',
-        'babelify',
-        ['coverageify', {ignores: new RegExp(__dirname)}]
+        ['babelify', {loose: 'all'}],
+        // ['coverageify', {ignores: new RegExp(__dirname)}]
       ],
       debug: true
     },

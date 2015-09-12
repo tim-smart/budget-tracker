@@ -1,25 +1,26 @@
-env:
-  node: true
-  browser: true
+{
+  "parser": "babel-eslint",
 
-rules:
-  brace-style: 2
-  camelcase: 2
-  comma-style: 2
-  guard-for-in: 2
-  indent: [2, 2]
-  quotes: [2, "single", "avoid-escape"]
-  no-floating-decimal: 2
-  no-nested-ternary: 2
-  no-undefined: 2
-  no-use-before-define: [2, "nofunc"]
-  radix: 2
-  space-before-function-paren: [2, "never"]
-  space-after-keywords: [2, "always"]
-  space-before-blocks: 2
-  spaced-comment: 2
-  strict: [2, "global"]
-  wrap-iife: 2
+  "rules": {
+    "brace-style": 2,
+    "camelcase": 2,
+    "comma-style": 2,
+    "guard-for-in": 2,
+    "indent": [2, 2],
+    "quotes": [2, "single", "avoid-escape"],
+    "no-floating-decimal": 2,
+    "no-nested-ternary": 2,
+    "no-undefined": 2,
+    "no-use-before-define": [2, "nofunc"],
+    "radix": 2,
+    "space-before-function-paren": [2, "never"],
+    "space-after-keywords": [2, "always"],
+    "space-before-blocks": 2,
+    "spaced-comment": 2,
+    "strict": 0,
+    "wrap-iife": 2,
 
-  default-case: 2
-  func-style: [2, "declaration"]
+    "default-case": 2,
+    "func-style": [2, "declaration"]
+  }
+}
