@@ -1,5 +1,3 @@
 'use strict';
 
-var $ = require('jquery');
-
-console.log('ready');
+exports.a = 123;

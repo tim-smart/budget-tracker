@@ -10,6 +10,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var assign = require('lodash').assign;
 var gcallback = require('gulp-callback');
 var uglify = require('gulp-uglify');
+var livereload = require('gulp-livereload');
 
 // add custom browserify options here
 var customOpts = {
@@ -25,9 +26,11 @@ function buildBundle(watch) {
     b = watchify(b);
     b.on('update', bundle(b, true));
     b.on('log', gutil.log);
+    b.bundle().on('data', function() {});
   }
 
   b.transform(require('partialify'));
+  b.transform(require('babelify'));
 
   return b;
 }

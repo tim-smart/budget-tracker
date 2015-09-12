@@ -11,16 +11,15 @@ var livereload = require('gulp-livereload');
 // CSS
 gulp.task('css', function() {
   return gulp.src('scss/*.scss')
-  .pipe(sourcemaps.init())
+  // .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer())
-  .pipe(sourcemaps.write())
+  // .pipe(sourcemaps.write())
   .pipe(gulp.dest('./build/css'))
   .pipe(livereload())
   .pipe(minify())
   .pipe(rename(function(path) {
     path.extname = '.min.css';
   }))
-  .pipe(gulp.dest('./build/css'))
-  .pipe(gulp.dest());
+  .pipe(gulp.dest('./build/css'));
 });
