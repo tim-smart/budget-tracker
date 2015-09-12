@@ -1,15 +1,18 @@
 import Vue from 'vue'
 
-// Components
-
 export default Vue.extend({
   data() {
-    return {}
+    return {
+      categories: []
+    }
   },
 
   created() {
   },
 
   components: {
-  }
+    navbar: require('js/navbar')
+  },
+
+  template: require('./template.html')
 })

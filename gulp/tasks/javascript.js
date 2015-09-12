@@ -24,6 +24,7 @@ function buildBundle(watch) {
   b.transform(require('babelify').configure({
     loose: 'all'
   }));
+  b.transform(require('pkgify'));
   b.transform(require('partialify'));
 
   if (watch) {

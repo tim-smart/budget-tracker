@@ -1,9 +1,11 @@
-const bb = require('backbone')
-bb.LocalStorage = require('backbone.localstorage')
-require('backbone-validation')
+import Vue from 'vue'
+import Router from 'vue-router'
+import App from './app'
 
-const App = require('./app')
+Vue.use(Router)
+const router = new Router()
 
-window.app = new App({
-  el: '#budget-app'
+router.map({
 })
+
+router.start(App, '#budget-app')

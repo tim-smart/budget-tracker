@@ -1,9 +1,15 @@
 'use strict';
 
-// var App = require('../../js/app/index.js');
+var App = require('js/app/index.js');
 
 describe('App', function() {
 
-  // const app = new App();
+  const app = new App();
+
+  describe('data', function() {
+    it('is an array', function() {
+      expect(Array.isArray(app.categories)).toEqual(true)
+    })
+  })
 
 })
