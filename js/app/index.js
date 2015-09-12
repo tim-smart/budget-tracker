@@ -1,6 +1,15 @@
+import Vue from 'vue'
 
-export default {
-  el: '#budget-app',
+// Components
 
-  components: []
-}
+export default Vue.extend({
+  data() {
+    return {}
+  },
+
+  created() {
+  },
+
+  components: {
+  }
+})

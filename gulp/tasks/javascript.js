@@ -8,7 +8,6 @@ var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var assign = require('lodash').assign;
-var gcallback = require('gulp-callback');
 var uglify = require('gulp-uglify');
 var livereload = require('gulp-livereload');
 
@@ -22,10 +21,10 @@ var opts = assign({}, watchify.args, customOpts);
 function buildBundle(watch) {
   var b = browserify(opts);
 
-  b.transform(require('partialify'));
   b.transform(require('babelify').configure({
     loose: 'all'
   }));
+  b.transform(require('partialify'));
 
   if (watch) {
     b = watchify(b);

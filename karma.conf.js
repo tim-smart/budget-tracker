@@ -10,8 +10,8 @@ module.exports = function(config) {
     frameworks: ['browserify', 'jasmine'],
     browserify: {
       transform: [
-        'partialify',
         ['babelify', {loose: 'all'}],
+        'partialify',
         // ['coverageify', {ignores: new RegExp(__dirname)}]
       ],
       debug: true

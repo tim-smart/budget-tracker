@@ -19,7 +19,6 @@
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.1",
     "gulp-batch": "^1.0.5",
-    "gulp-callback": "0.0.3",
     "gulp-consolidate": "^0.1.2",
     "gulp-filter": "^2.0.2",
     "gulp-livereload": "^3.8.0",
@@ -40,12 +39,15 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "partialify": "^3.1.5",
     "phantomjs": "^1.9.18",
+    "require-globify": "^1.3.0",
     "through2": "^2.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"
   },
   "dependencies": {
+    "backbone": "^1.2.3",
+    "backbone.localstorage": "^1.1.16",
     "bluebird": "^2.10.0",
     "bootstrap": "twbs/bootstrap#v4-dev",
     "co": "^4.6.0",
@@ -55,6 +57,7 @@
     "raf": "^3.1.0",
     "vue": "^0.12.14",
     "vue-router": "^0.6.0",
-    "vue-validator": "^1.4.3"
+    "vue-validator": "^1.4.3",
+    "ydn.db": "^1.3.0"
   }
 }

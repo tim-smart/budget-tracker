@@ -1,6 +1,8 @@
+const bb = require('backbone')
+bb.LocalStorage = require('backbone.localstorage')
 
-import App from './app'
+const App = require('./app')
 
-const app = new Vue(App);
-
-let test = bam();
+window.app = new App({
+  el: '#budget-app'
+})
