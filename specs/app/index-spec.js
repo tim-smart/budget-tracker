@@ -10,6 +10,11 @@ describe('App', function() {
     it('is an array', function() {
       expect(Array.isArray(app.categories)).toEqual(true)
     })
+
+    describe('transactions', function() {
+      it('transactionsCycle only shows last budget cycle', function() {
+      })
+    })
   })
 
 })

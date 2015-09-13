@@ -7,7 +7,8 @@
     "url": "git://github.com/tim-smart/html-starter-kit.git"
   },
   "scripts": {
-    "test": "./node_modules/.bin/karma start"
+    "test": "./node_modules/.bin/karma start",
+    "watch": "./node_modules/.bin/gulp watch"
   },
   "author": "Tim Smart <tim.smart@designworks.co.nz",
   "pkgify": {
