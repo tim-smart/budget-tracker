@@ -24,6 +24,15 @@ export default Vue.extend({
 
   ready() {
     fastclick(this.$el)
+
+    this.$el.addEventListener('click', function(event) {
+      if (event.target.tagName !== 'A') {
+        return
+      }
+
+      event.preventDefault()
+      location.href = event.target.href
+    })
   },
 
   methods: {
