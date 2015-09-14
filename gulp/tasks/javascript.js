@@ -26,6 +26,7 @@ function buildBundle(watch) {
   }));
   b.transform(require('pkgify'));
   b.transform(require('partialify'));
+  b.ignore('unicode/category/So')
 
   if (watch) {
     b = watchify(b);
