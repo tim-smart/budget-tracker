@@ -8,6 +8,11 @@ describe('App', function() {
   const app = new App({
     el: document.createElement('div')
   });
+  const transactions = app.$.transactions
+
+  afterEach(function() {
+    transactions.removeAll()
+  })
 
   describe('child components', function() {
 

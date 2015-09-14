@@ -12,6 +12,8 @@ describe('TransactionForm', function() {
   let form = null
   let formCreated = null
   let goQueue = []
+  let eventMock = null
+
   beforeEach(function() {
     form = app.$addChild({
       el: document.createElement('div')
@@ -28,6 +30,8 @@ describe('TransactionForm', function() {
         }
       }
     }
+
+    eventMock = jasmine.createSpyObj('event', ['preventDefault'])
   })
 
   afterEach(function() {
@@ -64,7 +68,7 @@ describe('TransactionForm', function() {
     it('creates a new transaction', function() {
       form.transaction.description = 'New'
       form.transaction.amount = 50
-      form.save()
+      form.save(eventMock)
 
       expect(transactions.items[0].amount).toEqual(50)
       expect(goQueue[0]).toEqual('/')
@@ -78,7 +82,7 @@ describe('TransactionForm', function() {
       formCreated()
 
       form.transaction.description = 'Changed'
-      form.save()
+      form.save(eventMock)
 
       expect(
         transactions.find(transaction.id).description
