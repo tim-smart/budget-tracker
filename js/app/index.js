@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import baseMixin from 'js/models/base.js'
+import fastclick from 'fastclick'
 
 export default Vue.extend({
   data() {
@@ -19,6 +20,10 @@ export default Vue.extend({
     )
 
     window.app = this
+  },
+
+  ready() {
+    fastclick(this.$el)
   },
 
   methods: {
