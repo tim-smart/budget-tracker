@@ -26,7 +26,9 @@ export default Vue.extend({
   },
 
   methods: {
-    save() {
+    save(event) {
+      event.preventDefault()
+
       const categories = this.$root.$.categories
       const attributes = this.category
 
