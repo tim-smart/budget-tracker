@@ -1,20 +1,20 @@
 'use strict';
 
-var App = require('js/app/index.js');
+import App from 'js/app'
+import Categories from 'js/models/categories'
 
 describe('App', function() {
 
-  const app = new App();
+  const app = new App({
+    el: document.createElement('div')
+  });
 
-  describe('data', function() {
-    it('is an array', function() {
-      expect(Array.isArray(app.categories)).toEqual(true)
+  describe('child components', function() {
+
+    it('includes categories', function() {
+      expect(app.$.categories.constructor).toEqual(Categories)
     })
 
-    describe('transactions', function() {
-      it('transactionsCycle only shows last budget cycle', function() {
-      })
-    })
   })
 
 })

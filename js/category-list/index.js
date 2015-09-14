@@ -1,8 +1,9 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  created() {
-    console.log(this.$data)
+  data() {
+    return {
+    }
   },
 
   template: require('./template.html')

@@ -1,16 +1,11 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-
 import App from './app'
-import Home from './home'
 
-Vue.use(Router)
-const router = new Router()
+import router from './router.js'
+import './filters.js'
 
-router.map({
-  '/': {
-    component: Home
-  }
-})
+Vue.config.debug = true
 
 router.start(App, '#budget-app')
+
+window.router = router

@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 export default Vue.extend({
   components: {
-    categories: require('js/categories')
+    categoryList: require('js/category-list')
   },
 
   template: require('./template.html')

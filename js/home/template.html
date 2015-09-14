@@ -1,3 +1,36 @@
 <div class="home container">
-  <categories></categories>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+
+      </div>
+      <category-list></category-list>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <a type="button" class="btn btn-success btn-lg btn-block">
+          Add Transaction
+        </a>
+      </div>
+
+      <div class="form-group">
+        <a type="button" class="btn btn-success btn-lg btn-block" href="#!/categories/new">
+          Add Category
+        </a>
+      </div>
+
+      <div class="form-group">
+        <a
+          type="button"
+          class="btn btn-danger btn-lg btn-block"
+          v-on="click: reset"
+        >
+          Reset transactions
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
