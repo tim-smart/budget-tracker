@@ -124,7 +124,9 @@ exports['default'] = _vue2['default'].extend({
   },
 
   methods: {
-    save: function save() {
+    save: function save(event) {
+      event.preventDefault();
+
       var categories = this.$root.$.categories;
       var attributes = this.category;
 
@@ -594,6 +596,8 @@ exports['default'] = _vue2['default'].extend({
 
   methods: {
     save: function save() {
+      event.preventDefault();
+
       var transactions = this.$root.$.transactions;
       var attributes = this.transaction;
 
