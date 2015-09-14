@@ -66,4 +66,14 @@ describe('Categories', function() {
     })
   })
 
+  describe('selectOptions', function() {
+    it('returns an array of options for select element', function() {
+      const category = categories.create({ name: 'Zest thing', quota: 10 })
+      categories.create({ name: 'Two', quota: 15 })
+
+      expect(categories.selectOptions[1].text).toEqual('Zest thing')
+      expect(categories.selectOptions[1].value).toEqual(category.id)
+    })
+  })
+
 })

@@ -7,14 +7,13 @@ export default Vue.extend({
     byCategoryId: function() {
       const hash = {}
 
+      this.$root.$.categories.items.forEach(function(category) {
+        hash[category.id] = []
+      })
+
       for (let i = 0, len = this.items.length; i < len; i++) {
         let item = this.items[i]
-
-        if (hash[item.categoryId]) {
-          hash[item.categoryId].push(item)
-        } else {
-          hash[item.categoryId] = [item]
-        }
+        hash[item.categoryId].push(item)
       }
 
       return hash
@@ -22,7 +21,7 @@ export default Vue.extend({
 
     total() {
       return this.items.reduce(function(prev, transaction) {
-        return prev + transaction.amount
+        return prev + (+transaction.amount)
       }, 0)
     }
   }

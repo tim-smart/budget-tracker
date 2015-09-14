@@ -2,7 +2,19 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
-
+        <strong>
+          Total: {{$root.$.categories.totalQuota | currency}},
+          Remaining: {{$root.$.categories.totalQuotaRemaining | currency}}
+        </strong>
+        <progress
+          class="progress progress-success"
+          v-class="
+            progress-warning: $root.$.categories.totalQuotaPercent <= 25,
+            progress-danger: $root.$.categories.totalQuotaPercent < 10
+          "
+          value="{{$root.$.categories.totalQuotaRemaining}}"
+          max="{{$root.$.categories.totalQuota}}"
+        ></progress>
       </div>
       <category-list></category-list>
     </div>
@@ -11,7 +23,11 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
-        <a type="button" class="btn btn-success btn-lg btn-block">
+        <a
+          type="button"
+          class="btn btn-success btn-lg btn-block"
+          href="#!/transactions/new"
+        >
           Add Transaction
         </a>
       </div>
@@ -23,13 +39,13 @@
       </div>
 
       <div class="form-group">
-        <a
+        <button
           type="button"
           class="btn btn-danger btn-lg btn-block"
-          v-on="click: reset"
+          v-on="click: $root.$.transactions.removeAll"
         >
           Reset transactions
-        </a>
+        </button>
       </div>
     </div>
   </div>

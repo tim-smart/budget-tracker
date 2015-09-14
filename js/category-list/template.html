@@ -6,14 +6,17 @@
       v-repeat="$root.$.categories.withTotals | orderBy 'name'"
       href="#!/categories/{{slug}}"
     >
+      {{name}}
       <span
         class="label label-pill pull-right"
         v-class="
           label-success: total > 0,
           label-danger: total <= 0
         "
-      >{{total}}</span>
-      {{name}}
+      >{{total | currency}}</span>
+      <span
+        class="label label-default label-pill pull-right"
+      >{{$root.$.transactions.byCategoryId[id].length}}</span>
     </a>
   </div>
 </div>

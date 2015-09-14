@@ -27,12 +27,16 @@ export default Vue.extend({
 
     totalQuota() {
       return this.items.reduce(function(prev, category) {
-        return prev + (category.quota || 0)
+        return prev + ((+category.quota) || 0)
       }, 0)
     },
 
     totalQuotaRemaining() {
       return this.totalQuota - this.$root.$.transactions.total
+    },
+
+    totalQuotaPercent() {
+      return Math.floor(this.totalQuotaRemaining / this.totalQuota * 100)
     },
 
     withTotals() {
@@ -43,10 +47,25 @@ export default Vue.extend({
 
         category.total = categoryTransactions
         .reduce(function(prev, category) {
-          return prev - category.amount
+          return prev - (+category.amount)
         }, category.quota)
 
         return category
+      })
+    },
+
+    sorted() {
+      return this.items.sort(function(a, b) {
+        return a.name.localeCompare(b.name)
+      })
+    },
+
+    selectOptions() {
+      return this.sorted.map(function(category) {
+        return {
+          text: category.name,
+          value: category.id
+        }
       })
     }
   }
