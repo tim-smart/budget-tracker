@@ -21,10 +21,12 @@ export default Vue.extend({
 
     const transactions = this.$root.$.transactions
     const transaction = transactions.find(this.$route.params.id)
+    const categories = this.$root.$.categories
+
     if (transaction) {
       _assign(this.transaction, transaction)
-    } else {
-      this.transaction.categoryId = this.$root.$.categories.sorted[0].id
+    } else if(categories.items.length) {
+      this.transaction.categoryId = categories.sorted[0].id
     }
   },
 
