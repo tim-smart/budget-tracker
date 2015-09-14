@@ -284,6 +284,7 @@ exports['default'] = {
       this.items.push(item);
 
       this.$emit('create', item);
+      this.save();
 
       return item;
     },
@@ -304,6 +305,7 @@ exports['default'] = {
       this.$emit('beforeSave', item);
       item.updatedAt = Date.now();
       this.$emit('update', item);
+      this.save();
     },
 
     remove: function remove(item) {
@@ -319,12 +321,14 @@ exports['default'] = {
       this.items.splice(index, 1);
 
       this.$emit('remove', item);
+      this.save();
     },
 
     removeAll: function removeAll() {
       this.$set('items', []);
 
       this.$emit('removeAll');
+      this.save();
     },
 
     fetch: function fetch() {
@@ -336,11 +340,13 @@ exports['default'] = {
 
       data = JSON.parse(data);
       this.$set('items', data);
+      this.$emit('fetch');
     },
 
     save: function save() {
       var name = this.constructor.name.toLowerCase();
       window.localStorage.setItem(name, JSON.stringify(this.$data.items));
+      this.$emit('save');
     }
   }
 };
