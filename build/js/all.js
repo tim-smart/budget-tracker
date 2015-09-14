@@ -224,12 +224,22 @@ exports['default'] = _vue2['default'].extend({
     categoryList: require("./../../js/category-list")
   },
 
+  methods: {
+    reset: function reset() {
+      if (!confirm('Do you really want to remove all your transactions?')) {
+        return;
+      }
+
+      this.$root.$.transactions.removeAll();
+    }
+  },
+
   template: require('./template.html')
 });
 module.exports = exports['default'];
 
 },{"./../../js/category-list":6,"./template.html":10,"vue":131}],10:[function(require,module,exports){
-module.exports = '<div class="home container">\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <strong>\n          Total: {{$root.$.categories.totalQuota | currency}},\n          Remaining: {{$root.$.categories.totalQuotaRemaining | currency}}\n        </strong>\n        <progress\n          class="progress progress-success"\n          v-class="\n            progress-warning: $root.$.categories.totalQuotaPercent <= 25,\n            progress-danger: $root.$.categories.totalQuotaPercent < 10\n          "\n          value="{{$root.$.categories.totalQuotaRemaining}}"\n          max="{{$root.$.categories.totalQuota}}"\n        ></progress>\n      </div>\n      <category-list></category-list>\n    </div>\n  </div>\n\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <a\n          type="button"\n          class="btn btn-success btn-lg btn-block"\n          href="#!/transactions/new"\n        >\n          Add Transaction\n        </a>\n      </div>\n\n      <div class="form-group">\n        <a type="button" class="btn btn-success btn-lg btn-block" href="#!/categories/new">\n          Add Category\n        </a>\n      </div>\n\n      <div class="form-group">\n        <button\n          type="button"\n          class="btn btn-danger btn-lg btn-block"\n          v-on="click: $root.$.transactions.removeAll"\n        >\n          Reset transactions\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n';
+module.exports = '<div class="home container">\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <strong>\n          Total: {{$root.$.categories.totalQuota | currency}},\n          Remaining: {{$root.$.categories.totalQuotaRemaining | currency}}\n        </strong>\n        <progress\n          class="progress progress-success"\n          v-class="\n            progress-warning: $root.$.categories.totalQuotaPercent <= 25,\n            progress-danger: $root.$.categories.totalQuotaPercent < 10\n          "\n          value="{{$root.$.categories.totalQuotaRemaining}}"\n          max="{{$root.$.categories.totalQuota}}"\n        ></progress>\n      </div>\n      <category-list></category-list>\n    </div>\n  </div>\n\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <a\n          type="button"\n          class="btn btn-success btn-lg btn-block"\n          href="#!/transactions/new"\n        >\n          Add Transaction\n        </a>\n      </div>\n\n      <div class="form-group">\n        <a type="button" class="btn btn-success btn-lg btn-block" href="#!/categories/new">\n          Add Category\n        </a>\n      </div>\n\n      <div class="form-group">\n        <button\n          type="button"\n          class="btn btn-danger btn-lg btn-block"\n          v-on="click: reset"\n        >\n          Reset transactions\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n';
 },{}],11:[function(require,module,exports){
 'use strict';
 
@@ -595,7 +605,7 @@ exports['default'] = _vue2['default'].extend({
   },
 
   methods: {
-    save: function save() {
+    save: function save(event) {
       event.preventDefault();
 
       var transactions = this.$root.$.transactions;
