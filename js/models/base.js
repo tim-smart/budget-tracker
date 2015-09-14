@@ -40,6 +40,7 @@ export default {
       this.items.push(item)
 
       this.$emit('create', item)
+      this.save()
 
       return item
     },
@@ -60,6 +61,7 @@ export default {
       this.$emit('beforeSave', item)
       item.updatedAt = Date.now()
       this.$emit('update', item)
+      this.save()
     },
 
     remove(item) {
@@ -77,12 +79,14 @@ export default {
       this.items.splice(index, 1)
 
       this.$emit('remove', item)
+      this.save()
     },
 
     removeAll() {
       this.$set('items', [])
 
       this.$emit('removeAll')
+      this.save()
     },
 
     fetch() {
@@ -94,11 +98,13 @@ export default {
 
       data = JSON.parse(data)
       this.$set('items', data)
+      this.$emit('fetch')
     },
 
     save() {
       const name = this.constructor.name.toLowerCase()
       window.localStorage.setItem(name, JSON.stringify(this.$data.items))
+      this.$emit('save')
     }
   }
 }
