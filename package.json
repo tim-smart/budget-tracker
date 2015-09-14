@@ -43,6 +43,7 @@
     "karma-coverage": "^0.5.2",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.1",
+    "lodash": "^3.10.1",
     "partialify": "^3.1.5",
     "phantomjs": "^1.9.18",
     "pkgify": "^1.0.3",
@@ -54,15 +55,11 @@
   },
   "dependencies": {
     "bootstrap": "twbs/bootstrap#v4-dev",
-    "co": "^4.6.0",
-    "lodash": "^3.10.1",
     "lodash.assign": "^3.2.0",
     "moment": "^2.10.6",
-    "numeral": "^1.5.3",
     "slug": "^0.9.1",
     "uuid": "^2.0.1",
     "vue": "^0.12.14",
-    "vue-router": "^0.6.0",
-    "vue-validator": "^1.4.3"
+    "vue-router": "^0.6.0"
   }
 }
