@@ -57,6 +57,15 @@ exports['default'] = _vue2['default'].extend({
 
   ready: function ready() {
     _fastclick2['default'](this.$el);
+
+    this.$el.addEventListener('click', function (event) {
+      if (event.target.tagName !== 'A') {
+        return;
+      }
+
+      event.preventDefault();
+      location.href = event.target.href;
+    });
   },
 
   methods: {
