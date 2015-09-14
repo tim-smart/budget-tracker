@@ -11,6 +11,8 @@ describe('CategoryForm', function() {
   let form = null
   let formCreated = null
   let goQueue = []
+  let eventMock = null
+
   beforeEach(function() {
     form = app.$addChild({
       el: document.createElement('div')
@@ -27,6 +29,8 @@ describe('CategoryForm', function() {
         }
       }
     }
+
+    eventMock = jasmine.createSpyObj('event', ['preventDefault'])
   })
 
   afterEach(function() {
@@ -53,7 +57,7 @@ describe('CategoryForm', function() {
     it('creates a new category', function() {
       form.category.name = 'New'
       form.category.quota = 50
-      form.save()
+      form.save(eventMock)
 
       expect(categories.bySlug['new'].quota).toEqual(50)
       expect(goQueue[0]).toEqual('/')
@@ -65,7 +69,7 @@ describe('CategoryForm', function() {
       formCreated()
 
       form.category.name = 'Changed'
-      form.save()
+      form.save(eventMock)
 
       expect(categories.find(category.id).name).toEqual('Changed')
       expect(goQueue[0]).toEqual('/')

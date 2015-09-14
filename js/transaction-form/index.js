@@ -31,7 +31,7 @@ export default Vue.extend({
   },
 
   methods: {
-    save() {
+    save(event) {
       event.preventDefault()
 
       const transactions = this.$root.$.transactions
