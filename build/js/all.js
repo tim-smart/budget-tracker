@@ -23,7 +23,7 @@ _routerJs2['default'].start(_app2['default'], '#budget-app');
 
 window.router = _routerJs2['default'];
 
-},{"./app":2,"./filters.js":8,"./router.js":16,"vue":130}],2:[function(require,module,exports){
+},{"./app":2,"./filters.js":8,"./router.js":16,"vue":131}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -38,6 +38,10 @@ var _jsModelsBaseJs = require("./../../js/models/base.js");
 
 var _jsModelsBaseJs2 = _interopRequireDefault(_jsModelsBaseJs);
 
+var _fastclick = require('fastclick');
+
+var _fastclick2 = _interopRequireDefault(_fastclick);
+
 exports['default'] = _vue2['default'].extend({
   data: function data() {
     return {};
@@ -49,6 +53,10 @@ exports['default'] = _vue2['default'].extend({
     this.addModel('transactions', require("./../../js/models/transactions.js"));
 
     window.app = this;
+  },
+
+  ready: function ready() {
+    _fastclick2['default'](this.$el);
   },
 
   methods: {
@@ -65,7 +73,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./../../js/models/base.js":11,"./../../js/models/categories.js":12,"./../../js/models/transactions.js":13,"./../../js/navbar":14,"./template.html":3,"vue":130}],3:[function(require,module,exports){
+},{"./../../js/models/base.js":11,"./../../js/models/categories.js":12,"./../../js/models/transactions.js":13,"./../../js/navbar":14,"./template.html":3,"fastclick":21,"vue":131}],3:[function(require,module,exports){
 module.exports = '<div id="budget-app">\n  <navbar></navbar>\n\n  <router-view></router-view>\n</div>\n';
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -142,7 +150,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./template.html":5,"lodash.assign":21,"vue":130}],5:[function(require,module,exports){
+},{"./template.html":5,"lodash.assign":22,"vue":131}],5:[function(require,module,exports){
 module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Name</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Name"\n        v-model="category.name"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Quota</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="Quota"\n        v-model="category.quota"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="button" class="btn btn-danger" v-on="click: remove" v-if="category.id">Remove</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n\n<div class="container" v-if="category.id">\n  <div class="row">\n    <div class="col-xs-12">\n      <h2>Transactions</h2>\n\n      <ul class="list-group">\n        <li\n          class="list-group-item"\n          v-repeat="$root.$.transactions.byCategoryId[category.id] | orderBy \'createdAt\' -1"\n        >\n          <span class="label label-primary label-pill">{{amount | currency}}</span>\n          <span class="transaction-description">{{description}}</span>\n          <small class="text-muted">{{createdAt | dateFromNow}}</small>\n          <button\n            type="button"\n            class="btn btn-danger btn-sm pull-right"\n            v-on="click: $root.$.transactions.remove()"\n          >&cross;</button>\n        </li>\n      </ul>\n    </div>\n  </div>\n</div>\n';
 },{}],6:[function(require,module,exports){
 'use strict';
@@ -164,7 +172,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./template.html":7,"vue":130}],7:[function(require,module,exports){
+},{"./template.html":7,"vue":131}],7:[function(require,module,exports){
 module.exports = '<div class="form-group">\n  <div class="list-group categories">\n    <a\n      class="list-group-item"\n      type="button"\n      v-repeat="$root.$.categories.withTotals | orderBy \'name\'"\n      href="#!/categories/{{slug}}"\n    >\n      {{name}}\n      <span\n        class="label label-pill pull-right"\n        v-class="\n          label-success: total > 0,\n          label-danger: total <= 0\n        "\n      >{{total | currency}}</span>\n      <span\n        class="label label-default label-pill pull-right"\n      >{{$root.$.transactions.byCategoryId[id].length}}</span>\n    </a>\n  </div>\n</div>\n';
 },{}],8:[function(require,module,exports){
 'use strict';
@@ -189,7 +197,7 @@ _vue2['default'].filter('dateFromNow', function (value) {
 //   return numeral(value).format('$0,0.00')
 // })
 
-},{"moment":32,"vue":130}],9:[function(require,module,exports){
+},{"moment":33,"vue":131}],9:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -209,7 +217,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./../../js/category-list":6,"./template.html":10,"vue":130}],10:[function(require,module,exports){
+},{"./../../js/category-list":6,"./template.html":10,"vue":131}],10:[function(require,module,exports){
 module.exports = '<div class="home container">\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <strong>\n          Total: {{$root.$.categories.totalQuota | currency}},\n          Remaining: {{$root.$.categories.totalQuotaRemaining | currency}}\n        </strong>\n        <progress\n          class="progress progress-success"\n          v-class="\n            progress-warning: $root.$.categories.totalQuotaPercent <= 25,\n            progress-danger: $root.$.categories.totalQuotaPercent < 10\n          "\n          value="{{$root.$.categories.totalQuotaRemaining}}"\n          max="{{$root.$.categories.totalQuota}}"\n        ></progress>\n      </div>\n      <category-list></category-list>\n    </div>\n  </div>\n\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <a\n          type="button"\n          class="btn btn-success btn-lg btn-block"\n          href="#!/transactions/new"\n        >\n          Add Transaction\n        </a>\n      </div>\n\n      <div class="form-group">\n        <a type="button" class="btn btn-success btn-lg btn-block" href="#!/categories/new">\n          Add Category\n        </a>\n      </div>\n\n      <div class="form-group">\n        <button\n          type="button"\n          class="btn btn-danger btn-lg btn-block"\n          v-on="click: $root.$.transactions.removeAll"\n        >\n          Reset transactions\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n';
 },{}],11:[function(require,module,exports){
 'use strict';
@@ -329,7 +337,7 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 
-},{"lodash.assign":21,"uuid":35}],12:[function(require,module,exports){
+},{"lodash.assign":22,"uuid":36}],12:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -414,7 +422,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"slug":33,"vue":130}],13:[function(require,module,exports){
+},{"slug":34,"vue":131}],13:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -453,7 +461,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"vue":130}],14:[function(require,module,exports){
+},{"vue":131}],14:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -473,7 +481,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./template.html":15,"vue":130}],15:[function(require,module,exports){
+},{"./template.html":15,"vue":131}],15:[function(require,module,exports){
 module.exports = '<header class="navbar navbar-fixed-top navbar-dark bg-primary text-center">\n  <div class="navbar-nav">\n    <strong class="nav-link active">Cash Money</strong>\n  </div>\n</header>\n';
 },{}],16:[function(require,module,exports){
 'use strict';
@@ -525,7 +533,7 @@ router.map({
 });
 module.exports = exports['default'];
 
-},{"./category-form":4,"./home":9,"./transaction-form":17,"vue":130,"vue-router":41}],17:[function(require,module,exports){
+},{"./category-form":4,"./home":9,"./transaction-form":17,"vue":131,"vue-router":42}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -592,7 +600,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./template.html":18,"lodash.assign":21,"vue":130}],18:[function(require,module,exports){
+},{"./template.html":18,"lodash.assign":22,"vue":131}],18:[function(require,module,exports){
 module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Category</label>\n    <div class="col-sm-10">\n      <select\n        class="form-control"\n        v-model="transaction.categoryId"\n        options="$root.$.categories.selectOptions"\n      ></select>\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Description</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Description"\n        v-model="transaction.description"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Amount</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="$0.00"\n        v-model="transaction.amount"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n';
 },{}],19:[function(require,module,exports){
 
@@ -690,6 +698,849 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],21:[function(require,module,exports){
+;(function () {
+	'use strict';
+
+	/**
+	 * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
+	 *
+	 * @codingstandard ftlabs-jsv2
+	 * @copyright The Financial Times Limited [All Rights Reserved]
+	 * @license MIT License (see LICENSE.txt)
+	 */
+
+	/*jslint browser:true, node:true*/
+	/*global define, Event, Node*/
+
+
+	/**
+	 * Instantiate fast-clicking listeners on the specified layer.
+	 *
+	 * @constructor
+	 * @param {Element} layer The layer to listen on
+	 * @param {Object} [options={}] The options to override the defaults
+	 */
+	function FastClick(layer, options) {
+		var oldOnClick;
+
+		options = options || {};
+
+		/**
+		 * Whether a click is currently being tracked.
+		 *
+		 * @type boolean
+		 */
+		this.trackingClick = false;
+
+
+		/**
+		 * Timestamp for when click tracking started.
+		 *
+		 * @type number
+		 */
+		this.trackingClickStart = 0;
+
+
+		/**
+		 * The element being tracked for a click.
+		 *
+		 * @type EventTarget
+		 */
+		this.targetElement = null;
+
+
+		/**
+		 * X-coordinate of touch start event.
+		 *
+		 * @type number
+		 */
+		this.touchStartX = 0;
+
+
+		/**
+		 * Y-coordinate of touch start event.
+		 *
+		 * @type number
+		 */
+		this.touchStartY = 0;
+
+
+		/**
+		 * ID of the last touch, retrieved from Touch.identifier.
+		 *
+		 * @type number
+		 */
+		this.lastTouchIdentifier = 0;
+
+
+		/**
+		 * Touchmove boundary, beyond which a click will be cancelled.
+		 *
+		 * @type number
+		 */
+		this.touchBoundary = options.touchBoundary || 10;
+
+
+		/**
+		 * The FastClick layer.
+		 *
+		 * @type Element
+		 */
+		this.layer = layer;
+
+		/**
+		 * The minimum time between tap(touchstart and touchend) events
+		 *
+		 * @type number
+		 */
+		this.tapDelay = options.tapDelay || 200;
+
+		/**
+		 * The maximum time for a tap
+		 *
+		 * @type number
+		 */
+		this.tapTimeout = options.tapTimeout || 700;
+
+		if (FastClick.notNeeded(layer)) {
+			return;
+		}
+
+		// Some old versions of Android don't have Function.prototype.bind
+		function bind(method, context) {
+			return function() { return method.apply(context, arguments); };
+		}
+
+
+		var methods = ['onMouse', 'onClick', 'onTouchStart', 'onTouchMove', 'onTouchEnd', 'onTouchCancel'];
+		var context = this;
+		for (var i = 0, l = methods.length; i < l; i++) {
+			context[methods[i]] = bind(context[methods[i]], context);
+		}
+
+		// Set up event handlers as required
+		if (deviceIsAndroid) {
+			layer.addEventListener('mouseover', this.onMouse, true);
+			layer.addEventListener('mousedown', this.onMouse, true);
+			layer.addEventListener('mouseup', this.onMouse, true);
+		}
+
+		layer.addEventListener('click', this.onClick, true);
+		layer.addEventListener('touchstart', this.onTouchStart, false);
+		layer.addEventListener('touchmove', this.onTouchMove, false);
+		layer.addEventListener('touchend', this.onTouchEnd, false);
+		layer.addEventListener('touchcancel', this.onTouchCancel, false);
+
+		// Hack is required for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
+		// which is how FastClick normally stops click events bubbling to callbacks registered on the FastClick
+		// layer when they are cancelled.
+		if (!Event.prototype.stopImmediatePropagation) {
+			layer.removeEventListener = function(type, callback, capture) {
+				var rmv = Node.prototype.removeEventListener;
+				if (type === 'click') {
+					rmv.call(layer, type, callback.hijacked || callback, capture);
+				} else {
+					rmv.call(layer, type, callback, capture);
+				}
+			};
+
+			layer.addEventListener = function(type, callback, capture) {
+				var adv = Node.prototype.addEventListener;
+				if (type === 'click') {
+					adv.call(layer, type, callback.hijacked || (callback.hijacked = function(event) {
+						if (!event.propagationStopped) {
+							callback(event);
+						}
+					}), capture);
+				} else {
+					adv.call(layer, type, callback, capture);
+				}
+			};
+		}
+
+		// If a handler is already declared in the element's onclick attribute, it will be fired before
+		// FastClick's onClick handler. Fix this by pulling out the user-defined handler function and
+		// adding it as listener.
+		if (typeof layer.onclick === 'function') {
+
+			// Android browser on at least 3.2 requires a new reference to the function in layer.onclick
+			// - the old one won't work if passed to addEventListener directly.
+			oldOnClick = layer.onclick;
+			layer.addEventListener('click', function(event) {
+				oldOnClick(event);
+			}, false);
+			layer.onclick = null;
+		}
+	}
+
+	/**
+	* Windows Phone 8.1 fakes user agent string to look like Android and iPhone.
+	*
+	* @type boolean
+	*/
+	var deviceIsWindowsPhone = navigator.userAgent.indexOf("Windows Phone") >= 0;
+
+	/**
+	 * Android requires exceptions.
+	 *
+	 * @type boolean
+	 */
+	var deviceIsAndroid = navigator.userAgent.indexOf('Android') > 0 && !deviceIsWindowsPhone;
+
+
+	/**
+	 * iOS requires exceptions.
+	 *
+	 * @type boolean
+	 */
+	var deviceIsIOS = /iP(ad|hone|od)/.test(navigator.userAgent) && !deviceIsWindowsPhone;
+
+
+	/**
+	 * iOS 4 requires an exception for select elements.
+	 *
+	 * @type boolean
+	 */
+	var deviceIsIOS4 = deviceIsIOS && (/OS 4_\d(_\d)?/).test(navigator.userAgent);
+
+
+	/**
+	 * iOS 6.0-7.* requires the target element to be manually derived
+	 *
+	 * @type boolean
+	 */
+	var deviceIsIOSWithBadTarget = deviceIsIOS && (/OS [6-7]_\d/).test(navigator.userAgent);
+
+	/**
+	 * BlackBerry requires exceptions.
+	 *
+	 * @type boolean
+	 */
+	var deviceIsBlackBerry10 = navigator.userAgent.indexOf('BB10') > 0;
+
+	/**
+	 * Determine whether a given element requires a native click.
+	 *
+	 * @param {EventTarget|Element} target Target DOM element
+	 * @returns {boolean} Returns true if the element needs a native click
+	 */
+	FastClick.prototype.needsClick = function(target) {
+		switch (target.nodeName.toLowerCase()) {
+
+		// Don't send a synthetic click to disabled inputs (issue #62)
+		case 'button':
+		case 'select':
+		case 'textarea':
+			if (target.disabled) {
+				return true;
+			}
+
+			break;
+		case 'input':
+
+			// File inputs need real clicks on iOS 6 due to a browser bug (issue #68)
+			if ((deviceIsIOS && target.type === 'file') || target.disabled) {
+				return true;
+			}
+
+			break;
+		case 'label':
+		case 'iframe': // iOS8 homescreen apps can prevent events bubbling into frames
+		case 'video':
+			return true;
+		}
+
+		return (/\bneedsclick\b/).test(target.className);
+	};
+
+
+	/**
+	 * Determine whether a given element requires a call to focus to simulate click into element.
+	 *
+	 * @param {EventTarget|Element} target Target DOM element
+	 * @returns {boolean} Returns true if the element requires a call to focus to simulate native click.
+	 */
+	FastClick.prototype.needsFocus = function(target) {
+		switch (target.nodeName.toLowerCase()) {
+		case 'textarea':
+			return true;
+		case 'select':
+			return !deviceIsAndroid;
+		case 'input':
+			switch (target.type) {
+			case 'button':
+			case 'checkbox':
+			case 'file':
+			case 'image':
+			case 'radio':
+			case 'submit':
+				return false;
+			}
+
+			// No point in attempting to focus disabled inputs
+			return !target.disabled && !target.readOnly;
+		default:
+			return (/\bneedsfocus\b/).test(target.className);
+		}
+	};
+
+
+	/**
+	 * Send a click event to the specified element.
+	 *
+	 * @param {EventTarget|Element} targetElement
+	 * @param {Event} event
+	 */
+	FastClick.prototype.sendClick = function(targetElement, event) {
+		var clickEvent, touch;
+
+		// On some Android devices activeElement needs to be blurred otherwise the synthetic click will have no effect (#24)
+		if (document.activeElement && document.activeElement !== targetElement) {
+			document.activeElement.blur();
+		}
+
+		touch = event.changedTouches[0];
+
+		// Synthesise a click event, with an extra attribute so it can be tracked
+		clickEvent = document.createEvent('MouseEvents');
+		clickEvent.initMouseEvent(this.determineEventType(targetElement), true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
+		clickEvent.forwardedTouchEvent = true;
+		targetElement.dispatchEvent(clickEvent);
+	};
+
+	FastClick.prototype.determineEventType = function(targetElement) {
+
+		//Issue #159: Android Chrome Select Box does not open with a synthetic click event
+		if (deviceIsAndroid && targetElement.tagName.toLowerCase() === 'select') {
+			return 'mousedown';
+		}
+
+		return 'click';
+	};
+
+
+	/**
+	 * @param {EventTarget|Element} targetElement
+	 */
+	FastClick.prototype.focus = function(targetElement) {
+		var length;
+
+		// Issue #160: on iOS 7, some input elements (e.g. date datetime month) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
+		if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
+			length = targetElement.value.length;
+			targetElement.setSelectionRange(length, length);
+		} else {
+			targetElement.focus();
+		}
+	};
+
+
+	/**
+	 * Check whether the given target element is a child of a scrollable layer and if so, set a flag on it.
+	 *
+	 * @param {EventTarget|Element} targetElement
+	 */
+	FastClick.prototype.updateScrollParent = function(targetElement) {
+		var scrollParent, parentElement;
+
+		scrollParent = targetElement.fastClickScrollParent;
+
+		// Attempt to discover whether the target element is contained within a scrollable layer. Re-check if the
+		// target element was moved to another parent.
+		if (!scrollParent || !scrollParent.contains(targetElement)) {
+			parentElement = targetElement;
+			do {
+				if (parentElement.scrollHeight > parentElement.offsetHeight) {
+					scrollParent = parentElement;
+					targetElement.fastClickScrollParent = parentElement;
+					break;
+				}
+
+				parentElement = parentElement.parentElement;
+			} while (parentElement);
+		}
+
+		// Always update the scroll top tracker if possible.
+		if (scrollParent) {
+			scrollParent.fastClickLastScrollTop = scrollParent.scrollTop;
+		}
+	};
+
+
+	/**
+	 * @param {EventTarget} targetElement
+	 * @returns {Element|EventTarget}
+	 */
+	FastClick.prototype.getTargetElementFromEventTarget = function(eventTarget) {
+
+		// On some older browsers (notably Safari on iOS 4.1 - see issue #56) the event target may be a text node.
+		if (eventTarget.nodeType === Node.TEXT_NODE) {
+			return eventTarget.parentNode;
+		}
+
+		return eventTarget;
+	};
+
+
+	/**
+	 * On touch start, record the position and scroll offset.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.onTouchStart = function(event) {
+		var targetElement, touch, selection;
+
+		// Ignore multiple touches, otherwise pinch-to-zoom is prevented if both fingers are on the FastClick element (issue #111).
+		if (event.targetTouches.length > 1) {
+			return true;
+		}
+
+		targetElement = this.getTargetElementFromEventTarget(event.target);
+		touch = event.targetTouches[0];
+
+		if (deviceIsIOS) {
+
+			// Only trusted events will deselect text on iOS (issue #49)
+			selection = window.getSelection();
+			if (selection.rangeCount && !selection.isCollapsed) {
+				return true;
+			}
+
+			if (!deviceIsIOS4) {
+
+				// Weird things happen on iOS when an alert or confirm dialog is opened from a click event callback (issue #23):
+				// when the user next taps anywhere else on the page, new touchstart and touchend events are dispatched
+				// with the same identifier as the touch event that previously triggered the click that triggered the alert.
+				// Sadly, there is an issue on iOS 4 that causes some normal touch events to have the same identifier as an
+				// immediately preceeding touch event (issue #52), so this fix is unavailable on that platform.
+				// Issue 120: touch.identifier is 0 when Chrome dev tools 'Emulate touch events' is set with an iOS device UA string,
+				// which causes all touch events to be ignored. As this block only applies to iOS, and iOS identifiers are always long,
+				// random integers, it's safe to to continue if the identifier is 0 here.
+				if (touch.identifier && touch.identifier === this.lastTouchIdentifier) {
+					event.preventDefault();
+					return false;
+				}
+
+				this.lastTouchIdentifier = touch.identifier;
+
+				// If the target element is a child of a scrollable layer (using -webkit-overflow-scrolling: touch) and:
+				// 1) the user does a fling scroll on the scrollable layer
+				// 2) the user stops the fling scroll with another tap
+				// then the event.target of the last 'touchend' event will be the element that was under the user's finger
+				// when the fling scroll was started, causing FastClick to send a click event to that layer - unless a check
+				// is made to ensure that a parent layer was not scrolled before sending a synthetic click (issue #42).
+				this.updateScrollParent(targetElement);
+			}
+		}
+
+		this.trackingClick = true;
+		this.trackingClickStart = event.timeStamp;
+		this.targetElement = targetElement;
+
+		this.touchStartX = touch.pageX;
+		this.touchStartY = touch.pageY;
+
+		// Prevent phantom clicks on fast double-tap (issue #36)
+		if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
+			event.preventDefault();
+		}
+
+		return true;
+	};
+
+
+	/**
+	 * Based on a touchmove event object, check whether the touch has moved past a boundary since it started.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.touchHasMoved = function(event) {
+		var touch = event.changedTouches[0], boundary = this.touchBoundary;
+
+		if (Math.abs(touch.pageX - this.touchStartX) > boundary || Math.abs(touch.pageY - this.touchStartY) > boundary) {
+			return true;
+		}
+
+		return false;
+	};
+
+
+	/**
+	 * Update the last position.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.onTouchMove = function(event) {
+		if (!this.trackingClick) {
+			return true;
+		}
+
+		// If the touch has moved, cancel the click tracking
+		if (this.targetElement !== this.getTargetElementFromEventTarget(event.target) || this.touchHasMoved(event)) {
+			this.trackingClick = false;
+			this.targetElement = null;
+		}
+
+		return true;
+	};
+
+
+	/**
+	 * Attempt to find the labelled control for the given label element.
+	 *
+	 * @param {EventTarget|HTMLLabelElement} labelElement
+	 * @returns {Element|null}
+	 */
+	FastClick.prototype.findControl = function(labelElement) {
+
+		// Fast path for newer browsers supporting the HTML5 control attribute
+		if (labelElement.control !== undefined) {
+			return labelElement.control;
+		}
+
+		// All browsers under test that support touch events also support the HTML5 htmlFor attribute
+		if (labelElement.htmlFor) {
+			return document.getElementById(labelElement.htmlFor);
+		}
+
+		// If no for attribute exists, attempt to retrieve the first labellable descendant element
+		// the list of which is defined here: http://www.w3.org/TR/html5/forms.html#category-label
+		return labelElement.querySelector('button, input:not([type=hidden]), keygen, meter, output, progress, select, textarea');
+	};
+
+
+	/**
+	 * On touch end, determine whether to send a click event at once.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.onTouchEnd = function(event) {
+		var forElement, trackingClickStart, targetTagName, scrollParent, touch, targetElement = this.targetElement;
+
+		if (!this.trackingClick) {
+			return true;
+		}
+
+		// Prevent phantom clicks on fast double-tap (issue #36)
+		if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
+			this.cancelNextClick = true;
+			return true;
+		}
+
+		if ((event.timeStamp - this.trackingClickStart) > this.tapTimeout) {
+			return true;
+		}
+
+		// Reset to prevent wrong click cancel on input (issue #156).
+		this.cancelNextClick = false;
+
+		this.lastClickTime = event.timeStamp;
+
+		trackingClickStart = this.trackingClickStart;
+		this.trackingClick = false;
+		this.trackingClickStart = 0;
+
+		// On some iOS devices, the targetElement supplied with the event is invalid if the layer
+		// is performing a transition or scroll, and has to be re-detected manually. Note that
+		// for this to function correctly, it must be called *after* the event target is checked!
+		// See issue #57; also filed as rdar://13048589 .
+		if (deviceIsIOSWithBadTarget) {
+			touch = event.changedTouches[0];
+
+			// In certain cases arguments of elementFromPoint can be negative, so prevent setting targetElement to null
+			targetElement = document.elementFromPoint(touch.pageX - window.pageXOffset, touch.pageY - window.pageYOffset) || targetElement;
+			targetElement.fastClickScrollParent = this.targetElement.fastClickScrollParent;
+		}
+
+		targetTagName = targetElement.tagName.toLowerCase();
+		if (targetTagName === 'label') {
+			forElement = this.findControl(targetElement);
+			if (forElement) {
+				this.focus(targetElement);
+				if (deviceIsAndroid) {
+					return false;
+				}
+
+				targetElement = forElement;
+			}
+		} else if (this.needsFocus(targetElement)) {
+
+			// Case 1: If the touch started a while ago (best guess is 100ms based on tests for issue #36) then focus will be triggered anyway. Return early and unset the target element reference so that the subsequent click will be allowed through.
+			// Case 2: Without this exception for input elements tapped when the document is contained in an iframe, then any inputted text won't be visible even though the value attribute is updated as the user types (issue #37).
+			if ((event.timeStamp - trackingClickStart) > 100 || (deviceIsIOS && window.top !== window && targetTagName === 'input')) {
+				this.targetElement = null;
+				return false;
+			}
+
+			this.focus(targetElement);
+			this.sendClick(targetElement, event);
+
+			// Select elements need the event to go through on iOS 4, otherwise the selector menu won't open.
+			// Also this breaks opening selects when VoiceOver is active on iOS6, iOS7 (and possibly others)
+			if (!deviceIsIOS || targetTagName !== 'select') {
+				this.targetElement = null;
+				event.preventDefault();
+			}
+
+			return false;
+		}
+
+		if (deviceIsIOS && !deviceIsIOS4) {
+
+			// Don't send a synthetic click event if the target element is contained within a parent layer that was scrolled
+			// and this tap is being used to stop the scrolling (usually initiated by a fling - issue #42).
+			scrollParent = targetElement.fastClickScrollParent;
+			if (scrollParent && scrollParent.fastClickLastScrollTop !== scrollParent.scrollTop) {
+				return true;
+			}
+		}
+
+		// Prevent the actual click from going though - unless the target node is marked as requiring
+		// real clicks or if it is in the whitelist in which case only non-programmatic clicks are permitted.
+		if (!this.needsClick(targetElement)) {
+			event.preventDefault();
+			this.sendClick(targetElement, event);
+		}
+
+		return false;
+	};
+
+
+	/**
+	 * On touch cancel, stop tracking the click.
+	 *
+	 * @returns {void}
+	 */
+	FastClick.prototype.onTouchCancel = function() {
+		this.trackingClick = false;
+		this.targetElement = null;
+	};
+
+
+	/**
+	 * Determine mouse events which should be permitted.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.onMouse = function(event) {
+
+		// If a target element was never set (because a touch event was never fired) allow the event
+		if (!this.targetElement) {
+			return true;
+		}
+
+		if (event.forwardedTouchEvent) {
+			return true;
+		}
+
+		// Programmatically generated events targeting a specific element should be permitted
+		if (!event.cancelable) {
+			return true;
+		}
+
+		// Derive and check the target element to see whether the mouse event needs to be permitted;
+		// unless explicitly enabled, prevent non-touch click events from triggering actions,
+		// to prevent ghost/doubleclicks.
+		if (!this.needsClick(this.targetElement) || this.cancelNextClick) {
+
+			// Prevent any user-added listeners declared on FastClick element from being fired.
+			if (event.stopImmediatePropagation) {
+				event.stopImmediatePropagation();
+			} else {
+
+				// Part of the hack for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
+				event.propagationStopped = true;
+			}
+
+			// Cancel the event
+			event.stopPropagation();
+			event.preventDefault();
+
+			return false;
+		}
+
+		// If the mouse event is permitted, return true for the action to go through.
+		return true;
+	};
+
+
+	/**
+	 * On actual clicks, determine whether this is a touch-generated click, a click action occurring
+	 * naturally after a delay after a touch (which needs to be cancelled to avoid duplication), or
+	 * an actual click which should be permitted.
+	 *
+	 * @param {Event} event
+	 * @returns {boolean}
+	 */
+	FastClick.prototype.onClick = function(event) {
+		var permitted;
+
+		// It's possible for another FastClick-like library delivered with third-party code to fire a click event before FastClick does (issue #44). In that case, set the click-tracking flag back to false and return early. This will cause onTouchEnd to return early.
+		if (this.trackingClick) {
+			this.targetElement = null;
+			this.trackingClick = false;
+			return true;
+		}
+
+		// Very odd behaviour on iOS (issue #18): if a submit element is present inside a form and the user hits enter in the iOS simulator or clicks the Go button on the pop-up OS keyboard the a kind of 'fake' click event will be triggered with the submit-type input element as the target.
+		if (event.target.type === 'submit' && event.detail === 0) {
+			return true;
+		}
+
+		permitted = this.onMouse(event);
+
+		// Only unset targetElement if the click is not permitted. This will ensure that the check for !targetElement in onMouse fails and the browser's click doesn't go through.
+		if (!permitted) {
+			this.targetElement = null;
+		}
+
+		// If clicks are permitted, return true for the action to go through.
+		return permitted;
+	};
+
+
+	/**
+	 * Remove all FastClick's event listeners.
+	 *
+	 * @returns {void}
+	 */
+	FastClick.prototype.destroy = function() {
+		var layer = this.layer;
+
+		if (deviceIsAndroid) {
+			layer.removeEventListener('mouseover', this.onMouse, true);
+			layer.removeEventListener('mousedown', this.onMouse, true);
+			layer.removeEventListener('mouseup', this.onMouse, true);
+		}
+
+		layer.removeEventListener('click', this.onClick, true);
+		layer.removeEventListener('touchstart', this.onTouchStart, false);
+		layer.removeEventListener('touchmove', this.onTouchMove, false);
+		layer.removeEventListener('touchend', this.onTouchEnd, false);
+		layer.removeEventListener('touchcancel', this.onTouchCancel, false);
+	};
+
+
+	/**
+	 * Check whether FastClick is needed.
+	 *
+	 * @param {Element} layer The layer to listen on
+	 */
+	FastClick.notNeeded = function(layer) {
+		var metaViewport;
+		var chromeVersion;
+		var blackberryVersion;
+		var firefoxVersion;
+
+		// Devices that don't support touch don't need FastClick
+		if (typeof window.ontouchstart === 'undefined') {
+			return true;
+		}
+
+		// Chrome version - zero for other browsers
+		chromeVersion = +(/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [,0])[1];
+
+		if (chromeVersion) {
+
+			if (deviceIsAndroid) {
+				metaViewport = document.querySelector('meta[name=viewport]');
+
+				if (metaViewport) {
+					// Chrome on Android with user-scalable="no" doesn't need FastClick (issue #89)
+					if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
+						return true;
+					}
+					// Chrome 32 and above with width=device-width or less don't need FastClick
+					if (chromeVersion > 31 && document.documentElement.scrollWidth <= window.outerWidth) {
+						return true;
+					}
+				}
+
+			// Chrome desktop doesn't need FastClick (issue #15)
+			} else {
+				return true;
+			}
+		}
+
+		if (deviceIsBlackBerry10) {
+			blackberryVersion = navigator.userAgent.match(/Version\/([0-9]*)\.([0-9]*)/);
+
+			// BlackBerry 10.3+ does not require Fastclick library.
+			// https://github.com/ftlabs/fastclick/issues/251
+			if (blackberryVersion[1] >= 10 && blackberryVersion[2] >= 3) {
+				metaViewport = document.querySelector('meta[name=viewport]');
+
+				if (metaViewport) {
+					// user-scalable=no eliminates click delay.
+					if (metaViewport.content.indexOf('user-scalable=no') !== -1) {
+						return true;
+					}
+					// width=device-width (or less than device-width) eliminates click delay.
+					if (document.documentElement.scrollWidth <= window.outerWidth) {
+						return true;
+					}
+				}
+			}
+		}
+
+		// IE10 with -ms-touch-action: none or manipulation, which disables double-tap-to-zoom (issue #97)
+		if (layer.style.msTouchAction === 'none' || layer.style.touchAction === 'manipulation') {
+			return true;
+		}
+
+		// Firefox version - zero for other browsers
+		firefoxVersion = +(/Firefox\/([0-9]+)/.exec(navigator.userAgent) || [,0])[1];
+
+		if (firefoxVersion >= 27) {
+			// Firefox 27+ does not have tap delay if the content is not zoomable - https://bugzilla.mozilla.org/show_bug.cgi?id=922896
+
+			metaViewport = document.querySelector('meta[name=viewport]');
+			if (metaViewport && (metaViewport.content.indexOf('user-scalable=no') !== -1 || document.documentElement.scrollWidth <= window.outerWidth)) {
+				return true;
+			}
+		}
+
+		// IE11: prefixed -ms-touch-action is no longer supported and it's recomended to use non-prefixed version
+		// http://msdn.microsoft.com/en-us/library/windows/apps/Hh767313.aspx
+		if (layer.style.touchAction === 'none' || layer.style.touchAction === 'manipulation') {
+			return true;
+		}
+
+		return false;
+	};
+
+
+	/**
+	 * Factory method for creating a FastClick object
+	 *
+	 * @param {Element} layer The layer to listen on
+	 * @param {Object} [options={}] The options to override the defaults
+	 */
+	FastClick.attach = function(layer, options) {
+		return new FastClick(layer, options);
+	};
+
+
+	if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+
+		// AMD. Register as an anonymous module.
+		define(function() {
+			return FastClick;
+		});
+	} else if (typeof module !== 'undefined' && module.exports) {
+		module.exports = FastClick.attach;
+		module.exports.FastClick = FastClick;
+	} else {
+		window.FastClick = FastClick;
+	}
+}());
+
+},{}],22:[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -771,7 +1622,7 @@ var assign = createAssigner(function(object, source, customizer) {
 
 module.exports = assign;
 
-},{"lodash._baseassign":22,"lodash._createassigner":24,"lodash.keys":28}],22:[function(require,module,exports){
+},{"lodash._baseassign":23,"lodash._createassigner":25,"lodash.keys":29}],23:[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -800,7 +1651,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"lodash._basecopy":23,"lodash.keys":28}],23:[function(require,module,exports){
+},{"lodash._basecopy":24,"lodash.keys":29}],24:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -834,7 +1685,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * lodash 3.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -888,7 +1739,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"lodash._bindcallback":25,"lodash._isiterateecall":26,"lodash.restparam":27}],25:[function(require,module,exports){
+},{"lodash._bindcallback":26,"lodash._isiterateecall":27,"lodash.restparam":28}],26:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -955,7 +1806,7 @@ function identity(value) {
 
 module.exports = bindCallback;
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /**
  * lodash 3.0.9 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1089,7 +1940,7 @@ function isObject(value) {
 
 module.exports = isIterateeCall;
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /**
  * lodash 3.6.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1158,7 +2009,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /**
  * lodash 3.1.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1396,7 +2247,7 @@ function keysIn(object) {
 
 module.exports = keys;
 
-},{"lodash._getnative":29,"lodash.isarguments":30,"lodash.isarray":31}],29:[function(require,module,exports){
+},{"lodash._getnative":30,"lodash.isarguments":31,"lodash.isarray":32}],30:[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1535,7 +2386,7 @@ function isNative(value) {
 
 module.exports = getNative;
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1643,7 +2494,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1825,7 +2676,7 @@ function isNative(value) {
 
 module.exports = isArray;
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 //! moment.js
 //! version : 2.10.6
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -5021,7 +5872,7 @@ module.exports = isArray;
     return _moment;
 
 }));
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 (function (root) {
 // lazy require symbols table
 var _symbols, removelist;
@@ -5235,7 +6086,7 @@ if (typeof define !== 'undefined' && define.amd) { // AMD
 
 }(this));
 
-},{"unicode/category/So":19}],34:[function(require,module,exports){
+},{"unicode/category/So":19}],35:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -5271,7 +6122,7 @@ module.exports = rng;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 //     uuid.js
 //
 //     Copyright (c) 2010-2012 Robert Kieffer
@@ -5456,7 +6307,7 @@ uuid.unparse = unparse;
 
 module.exports = uuid;
 
-},{"./rng":34}],36:[function(require,module,exports){
+},{"./rng":35}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -5543,7 +6394,7 @@ exports['default'] = function (Vue) {
 };
 
 module.exports = exports['default'];
-},{"../util":48}],37:[function(require,module,exports){
+},{"../util":49}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -5630,7 +6481,7 @@ exports['default'] = function (Vue) {
 };
 
 module.exports = exports['default'];
-},{"../pipeline":43,"../util":48}],38:[function(require,module,exports){
+},{"../pipeline":44,"../util":49}],39:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -5681,7 +6532,7 @@ var AbstractHistory = (function () {
 
 exports['default'] = AbstractHistory;
 module.exports = exports['default'];
-},{"../util":48,"babel-runtime/helpers/class-call-check":51,"babel-runtime/helpers/create-class":52}],39:[function(require,module,exports){
+},{"../util":49,"babel-runtime/helpers/class-call-check":52,"babel-runtime/helpers/create-class":53}],40:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -5755,7 +6606,7 @@ var HashHistory = (function () {
 
 exports['default'] = HashHistory;
 module.exports = exports['default'];
-},{"../util":48,"babel-runtime/helpers/class-call-check":51,"babel-runtime/helpers/create-class":52}],40:[function(require,module,exports){
+},{"../util":49,"babel-runtime/helpers/class-call-check":52,"babel-runtime/helpers/create-class":53}],41:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -5855,7 +6706,7 @@ var HTML5History = (function () {
 
 exports['default'] = HTML5History;
 module.exports = exports['default'];
-},{"../util":48,"babel-runtime/helpers/class-call-check":51,"babel-runtime/helpers/create-class":52}],41:[function(require,module,exports){
+},{"../util":49,"babel-runtime/helpers/class-call-check":52,"babel-runtime/helpers/create-class":53}],42:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
@@ -6031,7 +6882,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(Router);
 }
 module.exports = exports['default'];
-},{"./directives/link":36,"./directives/view":37,"./history/abstract":38,"./history/hash":39,"./history/html5":40,"./override":42,"./router/api":45,"./router/internal":46,"./util":48,"babel-runtime/helpers/class-call-check":51,"babel-runtime/helpers/interop-require-default":53,"route-recognizer":65}],42:[function(require,module,exports){
+},{"./directives/link":37,"./directives/view":38,"./history/abstract":39,"./history/hash":40,"./history/html5":41,"./override":43,"./router/api":46,"./router/internal":47,"./util":49,"babel-runtime/helpers/class-call-check":52,"babel-runtime/helpers/interop-require-default":54,"route-recognizer":66}],43:[function(require,module,exports){
 // overriding Vue's $addChild method, so that every child
 'use strict';
 
@@ -6075,7 +6926,7 @@ exports['default'] = function (Vue) {
 
 module.exports = exports['default'];
 // instance inherits the route data
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -6326,7 +7177,7 @@ function loadData(component, transition, hook, cb, cleanup) {
     expectData: true
   });
 }
-},{"./util":48,"babel-runtime/core-js/object/keys":50}],44:[function(require,module,exports){
+},{"./util":49,"babel-runtime/core-js/object/keys":51}],45:[function(require,module,exports){
 "use strict";
 
 var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
@@ -6378,7 +7229,7 @@ var Route = function Route(path, router) {
 
 exports["default"] = Route;
 module.exports = exports["default"];
-},{"babel-runtime/helpers/class-call-check":51}],45:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":52}],46:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6527,7 +7378,7 @@ exports['default'] = function (Vue, Router) {
 };
 
 module.exports = exports['default'];
-},{"../util":48}],46:[function(require,module,exports){
+},{"../util":49}],47:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -6828,7 +7679,7 @@ exports['default'] = function (Vue, Router) {
 };
 
 module.exports = exports['default'];
-},{"../route":44,"../transition":47,"../util":48,"babel-runtime/helpers/interop-require-default":53}],47:[function(require,module,exports){
+},{"../route":45,"../transition":48,"../util":49,"babel-runtime/helpers/interop-require-default":54}],48:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -7132,7 +7983,7 @@ function isPlainOjbect(val) {
   return Object.prototype.toString.call(val) === '[object Object]';
 }
 module.exports = exports['default'];
-},{"./pipeline":43,"./util":48,"babel-runtime/helpers/class-call-check":51,"babel-runtime/helpers/create-class":52}],48:[function(require,module,exports){
+},{"./pipeline":44,"./util":49,"babel-runtime/helpers/class-call-check":52,"babel-runtime/helpers/create-class":53}],49:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -7304,11 +8155,11 @@ function replaceParam(path, params, key) {
     return m.charAt(m.length - 1) === '/' ? value + '/' : value;
   });
 }
-},{"babel-runtime/helpers/interop-require-default":53,"route-recognizer":65}],49:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":54,"route-recognizer":66}],50:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/define-property"), __esModule: true };
-},{"core-js/library/fn/object/define-property":54}],50:[function(require,module,exports){
+},{"core-js/library/fn/object/define-property":55}],51:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/keys"), __esModule: true };
-},{"core-js/library/fn/object/keys":55}],51:[function(require,module,exports){
+},{"core-js/library/fn/object/keys":56}],52:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -7318,7 +8169,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 "use strict";
 
 var _Object$defineProperty = require("babel-runtime/core-js/object/define-property")["default"];
@@ -7343,7 +8194,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{"babel-runtime/core-js/object/define-property":49}],53:[function(require,module,exports){
+},{"babel-runtime/core-js/object/define-property":50}],54:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
@@ -7353,18 +8204,18 @@ exports["default"] = function (obj) {
 };
 
 exports.__esModule = true;
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var $ = require('../../modules/$');
 module.exports = function defineProperty(it, key, desc){
   return $.setDesc(it, key, desc);
 };
-},{"../../modules/$":61}],55:[function(require,module,exports){
+},{"../../modules/$":62}],56:[function(require,module,exports){
 require('../../modules/es6.object.keys');
 module.exports = require('../../modules/$.core').Object.keys;
-},{"../../modules/$.core":56,"../../modules/es6.object.keys":64}],56:[function(require,module,exports){
+},{"../../modules/$.core":57,"../../modules/es6.object.keys":65}],57:[function(require,module,exports){
 var core = module.exports = {};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 var global    = require('./$.global')
   , core      = require('./$.core')
   , PROTOTYPE = 'prototype';
@@ -7412,13 +8263,13 @@ $def.P = 8;  // proto
 $def.B = 16; // bind
 $def.W = 32; // wrap
 module.exports = $def;
-},{"./$.core":56,"./$.global":60}],58:[function(require,module,exports){
+},{"./$.core":57,"./$.global":61}],59:[function(require,module,exports){
 // 7.2.1 RequireObjectCoercible(argument)
 module.exports = function(it){
   if(it == undefined)throw TypeError("Can't call method on  " + it);
   return it;
 };
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 module.exports = function(exec){
   try {
     return !!exec();
@@ -7426,13 +8277,13 @@ module.exports = function(exec){
     return true;
   }
 };
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var UNDEFINED = 'undefined';
 var global = module.exports = typeof window != UNDEFINED && window.Math == Math
   ? window : typeof self != UNDEFINED && self.Math == Math ? self : Function('return this')();
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 var $Object = Object;
 module.exports = {
   create:     $Object.create,
@@ -7446,7 +8297,7 @@ module.exports = {
   getSymbols: $Object.getOwnPropertySymbols,
   each:       [].forEach
 };
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 // most Object methods by ES6 should accept primitives
 module.exports = function(KEY, exec){
   var $def = require('./$.def')
@@ -7455,13 +8306,13 @@ module.exports = function(KEY, exec){
   exp[KEY] = exec(fn);
   $def($def.S + $def.F * require('./$.fails')(function(){ fn(1); }), 'Object', exp);
 };
-},{"./$.core":56,"./$.def":57,"./$.fails":59}],63:[function(require,module,exports){
+},{"./$.core":57,"./$.def":58,"./$.fails":60}],64:[function(require,module,exports){
 // 7.1.13 ToObject(argument)
 var defined = require('./$.defined');
 module.exports = function(it){
   return Object(defined(it));
 };
-},{"./$.defined":58}],64:[function(require,module,exports){
+},{"./$.defined":59}],65:[function(require,module,exports){
 // 19.1.2.14 Object.keys(O)
 var toObject = require('./$.to-object');
 
@@ -7470,7 +8321,7 @@ require('./$.object-sap')('keys', function($keys){
     return $keys(toObject(it));
   };
 });
-},{"./$.object-sap":62,"./$.to-object":63}],65:[function(require,module,exports){
+},{"./$.object-sap":63,"./$.to-object":64}],66:[function(require,module,exports){
 (function() {
     "use strict";
     function $$route$recognizer$dsl$$Target(path, matcher, delegate) {
@@ -8124,7 +8975,7 @@ require('./$.object-sap')('keys', function($keys){
 }).call(this);
 
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -8175,7 +9026,7 @@ exports.$addChild = function (opts, BaseCtor) {
   return child
 }
 
-},{"../util":127}],67:[function(require,module,exports){
+},{"../util":128}],68:[function(require,module,exports){
 var Watcher = require('../watcher')
 var Path = require('../parsers/path')
 var textParser = require('../parsers/text')
@@ -8328,7 +9179,7 @@ exports.$log = function (path) {
   console.log(data)
 }
 
-},{"../parsers/directive":115,"../parsers/expression":116,"../parsers/path":117,"../parsers/text":119,"../watcher":131}],68:[function(require,module,exports){
+},{"../parsers/directive":116,"../parsers/expression":117,"../parsers/path":118,"../parsers/text":120,"../watcher":132}],69:[function(require,module,exports){
 var _ = require('../util')
 var transition = require('../transition')
 
@@ -8556,7 +9407,7 @@ function remove (el, vm, cb) {
   if (cb) cb()
 }
 
-},{"../transition":120,"../util":127}],69:[function(require,module,exports){
+},{"../transition":121,"../util":128}],70:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -8732,7 +9583,7 @@ function modifyListenerCount (vm, event, count) {
   }
 }
 
-},{"../util":127}],70:[function(require,module,exports){
+},{"../util":128}],71:[function(require,module,exports){
 var _ = require('../util')
 var config = require('../config')
 
@@ -8853,7 +9704,7 @@ config._assetTypes.forEach(function (type) {
   }
 })
 
-},{"../compiler":76,"../config":78,"../parsers/directive":115,"../parsers/expression":116,"../parsers/path":117,"../parsers/template":118,"../parsers/text":119,"../util":127}],71:[function(require,module,exports){
+},{"../compiler":77,"../config":79,"../parsers/directive":116,"../parsers/expression":117,"../parsers/path":118,"../parsers/template":119,"../parsers/text":120,"../util":128}],72:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -8926,7 +9777,7 @@ exports.$compile = function (el, host) {
 
 }).call(this,require('_process'))
 
-},{"../compiler":76,"../util":127,"_process":20}],72:[function(require,module,exports){
+},{"../compiler":77,"../util":128,"_process":20}],73:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -9029,7 +9880,7 @@ exports.push = function (watcher) {
 
 }).call(this,require('_process'))
 
-},{"./config":78,"./util":127,"_process":20}],73:[function(require,module,exports){
+},{"./config":79,"./util":128,"_process":20}],74:[function(require,module,exports){
 /**
  * A doubly linked list-based Least Recently Used (LRU)
  * cache. Will keep most recently used items while
@@ -9143,7 +9994,7 @@ p.get = function (key, returnEntry) {
 
 module.exports = Cache
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var textParser = require('../parsers/text')
@@ -9331,7 +10182,7 @@ function getDefault (options) {
 
 }).call(this,require('_process'))
 
-},{"../config":78,"../directives/prop":94,"../parsers/path":117,"../parsers/text":119,"../util":127,"_process":20}],75:[function(require,module,exports){
+},{"../config":79,"../directives/prop":95,"../parsers/path":118,"../parsers/text":120,"../util":128,"_process":20}],76:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compileProps = require('./compile-props')
@@ -9962,13 +10813,13 @@ function directiveComparator (a, b) {
 
 }).call(this,require('_process'))
 
-},{"../config":78,"../directives/component":83,"../parsers/directive":115,"../parsers/template":118,"../parsers/text":119,"../util":127,"./compile-props":74,"_process":20}],76:[function(require,module,exports){
+},{"../config":79,"../directives/component":84,"../parsers/directive":116,"../parsers/template":119,"../parsers/text":120,"../util":128,"./compile-props":75,"_process":20}],77:[function(require,module,exports){
 var _ = require('../util')
 
 _.extend(exports, require('./compile'))
 _.extend(exports, require('./transclude'))
 
-},{"../util":127,"./compile":75,"./transclude":77}],77:[function(require,module,exports){
+},{"../util":128,"./compile":76,"./transclude":78}],78:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -10117,7 +10968,7 @@ function mergeAttrs (from, to) {
 
 }).call(this,require('_process'))
 
-},{"../config":78,"../parsers/template":118,"../util":127,"_process":20}],78:[function(require,module,exports){
+},{"../config":79,"../parsers/template":119,"../util":128,"_process":20}],79:[function(require,module,exports){
 module.exports = {
 
   /**
@@ -10243,7 +11094,7 @@ Object.defineProperty(module.exports, 'delimiters', {
   }
 })
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -10499,7 +11350,7 @@ module.exports = Directive
 
 }).call(this,require('_process'))
 
-},{"./config":78,"./parsers/expression":116,"./parsers/text":119,"./util":127,"./watcher":131,"_process":20}],80:[function(require,module,exports){
+},{"./config":79,"./parsers/expression":117,"./parsers/text":120,"./util":128,"./watcher":132,"_process":20}],81:[function(require,module,exports){
 // xlink
 var xlinkNS = 'http://www.w3.org/1999/xlink'
 var xlinkRE = /^xlink:/
@@ -10560,7 +11411,7 @@ module.exports = {
   }
 }
 
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 var _ = require('../util')
 var addClass = _.addClass
 var removeClass = _.removeClass
@@ -10632,7 +11483,7 @@ function stringToObject (value) {
   return res
 }
 
-},{"../util":127}],82:[function(require,module,exports){
+},{"../util":128}],83:[function(require,module,exports){
 var config = require('../config')
 
 module.exports = {
@@ -10644,7 +11495,7 @@ module.exports = {
   }
 }
 
-},{"../config":78}],83:[function(require,module,exports){
+},{"../config":79}],84:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -10993,7 +11844,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../config":78,"../parsers/template":118,"../util":127,"_process":20}],84:[function(require,module,exports){
+},{"../config":79,"../parsers/template":119,"../util":128,"_process":20}],85:[function(require,module,exports){
 module.exports = {
 
   isLiteral: true,
@@ -11007,7 +11858,7 @@ module.exports = {
   }
 }
 
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 var _ = require('../util')
 var templateParser = require('../parsers/template')
 
@@ -11049,7 +11900,7 @@ module.exports = {
   }
 }
 
-},{"../parsers/template":118,"../util":127}],86:[function(require,module,exports){
+},{"../parsers/template":119,"../util":128}],87:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -11179,7 +12030,7 @@ function callDetach (child) {
 
 }).call(this,require('_process'))
 
-},{"../cache":73,"../compiler":76,"../parsers/template":118,"../transition":120,"../util":127,"_process":20}],87:[function(require,module,exports){
+},{"../cache":74,"../compiler":77,"../parsers/template":119,"../transition":121,"../util":128,"_process":20}],88:[function(require,module,exports){
 // manipulation directives
 exports.text = require('./text')
 exports.html = require('./html')
@@ -11205,7 +12056,7 @@ exports['if'] = require('./if')
 exports._component = require('./component')
 exports._prop = require('./prop')
 
-},{"./attr":80,"./class":81,"./cloak":82,"./component":83,"./el":84,"./html":85,"./if":86,"./model":89,"./on":93,"./prop":94,"./ref":95,"./repeat":96,"./show":97,"./style":98,"./text":99,"./transition":100}],88:[function(require,module,exports){
+},{"./attr":81,"./class":82,"./cloak":83,"./component":84,"./el":85,"./html":86,"./if":87,"./model":90,"./on":94,"./prop":95,"./ref":96,"./repeat":97,"./show":98,"./style":99,"./text":100,"./transition":101}],89:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -11249,7 +12100,7 @@ module.exports = {
   }
 }
 
-},{"../../util":127}],89:[function(require,module,exports){
+},{"../../util":128}],90:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 
@@ -11336,7 +12187,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../../util":127,"./checkbox":88,"./radio":90,"./select":91,"./text":92,"_process":20}],90:[function(require,module,exports){
+},{"../../util":128,"./checkbox":89,"./radio":91,"./select":92,"./text":93,"_process":20}],91:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -11371,7 +12222,7 @@ module.exports = {
   }
 }
 
-},{"../../util":127}],91:[function(require,module,exports){
+},{"../../util":128}],92:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var Watcher = require('../../watcher')
@@ -11612,7 +12463,7 @@ function indexOf (arr, val) {
 
 }).call(this,require('_process'))
 
-},{"../../parsers/directive":115,"../../util":127,"../../watcher":131,"_process":20}],92:[function(require,module,exports){
+},{"../../parsers/directive":116,"../../util":128,"../../watcher":132,"_process":20}],93:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -11742,7 +12593,7 @@ module.exports = {
   }
 }
 
-},{"../../util":127}],93:[function(require,module,exports){
+},{"../../util":128}],94:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -11806,7 +12657,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../util":127,"_process":20}],94:[function(require,module,exports){
+},{"../util":128,"_process":20}],95:[function(require,module,exports){
 // NOTE: the prop internal directive is compiled and linked
 // during _initScope(), before the created hook is called.
 // The purpose is to make the initial prop values available
@@ -11870,7 +12721,7 @@ module.exports = {
   }
 }
 
-},{"../config":78,"../util":127,"../watcher":131}],95:[function(require,module,exports){
+},{"../config":79,"../util":128,"../watcher":132}],96:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -11897,7 +12748,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../util":127,"_process":20}],96:[function(require,module,exports){
+},{"../util":128,"_process":20}],97:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -12672,7 +13523,7 @@ function isPrimitive (value) {
 
 }).call(this,require('_process'))
 
-},{"../compiler":76,"../config":78,"../parsers/expression":116,"../parsers/template":118,"../parsers/text":119,"../util":127,"_process":20}],97:[function(require,module,exports){
+},{"../compiler":77,"../config":79,"../parsers/expression":117,"../parsers/template":119,"../parsers/text":120,"../util":128,"_process":20}],98:[function(require,module,exports){
 var transition = require('../transition')
 
 module.exports = function (value) {
@@ -12682,7 +13533,7 @@ module.exports = function (value) {
   }, this.vm)
 }
 
-},{"../transition":120}],98:[function(require,module,exports){
+},{"../transition":121}],99:[function(require,module,exports){
 var _ = require('../util')
 var prefixes = ['-webkit-', '-moz-', '-ms-']
 var camelPrefixes = ['Webkit', 'Moz', 'ms']
@@ -12794,7 +13645,7 @@ function prefix (prop) {
   }
 }
 
-},{"../util":127}],99:[function(require,module,exports){
+},{"../util":128}],100:[function(require,module,exports){
 var _ = require('../util')
 
 module.exports = {
@@ -12810,7 +13661,7 @@ module.exports = {
   }
 }
 
-},{"../util":127}],100:[function(require,module,exports){
+},{"../util":128}],101:[function(require,module,exports){
 var _ = require('../util')
 var Transition = require('../transition/transition')
 
@@ -12838,7 +13689,7 @@ module.exports = {
   }
 }
 
-},{"../transition/transition":122,"../util":127}],101:[function(require,module,exports){
+},{"../transition/transition":123,"../util":128}],102:[function(require,module,exports){
 var _ = require('../util')
 var clone = require('../parsers/template').clone
 
@@ -12951,11 +13802,11 @@ function extractFragment (nodes, parent, main) {
   return frag
 }
 
-},{"../parsers/template":118,"../util":127}],102:[function(require,module,exports){
+},{"../parsers/template":119,"../util":128}],103:[function(require,module,exports){
 exports.content = require('./content')
 exports.partial = require('./partial')
 
-},{"./content":101,"./partial":103}],103:[function(require,module,exports){
+},{"./content":102,"./partial":104}],104:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var templateParser = require('../parsers/template')
@@ -13033,7 +13884,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../cache":73,"../compiler":76,"../directives/if":86,"../parsers/template":118,"../parsers/text":119,"../util":127,"_process":20}],104:[function(require,module,exports){
+},{"../cache":74,"../compiler":77,"../directives/if":87,"../parsers/template":119,"../parsers/text":120,"../util":128,"_process":20}],105:[function(require,module,exports){
 var _ = require('../util')
 var Path = require('../parsers/path')
 
@@ -13127,7 +13978,7 @@ function contains (val, search) {
   }
 }
 
-},{"../parsers/path":117,"../util":127}],105:[function(require,module,exports){
+},{"../parsers/path":118,"../util":128}],106:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -13275,7 +14126,7 @@ exports.debounce = function (handler, delay) {
 
 _.extend(exports, require('./array-filters'))
 
-},{"../util":127,"./array-filters":104}],106:[function(require,module,exports){
+},{"../util":128,"./array-filters":105}],107:[function(require,module,exports){
 var _ = require('../util')
 var Directive = require('../directive')
 var compiler = require('../compiler')
@@ -13477,7 +14328,7 @@ exports._cleanup = function () {
   this.$off()
 }
 
-},{"../compiler":76,"../directive":79,"../util":127}],107:[function(require,module,exports){
+},{"../compiler":77,"../directive":80,"../util":128}],108:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var inDoc = _.inDoc
@@ -13621,7 +14472,7 @@ exports._callHook = function (hook) {
 
 }).call(this,require('_process'))
 
-},{"../util":127,"_process":20}],108:[function(require,module,exports){
+},{"../util":128,"_process":20}],109:[function(require,module,exports){
 var mergeOptions = require('../util').mergeOptions
 
 /**
@@ -13712,7 +14563,7 @@ exports._init = function (options) {
   }
 }
 
-},{"../util":127}],109:[function(require,module,exports){
+},{"../util":128}],110:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -13810,7 +14661,7 @@ exports._resolveComponent = function (id, cb) {
 
 }).call(this,require('_process'))
 
-},{"../util":127,"_process":20}],110:[function(require,module,exports){
+},{"../util":128,"_process":20}],111:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -14097,7 +14948,7 @@ exports._defineMeta = function (key, value) {
 
 }).call(this,require('_process'))
 
-},{"../compiler":76,"../observer":113,"../observer/dep":112,"../util":127,"../watcher":131,"_process":20}],111:[function(require,module,exports){
+},{"../compiler":77,"../observer":114,"../observer/dep":113,"../util":128,"../watcher":132,"_process":20}],112:[function(require,module,exports){
 var _ = require('../util')
 var arrayProto = Array.prototype
 var arrayMethods = Object.create(arrayProto)
@@ -14197,7 +15048,7 @@ _.define(
 
 module.exports = arrayMethods
 
-},{"../util":127}],112:[function(require,module,exports){
+},{"../util":128}],113:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -14258,7 +15109,7 @@ Dep.prototype.notify = function () {
 
 module.exports = Dep
 
-},{"../util":127}],113:[function(require,module,exports){
+},{"../util":128}],114:[function(require,module,exports){
 var _ = require('../util')
 var config = require('../config')
 var Dep = require('./dep')
@@ -14494,7 +15345,7 @@ function copyAugment (target, src, keys) {
 
 module.exports = Observer
 
-},{"../config":78,"../util":127,"./array":111,"./dep":112,"./object":114}],114:[function(require,module,exports){
+},{"../config":79,"../util":128,"./array":112,"./dep":113,"./object":115}],115:[function(require,module,exports){
 var _ = require('../util')
 var objProto = Object.prototype
 
@@ -14578,7 +15429,7 @@ _.define(
   }
 )
 
-},{"../util":127}],115:[function(require,module,exports){
+},{"../util":128}],116:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var cache = new Cache(1000)
@@ -14760,7 +15611,7 @@ exports.parse = function (s) {
   return dirs
 }
 
-},{"../cache":73,"../util":127}],116:[function(require,module,exports){
+},{"../cache":74,"../util":128}],117:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Path = require('./path')
@@ -15029,7 +15880,7 @@ exports.isSimplePath = function (exp) {
 
 }).call(this,require('_process'))
 
-},{"../cache":73,"../util":127,"./path":117,"_process":20}],117:[function(require,module,exports){
+},{"../cache":74,"../util":128,"./path":118,"_process":20}],118:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Cache = require('../cache')
@@ -15382,7 +16233,7 @@ function warnNonExistent (path) {
 
 }).call(this,require('_process'))
 
-},{"../cache":73,"../util":127,"_process":20}],118:[function(require,module,exports){
+},{"../cache":74,"../util":128,"_process":20}],119:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var templateCache = new Cache(1000)
@@ -15666,7 +16517,7 @@ exports.parse = function (template, clone, noSelector) {
     : frag
 }
 
-},{"../cache":73,"../util":127}],119:[function(require,module,exports){
+},{"../cache":74,"../util":128}],120:[function(require,module,exports){
 var Cache = require('../cache')
 var config = require('../config')
 var dirParser = require('./directive')
@@ -15844,7 +16695,7 @@ function inlineFilters (exp, single) {
   }
 }
 
-},{"../cache":73,"../config":78,"./directive":115}],120:[function(require,module,exports){
+},{"../cache":74,"../config":79,"./directive":116}],121:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -15974,7 +16825,7 @@ var apply = exports.apply = function (el, direction, op, vm, cb) {
   transition[action](op, cb)
 }
 
-},{"../util":127}],121:[function(require,module,exports){
+},{"../util":128}],122:[function(require,module,exports){
 var _ = require('../util')
 var queue = []
 var queued = false
@@ -16011,7 +16862,7 @@ function flush () {
   return f
 }
 
-},{"../util":127}],122:[function(require,module,exports){
+},{"../util":128}],123:[function(require,module,exports){
 var _ = require('../util')
 var queue = require('./queue')
 var addClass = _.addClass
@@ -16354,7 +17205,7 @@ p.setupCssCb = function (event, cb) {
 
 module.exports = Transition
 
-},{"../util":127,"./queue":121}],123:[function(require,module,exports){
+},{"../util":128,"./queue":122}],124:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 
@@ -16483,7 +17334,7 @@ function formatValue (val) {
 
 }).call(this,require('_process'))
 
-},{"./index":127,"_process":20}],124:[function(require,module,exports){
+},{"./index":128,"_process":20}],125:[function(require,module,exports){
 (function (process){
 /**
  * Enable debug utilities.
@@ -16552,7 +17403,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 }).call(this,require('_process'))
 
-},{"../config":78,"_process":20}],125:[function(require,module,exports){
+},{"../config":79,"_process":20}],126:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -16829,7 +17680,7 @@ exports.createAnchor = function (content, persist) {
 
 }).call(this,require('_process'))
 
-},{"../config":78,"./index":127,"_process":20}],126:[function(require,module,exports){
+},{"../config":79,"./index":128,"_process":20}],127:[function(require,module,exports){
 // can we use __proto__?
 exports.hasProto = '__proto__' in {}
 
@@ -16916,7 +17767,7 @@ exports.nextTick = (function () {
   }
 })()
 
-},{}],127:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 var lang = require('./lang')
 var extend = lang.extend
 
@@ -16927,7 +17778,7 @@ extend(exports, require('./options'))
 extend(exports, require('./component'))
 extend(exports, require('./debug'))
 
-},{"./component":123,"./debug":124,"./dom":125,"./env":126,"./lang":128,"./options":129}],128:[function(require,module,exports){
+},{"./component":124,"./debug":125,"./dom":126,"./env":127,"./lang":129,"./options":130}],129:[function(require,module,exports){
 /**
  * Check if a string starts with $ or _
  *
@@ -17239,7 +18090,7 @@ exports.looseEqual = function (a, b) {
   /* eslint-enable eqeqeq */
 }
 
-},{}],129:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -17601,7 +18452,7 @@ exports.resolveAsset = function resolve (options, type, id) {
 
 }).call(this,require('_process'))
 
-},{"../config":78,"./index":127,"_process":20}],130:[function(require,module,exports){
+},{"../config":79,"./index":128,"_process":20}],131:[function(require,module,exports){
 var _ = require('./util')
 var extend = _.extend
 
@@ -17692,7 +18543,7 @@ extend(p, require('./api/lifecycle'))
 
 module.exports = _.Vue = Vue
 
-},{"./api/child":66,"./api/data":67,"./api/dom":68,"./api/events":69,"./api/global":70,"./api/lifecycle":71,"./directives":87,"./element-directives":102,"./filters":105,"./instance/compile":106,"./instance/events":107,"./instance/init":108,"./instance/misc":109,"./instance/scope":110,"./util":127}],131:[function(require,module,exports){
+},{"./api/child":67,"./api/data":68,"./api/dom":69,"./api/events":70,"./api/global":71,"./api/lifecycle":72,"./directives":88,"./element-directives":103,"./filters":106,"./instance/compile":107,"./instance/events":108,"./instance/init":109,"./instance/misc":110,"./instance/scope":111,"./util":128}],132:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -18010,7 +18861,7 @@ module.exports = Watcher
 
 }).call(this,require('_process'))
 
-},{"./batcher":72,"./config":78,"./observer/dep":112,"./parsers/expression":116,"./util":127,"_process":20}]},{},[1])
+},{"./batcher":73,"./config":79,"./observer/dep":113,"./parsers/expression":117,"./util":128,"_process":20}]},{},[1])
 
 
 //# sourceMappingURL=all.js.map
