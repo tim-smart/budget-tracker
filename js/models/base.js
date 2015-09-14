@@ -63,7 +63,14 @@ export default {
     },
 
     remove(item) {
-      const index = this.items.indexOf(item)
+      let index = null
+      if (typeof item === 'string') {
+        index = this.items.indexOf(
+          this.find(item)
+        )
+      } else {
+        index = this.items.indexOf(item)
+      }
 
       this.$emit('beforeRemove', item)
 

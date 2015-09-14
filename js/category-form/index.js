@@ -41,6 +41,23 @@ export default Vue.extend({
 
     cancel() {
       this.$route.router.go('/')
+    },
+
+    remove() {
+      const categories = this.$root.$.categories
+
+      if (
+        this.category.id
+      ) {
+        if (
+          !confirm(`Do you really want to delete this category?`)
+        ) {
+          return
+        }
+        categories.remove(this.category.id)
+      }
+
+      this.$route.router.go('/')
     }
   },
 

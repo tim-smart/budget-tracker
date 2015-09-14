@@ -82,4 +82,23 @@ describe('CategoryForm', function() {
 
   })
 
+  describe('remove', function() {
+    it('removes the category and redirects', function() {
+      const category = categories.create({name: 'Existing', quota: 5})
+      form.$route.params.slug = 'existing'
+      formCreated()
+
+      spyOn(window, 'confirm').and.returnValue(true)
+      form.remove()
+
+      expect(categories.find(category.id)).toBeUndefined()
+      expect(goQueue[0]).toEqual('/')
+    })
+
+    it('only redirects if id not present', function() {
+      form.remove()
+      expect(goQueue[0]).toEqual('/')
+    })
+  })
+
 })
