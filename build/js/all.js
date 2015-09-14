@@ -560,10 +560,12 @@ exports['default'] = _vue2['default'].extend({
 
     var transactions = this.$root.$.transactions;
     var transaction = transactions.find(this.$route.params.id);
+    var categories = this.$root.$.categories;
+
     if (transaction) {
       _lodashAssign2['default'](this.transaction, transaction);
-    } else {
-      this.transaction.categoryId = this.$root.$.categories.sorted[0].id;
+    } else if (categories.items.length) {
+      this.transaction.categoryId = categories.sorted[0].id;
     }
   },
 
