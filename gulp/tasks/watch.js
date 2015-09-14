@@ -26,5 +26,5 @@ gulp.task('watch', function() {
   }).start();
 
   // HTML
-  watch('build/**/*.html', {read: false}).pipe(livereload());
+  watch('index.html', {read: false}).pipe(livereload());
 });
