@@ -117,7 +117,7 @@ exports['default'] = _vue2['default'].extend({
     }
 
     var categories = this.$root.$.categories;
-    var category = categories.bySlug[this.$route.params.slug];
+    var category = categories.find(this.$route.params.id);
     if (category) {
       _lodashAssign2['default'](this.category, category);
     }
@@ -565,7 +565,7 @@ router.map({
     component: _transactionForm2['default']
   },
 
-  '/categories/:slug': {
+  '/categories/:id': {
     name: 'category',
     component: _categoryForm2['default']
   }
