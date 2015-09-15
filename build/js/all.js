@@ -23,7 +23,7 @@ _routerJs2['default'].start(_app2['default'], '#budget-app');
 
 window.router = _routerJs2['default'];
 
-},{"./app":2,"./filters.js":8,"./router.js":16,"vue":131}],2:[function(require,module,exports){
+},{"./app":2,"./filters.js":8,"./router.js":16,"vue":133}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -82,7 +82,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./../../js/models/base.js":11,"./../../js/models/categories.js":12,"./../../js/models/transactions.js":13,"./../../js/navbar":14,"./template.html":3,"fastclick":21,"vue":131}],3:[function(require,module,exports){
+},{"./../../js/models/base.js":11,"./../../js/models/categories.js":12,"./../../js/models/transactions.js":13,"./../../js/navbar":14,"./template.html":3,"fastclick":23,"vue":133}],3:[function(require,module,exports){
 module.exports = '<div id="budget-app">\n  <navbar></navbar>\n\n  <router-view></router-view>\n</div>\n';
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -157,12 +157,16 @@ exports['default'] = _vue2['default'].extend({
     }
   },
 
+  components: {
+    transactionList: require("./../../js/transaction-list")
+  },
+
   template: require('./template.html')
 });
 module.exports = exports['default'];
 
-},{"./template.html":5,"lodash.assign":22,"vue":131}],5:[function(require,module,exports){
-module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Name</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Name"\n        v-model="category.name"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Quota</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="Quota"\n        v-model="category.quota"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="button" class="btn btn-danger" v-on="click: remove" v-if="category.id">Remove</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n\n<div class="container" v-if="category.id">\n  <div class="row">\n    <div class="col-xs-12">\n      <h3>Transactions</h3>\n    </div>\n  </div>\n\n  <div class="row">\n    <div\n      class="col-sm-6"\n      v-repeat="$root.$.transactions.byCategoryId[category.id] | orderBy \'createdAt\' -1"\n    >\n      <div class="card">\n        <div class="card-header clearfix">\n          <span class="label label-primary label-pill">{{amount | currency}}</span>\n          <button\n            type="button"\n            class="btn btn-danger btn-sm pull-right"\n            v-on="click: $root.$.transactions.remove($data)"\n          >&cross;</button>\n        </div>\n        <div class="card-block">\n          <p class="card-text">\n            {{description}}\n            <small class="text-muted">{{createdAt | dateFromNow}}</small>\n          </p>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n';
+},{"./../../js/transaction-list":19,"./template.html":5,"lodash.assign":24,"vue":133}],5:[function(require,module,exports){
+module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Name</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Name"\n        v-model="category.name"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Quota</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="Quota"\n        v-model="category.quota"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="button" class="btn btn-danger" v-on="click: remove" v-if="category.id">Remove</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n\n<transaction-list\n  transactions="{{$root.$.transactions.byCategoryId[category.id]}}"\n></transaction-list>\n';
 },{}],6:[function(require,module,exports){
 'use strict';
 
@@ -183,7 +187,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./template.html":7,"vue":131}],7:[function(require,module,exports){
+},{"./template.html":7,"vue":133}],7:[function(require,module,exports){
 module.exports = '<div class="form-group">\n  <div class="list-group categories">\n    <a\n      class="list-group-item"\n      type="button"\n      v-repeat="$root.$.categories.withTotals | orderBy \'name\'"\n      href="#!/categories/{{slug}}"\n    >\n      {{name}}\n      <span\n        class="label label-pill pull-right"\n        v-class="\n          label-success: total > 0,\n          label-danger: total <= 0\n        "\n      >{{total | currency}}</span>\n      <span\n        class="label label-default label-pill pull-right"\n      >{{$root.$.transactions.byCategoryId[id].length}}</span>\n    </a>\n  </div>\n</div>\n';
 },{}],8:[function(require,module,exports){
 'use strict';
@@ -208,7 +212,7 @@ _vue2['default'].filter('dateFromNow', function (value) {
 //   return numeral(value).format('$0,0.00')
 // })
 
-},{"moment":33,"vue":131}],9:[function(require,module,exports){
+},{"moment":35,"vue":133}],9:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -238,8 +242,8 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./../../js/category-list":6,"./template.html":10,"vue":131}],10:[function(require,module,exports){
-module.exports = '<div class="home container">\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <strong>\n          Total: {{$root.$.categories.totalQuota | currency}},\n          Remaining: {{$root.$.categories.totalQuotaRemaining | currency}}\n        </strong>\n        <progress\n          class="progress progress-success"\n          v-class="\n            progress-warning: $root.$.categories.totalQuotaPercent <= 25,\n            progress-danger: $root.$.categories.totalQuotaPercent < 10\n          "\n          value="{{$root.$.categories.totalQuotaRemaining}}"\n          max="{{$root.$.categories.totalQuota}}"\n        ></progress>\n      </div>\n\n      <div class="form-group">\n        <a\n          type="button"\n          class="btn btn-success btn-lg btn-block"\n          href="#!/transactions/new"\n        >\n          Add Transaction\n        </a>\n      </div>\n\n      <category-list></category-list>\n    </div>\n  </div>\n\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <a type="button" class="btn btn-success btn-lg btn-block" href="#!/categories/new">\n          Add Category\n        </a>\n      </div>\n\n      <div class="form-group">\n        <button\n          type="button"\n          class="btn btn-danger btn-lg btn-block"\n          v-on="click: reset"\n        >\n          Reset transactions\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n';
+},{"./../../js/category-list":6,"./template.html":10,"vue":133}],10:[function(require,module,exports){
+module.exports = '<div class="home container">\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <strong>\n          Total: {{$root.$.categories.totalQuota | currency}},\n          Remaining: {{$root.$.categories.totalQuotaRemaining | currency}}\n        </strong>\n        <progress\n          class="progress progress-success"\n          v-class="\n            progress-warning: $root.$.categories.totalQuotaPercent <= 25,\n            progress-danger: $root.$.categories.totalQuotaPercent < 10\n          "\n          value="{{$root.$.categories.totalQuotaRemaining}}"\n          max="{{$root.$.categories.totalQuota}}"\n        ></progress>\n      </div>\n\n      <div class="form-group">\n        <a\n          type="button"\n          class="btn btn-success btn-lg btn-block"\n          href="#!/transactions/new"\n        >\n          Add Transaction\n        </a>\n      </div>\n\n      <category-list></category-list>\n    </div>\n  </div>\n\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <a type="button" class="btn btn-success btn-lg btn-block" href="#!/categories/new">\n          Add Category\n        </a>\n      </div>\n\n      <div class="form-group">\n        <a type="button" class="btn btn-secondary btn-lg btn-block" v-link="\'/transactions\'">\n          All transactions\n        </a>\n      </div>\n\n      <div class="form-group">\n        <button\n          type="button"\n          class="btn btn-danger btn-lg btn-block"\n          v-on="click: reset"\n        >\n          Reset transactions\n        </button>\n      </div>\n    </div>\n  </div>\n</div>\n';
 },{}],11:[function(require,module,exports){
 'use strict';
 
@@ -364,7 +368,7 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 
-},{"lodash.assign":22,"uuid":36}],12:[function(require,module,exports){
+},{"lodash.assign":24,"uuid":38}],12:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -449,7 +453,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"slug":34,"vue":131}],13:[function(require,module,exports){
+},{"slug":36,"vue":133}],13:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -488,7 +492,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"vue":131}],14:[function(require,module,exports){
+},{"vue":133}],14:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -508,8 +512,8 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./template.html":15,"vue":131}],15:[function(require,module,exports){
-module.exports = '<header class="navbar navbar-fixed-top navbar-dark bg-primary text-center">\n  <div class="navbar-nav">\n    <strong class="nav-link active">Cash Money</strong>\n  </div>\n</header>\n';
+},{"./template.html":15,"vue":133}],15:[function(require,module,exports){
+module.exports = '<header class="navbar navbar-fixed-top navbar-dark bg-primary text-center clearfix">\n  <a v-link="\'/\'" class="navbar-toggler pull-left" type="button">\n    &#127968;\n  </a>\n\n  <div class="navbar-nav">\n    <strong class="nav-link active">Cash Money</strong>\n  </div>\n</header>\n';
 },{}],16:[function(require,module,exports){
 'use strict';
 
@@ -535,6 +539,10 @@ var _transactionForm = require('./transaction-form');
 
 var _transactionForm2 = _interopRequireDefault(_transactionForm);
 
+var _transactionList = require('./transaction-list');
+
+var _transactionList2 = _interopRequireDefault(_transactionList);
+
 var _categoryForm = require('./category-form');
 
 var _categoryForm2 = _interopRequireDefault(_categoryForm);
@@ -549,6 +557,10 @@ router.map({
     component: _home2['default']
   },
 
+  '/transactions': {
+    component: _transactionList2['default']
+  },
+
   '/transactions/:id': {
     component: _transactionForm2['default']
   },
@@ -560,7 +572,7 @@ router.map({
 });
 module.exports = exports['default'];
 
-},{"./category-form":4,"./home":9,"./transaction-form":17,"vue":131,"vue-router":42}],17:[function(require,module,exports){
+},{"./category-form":4,"./home":9,"./transaction-form":17,"./transaction-list":19,"vue":133,"vue-router":44}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -629,11 +641,48 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./template.html":18,"lodash.assign":22,"vue":131}],18:[function(require,module,exports){
+},{"./template.html":18,"lodash.assign":24,"vue":133}],18:[function(require,module,exports){
 module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Category</label>\n    <div class="col-sm-10">\n      <select\n        class="form-control"\n        v-model="transaction.categoryId"\n        options="$root.$.categories.selectOptions"\n      ></select>\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Description</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Description"\n        v-model="transaction.description"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Amount</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="$0.00"\n        v-model="transaction.amount"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n';
 },{}],19:[function(require,module,exports){
+'use strict';
 
-},{}],20:[function(require,module,exports){
+exports.__esModule = true;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+exports['default'] = _vue2['default'].extend({
+  name: 'transactions-list',
+
+  props: {
+    transactions: {
+      type: Array
+    },
+
+    showTitle: {
+      type: Boolean,
+      'default': true
+    }
+  },
+
+  created: function created() {
+    if (!this.transactions) {
+      this.transactions = this.$root.$.transactions.items;
+    }
+  },
+
+  template: require('./template.html')
+});
+module.exports = exports['default'];
+
+},{"./template.html":20,"vue":133}],20:[function(require,module,exports){
+module.exports = '<div class="container">\n  <div class="row" v-if="showTitle">\n    <div class="col-xs-12">\n      <h3>Transactions</h3>\n    </div>\n  </div>\n\n  <div class="row">\n    <div\n      class="col-sm-6"\n      v-repeat="transactions | orderBy \'createdAt\' -1"\n    >\n      <div class="card">\n        <div class="card-header clearfix">\n          <span class="label label-primary label-pill">{{amount | currency}}</span>\n          <button\n            type="button"\n            class="btn btn-danger btn-sm pull-right"\n            v-on="click: $root.$.transactions.remove($data)"\n          >&cross;</button>\n        </div>\n        <div class="card-block">\n          <p class="card-text">\n            {{description}}\n            <small class="text-muted">{{createdAt | dateFromNow}}</small>\n          </p>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n';
+},{}],21:[function(require,module,exports){
+
+},{}],22:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -726,7 +775,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 ;(function () {
 	'use strict';
 
@@ -1569,7 +1618,7 @@ process.umask = function() { return 0; };
 	}
 }());
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1651,7 +1700,7 @@ var assign = createAssigner(function(object, source, customizer) {
 
 module.exports = assign;
 
-},{"lodash._baseassign":23,"lodash._createassigner":25,"lodash.keys":29}],23:[function(require,module,exports){
+},{"lodash._baseassign":25,"lodash._createassigner":27,"lodash.keys":31}],25:[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1680,7 +1729,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"lodash._basecopy":24,"lodash.keys":29}],24:[function(require,module,exports){
+},{"lodash._basecopy":26,"lodash.keys":31}],26:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1714,7 +1763,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /**
  * lodash 3.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1768,7 +1817,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"lodash._bindcallback":26,"lodash._isiterateecall":27,"lodash.restparam":28}],26:[function(require,module,exports){
+},{"lodash._bindcallback":28,"lodash._isiterateecall":29,"lodash.restparam":30}],28:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1835,7 +1884,7 @@ function identity(value) {
 
 module.exports = bindCallback;
 
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /**
  * lodash 3.0.9 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1969,7 +2018,7 @@ function isObject(value) {
 
 module.exports = isIterateeCall;
 
-},{}],28:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /**
  * lodash 3.6.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2038,7 +2087,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /**
  * lodash 3.1.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2276,7 +2325,7 @@ function keysIn(object) {
 
 module.exports = keys;
 
-},{"lodash._getnative":30,"lodash.isarguments":31,"lodash.isarray":32}],30:[function(require,module,exports){
+},{"lodash._getnative":32,"lodash.isarguments":33,"lodash.isarray":34}],32:[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2415,7 +2464,7 @@ function isNative(value) {
 
 module.exports = getNative;
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2523,7 +2572,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2705,7 +2754,7 @@ function isNative(value) {
 
 module.exports = isArray;
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 //! moment.js
 //! version : 2.10.6
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -5901,7 +5950,7 @@ module.exports = isArray;
     return _moment;
 
 }));
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (root) {
 // lazy require symbols table
 var _symbols, removelist;
@@ -6115,7 +6164,7 @@ if (typeof define !== 'undefined' && define.amd) { // AMD
 
 }(this));
 
-},{"unicode/category/So":19}],35:[function(require,module,exports){
+},{"unicode/category/So":21}],37:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -6151,7 +6200,7 @@ module.exports = rng;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],36:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 //     uuid.js
 //
 //     Copyright (c) 2010-2012 Robert Kieffer
@@ -6336,7 +6385,7 @@ uuid.unparse = unparse;
 
 module.exports = uuid;
 
-},{"./rng":35}],37:[function(require,module,exports){
+},{"./rng":37}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6423,7 +6472,7 @@ exports['default'] = function (Vue) {
 };
 
 module.exports = exports['default'];
-},{"../util":49}],38:[function(require,module,exports){
+},{"../util":51}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6510,7 +6559,7 @@ exports['default'] = function (Vue) {
 };
 
 module.exports = exports['default'];
-},{"../pipeline":44,"../util":49}],39:[function(require,module,exports){
+},{"../pipeline":46,"../util":51}],41:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -6561,7 +6610,7 @@ var AbstractHistory = (function () {
 
 exports['default'] = AbstractHistory;
 module.exports = exports['default'];
-},{"../util":49,"babel-runtime/helpers/class-call-check":52,"babel-runtime/helpers/create-class":53}],40:[function(require,module,exports){
+},{"../util":51,"babel-runtime/helpers/class-call-check":54,"babel-runtime/helpers/create-class":55}],42:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -6635,7 +6684,7 @@ var HashHistory = (function () {
 
 exports['default'] = HashHistory;
 module.exports = exports['default'];
-},{"../util":49,"babel-runtime/helpers/class-call-check":52,"babel-runtime/helpers/create-class":53}],41:[function(require,module,exports){
+},{"../util":51,"babel-runtime/helpers/class-call-check":54,"babel-runtime/helpers/create-class":55}],43:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -6735,7 +6784,7 @@ var HTML5History = (function () {
 
 exports['default'] = HTML5History;
 module.exports = exports['default'];
-},{"../util":49,"babel-runtime/helpers/class-call-check":52,"babel-runtime/helpers/create-class":53}],42:[function(require,module,exports){
+},{"../util":51,"babel-runtime/helpers/class-call-check":54,"babel-runtime/helpers/create-class":55}],44:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
@@ -6911,7 +6960,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(Router);
 }
 module.exports = exports['default'];
-},{"./directives/link":37,"./directives/view":38,"./history/abstract":39,"./history/hash":40,"./history/html5":41,"./override":43,"./router/api":46,"./router/internal":47,"./util":49,"babel-runtime/helpers/class-call-check":52,"babel-runtime/helpers/interop-require-default":54,"route-recognizer":66}],43:[function(require,module,exports){
+},{"./directives/link":39,"./directives/view":40,"./history/abstract":41,"./history/hash":42,"./history/html5":43,"./override":45,"./router/api":48,"./router/internal":49,"./util":51,"babel-runtime/helpers/class-call-check":54,"babel-runtime/helpers/interop-require-default":56,"route-recognizer":68}],45:[function(require,module,exports){
 // overriding Vue's $addChild method, so that every child
 'use strict';
 
@@ -6955,7 +7004,7 @@ exports['default'] = function (Vue) {
 
 module.exports = exports['default'];
 // instance inherits the route data
-},{}],44:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -7206,7 +7255,7 @@ function loadData(component, transition, hook, cb, cleanup) {
     expectData: true
   });
 }
-},{"./util":49,"babel-runtime/core-js/object/keys":51}],45:[function(require,module,exports){
+},{"./util":51,"babel-runtime/core-js/object/keys":53}],47:[function(require,module,exports){
 "use strict";
 
 var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
@@ -7258,7 +7307,7 @@ var Route = function Route(path, router) {
 
 exports["default"] = Route;
 module.exports = exports["default"];
-},{"babel-runtime/helpers/class-call-check":52}],46:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":54}],48:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -7407,7 +7456,7 @@ exports['default'] = function (Vue, Router) {
 };
 
 module.exports = exports['default'];
-},{"../util":49}],47:[function(require,module,exports){
+},{"../util":51}],49:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -7708,7 +7757,7 @@ exports['default'] = function (Vue, Router) {
 };
 
 module.exports = exports['default'];
-},{"../route":45,"../transition":48,"../util":49,"babel-runtime/helpers/interop-require-default":54}],48:[function(require,module,exports){
+},{"../route":47,"../transition":50,"../util":51,"babel-runtime/helpers/interop-require-default":56}],50:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -8012,7 +8061,7 @@ function isPlainOjbect(val) {
   return Object.prototype.toString.call(val) === '[object Object]';
 }
 module.exports = exports['default'];
-},{"./pipeline":44,"./util":49,"babel-runtime/helpers/class-call-check":52,"babel-runtime/helpers/create-class":53}],49:[function(require,module,exports){
+},{"./pipeline":46,"./util":51,"babel-runtime/helpers/class-call-check":54,"babel-runtime/helpers/create-class":55}],51:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -8184,11 +8233,11 @@ function replaceParam(path, params, key) {
     return m.charAt(m.length - 1) === '/' ? value + '/' : value;
   });
 }
-},{"babel-runtime/helpers/interop-require-default":54,"route-recognizer":66}],50:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":56,"route-recognizer":68}],52:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/define-property"), __esModule: true };
-},{"core-js/library/fn/object/define-property":55}],51:[function(require,module,exports){
+},{"core-js/library/fn/object/define-property":57}],53:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/keys"), __esModule: true };
-},{"core-js/library/fn/object/keys":56}],52:[function(require,module,exports){
+},{"core-js/library/fn/object/keys":58}],54:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -8198,7 +8247,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],53:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 "use strict";
 
 var _Object$defineProperty = require("babel-runtime/core-js/object/define-property")["default"];
@@ -8223,7 +8272,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{"babel-runtime/core-js/object/define-property":50}],54:[function(require,module,exports){
+},{"babel-runtime/core-js/object/define-property":52}],56:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
@@ -8233,18 +8282,18 @@ exports["default"] = function (obj) {
 };
 
 exports.__esModule = true;
-},{}],55:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 var $ = require('../../modules/$');
 module.exports = function defineProperty(it, key, desc){
   return $.setDesc(it, key, desc);
 };
-},{"../../modules/$":62}],56:[function(require,module,exports){
+},{"../../modules/$":64}],58:[function(require,module,exports){
 require('../../modules/es6.object.keys');
 module.exports = require('../../modules/$.core').Object.keys;
-},{"../../modules/$.core":57,"../../modules/es6.object.keys":65}],57:[function(require,module,exports){
+},{"../../modules/$.core":59,"../../modules/es6.object.keys":67}],59:[function(require,module,exports){
 var core = module.exports = {};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-},{}],58:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 var global    = require('./$.global')
   , core      = require('./$.core')
   , PROTOTYPE = 'prototype';
@@ -8292,13 +8341,13 @@ $def.P = 8;  // proto
 $def.B = 16; // bind
 $def.W = 32; // wrap
 module.exports = $def;
-},{"./$.core":57,"./$.global":61}],59:[function(require,module,exports){
+},{"./$.core":59,"./$.global":63}],61:[function(require,module,exports){
 // 7.2.1 RequireObjectCoercible(argument)
 module.exports = function(it){
   if(it == undefined)throw TypeError("Can't call method on  " + it);
   return it;
 };
-},{}],60:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 module.exports = function(exec){
   try {
     return !!exec();
@@ -8306,13 +8355,13 @@ module.exports = function(exec){
     return true;
   }
 };
-},{}],61:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var UNDEFINED = 'undefined';
 var global = module.exports = typeof window != UNDEFINED && window.Math == Math
   ? window : typeof self != UNDEFINED && self.Math == Math ? self : Function('return this')();
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-},{}],62:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 var $Object = Object;
 module.exports = {
   create:     $Object.create,
@@ -8326,7 +8375,7 @@ module.exports = {
   getSymbols: $Object.getOwnPropertySymbols,
   each:       [].forEach
 };
-},{}],63:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 // most Object methods by ES6 should accept primitives
 module.exports = function(KEY, exec){
   var $def = require('./$.def')
@@ -8335,13 +8384,13 @@ module.exports = function(KEY, exec){
   exp[KEY] = exec(fn);
   $def($def.S + $def.F * require('./$.fails')(function(){ fn(1); }), 'Object', exp);
 };
-},{"./$.core":57,"./$.def":58,"./$.fails":60}],64:[function(require,module,exports){
+},{"./$.core":59,"./$.def":60,"./$.fails":62}],66:[function(require,module,exports){
 // 7.1.13 ToObject(argument)
 var defined = require('./$.defined');
 module.exports = function(it){
   return Object(defined(it));
 };
-},{"./$.defined":59}],65:[function(require,module,exports){
+},{"./$.defined":61}],67:[function(require,module,exports){
 // 19.1.2.14 Object.keys(O)
 var toObject = require('./$.to-object');
 
@@ -8350,7 +8399,7 @@ require('./$.object-sap')('keys', function($keys){
     return $keys(toObject(it));
   };
 });
-},{"./$.object-sap":63,"./$.to-object":64}],66:[function(require,module,exports){
+},{"./$.object-sap":65,"./$.to-object":66}],68:[function(require,module,exports){
 (function() {
     "use strict";
     function $$route$recognizer$dsl$$Target(path, matcher, delegate) {
@@ -9004,7 +9053,7 @@ require('./$.object-sap')('keys', function($keys){
 }).call(this);
 
 
-},{}],67:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -9055,7 +9104,7 @@ exports.$addChild = function (opts, BaseCtor) {
   return child
 }
 
-},{"../util":128}],68:[function(require,module,exports){
+},{"../util":130}],70:[function(require,module,exports){
 var Watcher = require('../watcher')
 var Path = require('../parsers/path')
 var textParser = require('../parsers/text')
@@ -9208,7 +9257,7 @@ exports.$log = function (path) {
   console.log(data)
 }
 
-},{"../parsers/directive":116,"../parsers/expression":117,"../parsers/path":118,"../parsers/text":120,"../watcher":132}],69:[function(require,module,exports){
+},{"../parsers/directive":118,"../parsers/expression":119,"../parsers/path":120,"../parsers/text":122,"../watcher":134}],71:[function(require,module,exports){
 var _ = require('../util')
 var transition = require('../transition')
 
@@ -9436,7 +9485,7 @@ function remove (el, vm, cb) {
   if (cb) cb()
 }
 
-},{"../transition":121,"../util":128}],70:[function(require,module,exports){
+},{"../transition":123,"../util":130}],72:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -9612,7 +9661,7 @@ function modifyListenerCount (vm, event, count) {
   }
 }
 
-},{"../util":128}],71:[function(require,module,exports){
+},{"../util":130}],73:[function(require,module,exports){
 var _ = require('../util')
 var config = require('../config')
 
@@ -9733,7 +9782,7 @@ config._assetTypes.forEach(function (type) {
   }
 })
 
-},{"../compiler":77,"../config":79,"../parsers/directive":116,"../parsers/expression":117,"../parsers/path":118,"../parsers/template":119,"../parsers/text":120,"../util":128}],72:[function(require,module,exports){
+},{"../compiler":79,"../config":81,"../parsers/directive":118,"../parsers/expression":119,"../parsers/path":120,"../parsers/template":121,"../parsers/text":122,"../util":130}],74:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -9806,7 +9855,7 @@ exports.$compile = function (el, host) {
 
 }).call(this,require('_process'))
 
-},{"../compiler":77,"../util":128,"_process":20}],73:[function(require,module,exports){
+},{"../compiler":79,"../util":130,"_process":22}],75:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -9909,7 +9958,7 @@ exports.push = function (watcher) {
 
 }).call(this,require('_process'))
 
-},{"./config":79,"./util":128,"_process":20}],74:[function(require,module,exports){
+},{"./config":81,"./util":130,"_process":22}],76:[function(require,module,exports){
 /**
  * A doubly linked list-based Least Recently Used (LRU)
  * cache. Will keep most recently used items while
@@ -10023,7 +10072,7 @@ p.get = function (key, returnEntry) {
 
 module.exports = Cache
 
-},{}],75:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var textParser = require('../parsers/text')
@@ -10211,7 +10260,7 @@ function getDefault (options) {
 
 }).call(this,require('_process'))
 
-},{"../config":79,"../directives/prop":95,"../parsers/path":118,"../parsers/text":120,"../util":128,"_process":20}],76:[function(require,module,exports){
+},{"../config":81,"../directives/prop":97,"../parsers/path":120,"../parsers/text":122,"../util":130,"_process":22}],78:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compileProps = require('./compile-props')
@@ -10842,13 +10891,13 @@ function directiveComparator (a, b) {
 
 }).call(this,require('_process'))
 
-},{"../config":79,"../directives/component":84,"../parsers/directive":116,"../parsers/template":119,"../parsers/text":120,"../util":128,"./compile-props":75,"_process":20}],77:[function(require,module,exports){
+},{"../config":81,"../directives/component":86,"../parsers/directive":118,"../parsers/template":121,"../parsers/text":122,"../util":130,"./compile-props":77,"_process":22}],79:[function(require,module,exports){
 var _ = require('../util')
 
 _.extend(exports, require('./compile'))
 _.extend(exports, require('./transclude'))
 
-},{"../util":128,"./compile":76,"./transclude":78}],78:[function(require,module,exports){
+},{"../util":130,"./compile":78,"./transclude":80}],80:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -10997,7 +11046,7 @@ function mergeAttrs (from, to) {
 
 }).call(this,require('_process'))
 
-},{"../config":79,"../parsers/template":119,"../util":128,"_process":20}],79:[function(require,module,exports){
+},{"../config":81,"../parsers/template":121,"../util":130,"_process":22}],81:[function(require,module,exports){
 module.exports = {
 
   /**
@@ -11123,7 +11172,7 @@ Object.defineProperty(module.exports, 'delimiters', {
   }
 })
 
-},{}],80:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -11379,7 +11428,7 @@ module.exports = Directive
 
 }).call(this,require('_process'))
 
-},{"./config":79,"./parsers/expression":117,"./parsers/text":120,"./util":128,"./watcher":132,"_process":20}],81:[function(require,module,exports){
+},{"./config":81,"./parsers/expression":119,"./parsers/text":122,"./util":130,"./watcher":134,"_process":22}],83:[function(require,module,exports){
 // xlink
 var xlinkNS = 'http://www.w3.org/1999/xlink'
 var xlinkRE = /^xlink:/
@@ -11440,7 +11489,7 @@ module.exports = {
   }
 }
 
-},{}],82:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 var _ = require('../util')
 var addClass = _.addClass
 var removeClass = _.removeClass
@@ -11512,7 +11561,7 @@ function stringToObject (value) {
   return res
 }
 
-},{"../util":128}],83:[function(require,module,exports){
+},{"../util":130}],85:[function(require,module,exports){
 var config = require('../config')
 
 module.exports = {
@@ -11524,7 +11573,7 @@ module.exports = {
   }
 }
 
-},{"../config":79}],84:[function(require,module,exports){
+},{"../config":81}],86:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -11873,7 +11922,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../config":79,"../parsers/template":119,"../util":128,"_process":20}],85:[function(require,module,exports){
+},{"../config":81,"../parsers/template":121,"../util":130,"_process":22}],87:[function(require,module,exports){
 module.exports = {
 
   isLiteral: true,
@@ -11887,7 +11936,7 @@ module.exports = {
   }
 }
 
-},{}],86:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 var _ = require('../util')
 var templateParser = require('../parsers/template')
 
@@ -11929,7 +11978,7 @@ module.exports = {
   }
 }
 
-},{"../parsers/template":119,"../util":128}],87:[function(require,module,exports){
+},{"../parsers/template":121,"../util":130}],89:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -12059,7 +12108,7 @@ function callDetach (child) {
 
 }).call(this,require('_process'))
 
-},{"../cache":74,"../compiler":77,"../parsers/template":119,"../transition":121,"../util":128,"_process":20}],88:[function(require,module,exports){
+},{"../cache":76,"../compiler":79,"../parsers/template":121,"../transition":123,"../util":130,"_process":22}],90:[function(require,module,exports){
 // manipulation directives
 exports.text = require('./text')
 exports.html = require('./html')
@@ -12085,7 +12134,7 @@ exports['if'] = require('./if')
 exports._component = require('./component')
 exports._prop = require('./prop')
 
-},{"./attr":81,"./class":82,"./cloak":83,"./component":84,"./el":85,"./html":86,"./if":87,"./model":90,"./on":94,"./prop":95,"./ref":96,"./repeat":97,"./show":98,"./style":99,"./text":100,"./transition":101}],89:[function(require,module,exports){
+},{"./attr":83,"./class":84,"./cloak":85,"./component":86,"./el":87,"./html":88,"./if":89,"./model":92,"./on":96,"./prop":97,"./ref":98,"./repeat":99,"./show":100,"./style":101,"./text":102,"./transition":103}],91:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -12129,7 +12178,7 @@ module.exports = {
   }
 }
 
-},{"../../util":128}],90:[function(require,module,exports){
+},{"../../util":130}],92:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 
@@ -12216,7 +12265,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../../util":128,"./checkbox":89,"./radio":91,"./select":92,"./text":93,"_process":20}],91:[function(require,module,exports){
+},{"../../util":130,"./checkbox":91,"./radio":93,"./select":94,"./text":95,"_process":22}],93:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -12251,7 +12300,7 @@ module.exports = {
   }
 }
 
-},{"../../util":128}],92:[function(require,module,exports){
+},{"../../util":130}],94:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var Watcher = require('../../watcher')
@@ -12492,7 +12541,7 @@ function indexOf (arr, val) {
 
 }).call(this,require('_process'))
 
-},{"../../parsers/directive":116,"../../util":128,"../../watcher":132,"_process":20}],93:[function(require,module,exports){
+},{"../../parsers/directive":118,"../../util":130,"../../watcher":134,"_process":22}],95:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -12622,7 +12671,7 @@ module.exports = {
   }
 }
 
-},{"../../util":128}],94:[function(require,module,exports){
+},{"../../util":130}],96:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -12686,7 +12735,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../util":128,"_process":20}],95:[function(require,module,exports){
+},{"../util":130,"_process":22}],97:[function(require,module,exports){
 // NOTE: the prop internal directive is compiled and linked
 // during _initScope(), before the created hook is called.
 // The purpose is to make the initial prop values available
@@ -12750,7 +12799,7 @@ module.exports = {
   }
 }
 
-},{"../config":79,"../util":128,"../watcher":132}],96:[function(require,module,exports){
+},{"../config":81,"../util":130,"../watcher":134}],98:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -12777,7 +12826,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../util":128,"_process":20}],97:[function(require,module,exports){
+},{"../util":130,"_process":22}],99:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -13552,7 +13601,7 @@ function isPrimitive (value) {
 
 }).call(this,require('_process'))
 
-},{"../compiler":77,"../config":79,"../parsers/expression":117,"../parsers/template":119,"../parsers/text":120,"../util":128,"_process":20}],98:[function(require,module,exports){
+},{"../compiler":79,"../config":81,"../parsers/expression":119,"../parsers/template":121,"../parsers/text":122,"../util":130,"_process":22}],100:[function(require,module,exports){
 var transition = require('../transition')
 
 module.exports = function (value) {
@@ -13562,7 +13611,7 @@ module.exports = function (value) {
   }, this.vm)
 }
 
-},{"../transition":121}],99:[function(require,module,exports){
+},{"../transition":123}],101:[function(require,module,exports){
 var _ = require('../util')
 var prefixes = ['-webkit-', '-moz-', '-ms-']
 var camelPrefixes = ['Webkit', 'Moz', 'ms']
@@ -13674,7 +13723,7 @@ function prefix (prop) {
   }
 }
 
-},{"../util":128}],100:[function(require,module,exports){
+},{"../util":130}],102:[function(require,module,exports){
 var _ = require('../util')
 
 module.exports = {
@@ -13690,7 +13739,7 @@ module.exports = {
   }
 }
 
-},{"../util":128}],101:[function(require,module,exports){
+},{"../util":130}],103:[function(require,module,exports){
 var _ = require('../util')
 var Transition = require('../transition/transition')
 
@@ -13718,7 +13767,7 @@ module.exports = {
   }
 }
 
-},{"../transition/transition":123,"../util":128}],102:[function(require,module,exports){
+},{"../transition/transition":125,"../util":130}],104:[function(require,module,exports){
 var _ = require('../util')
 var clone = require('../parsers/template').clone
 
@@ -13831,11 +13880,11 @@ function extractFragment (nodes, parent, main) {
   return frag
 }
 
-},{"../parsers/template":119,"../util":128}],103:[function(require,module,exports){
+},{"../parsers/template":121,"../util":130}],105:[function(require,module,exports){
 exports.content = require('./content')
 exports.partial = require('./partial')
 
-},{"./content":102,"./partial":104}],104:[function(require,module,exports){
+},{"./content":104,"./partial":106}],106:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var templateParser = require('../parsers/template')
@@ -13913,7 +13962,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../cache":74,"../compiler":77,"../directives/if":87,"../parsers/template":119,"../parsers/text":120,"../util":128,"_process":20}],105:[function(require,module,exports){
+},{"../cache":76,"../compiler":79,"../directives/if":89,"../parsers/template":121,"../parsers/text":122,"../util":130,"_process":22}],107:[function(require,module,exports){
 var _ = require('../util')
 var Path = require('../parsers/path')
 
@@ -14007,7 +14056,7 @@ function contains (val, search) {
   }
 }
 
-},{"../parsers/path":118,"../util":128}],106:[function(require,module,exports){
+},{"../parsers/path":120,"../util":130}],108:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -14155,7 +14204,7 @@ exports.debounce = function (handler, delay) {
 
 _.extend(exports, require('./array-filters'))
 
-},{"../util":128,"./array-filters":105}],107:[function(require,module,exports){
+},{"../util":130,"./array-filters":107}],109:[function(require,module,exports){
 var _ = require('../util')
 var Directive = require('../directive')
 var compiler = require('../compiler')
@@ -14357,7 +14406,7 @@ exports._cleanup = function () {
   this.$off()
 }
 
-},{"../compiler":77,"../directive":80,"../util":128}],108:[function(require,module,exports){
+},{"../compiler":79,"../directive":82,"../util":130}],110:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var inDoc = _.inDoc
@@ -14501,7 +14550,7 @@ exports._callHook = function (hook) {
 
 }).call(this,require('_process'))
 
-},{"../util":128,"_process":20}],109:[function(require,module,exports){
+},{"../util":130,"_process":22}],111:[function(require,module,exports){
 var mergeOptions = require('../util').mergeOptions
 
 /**
@@ -14592,7 +14641,7 @@ exports._init = function (options) {
   }
 }
 
-},{"../util":128}],110:[function(require,module,exports){
+},{"../util":130}],112:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -14690,7 +14739,7 @@ exports._resolveComponent = function (id, cb) {
 
 }).call(this,require('_process'))
 
-},{"../util":128,"_process":20}],111:[function(require,module,exports){
+},{"../util":130,"_process":22}],113:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -14977,7 +15026,7 @@ exports._defineMeta = function (key, value) {
 
 }).call(this,require('_process'))
 
-},{"../compiler":77,"../observer":114,"../observer/dep":113,"../util":128,"../watcher":132,"_process":20}],112:[function(require,module,exports){
+},{"../compiler":79,"../observer":116,"../observer/dep":115,"../util":130,"../watcher":134,"_process":22}],114:[function(require,module,exports){
 var _ = require('../util')
 var arrayProto = Array.prototype
 var arrayMethods = Object.create(arrayProto)
@@ -15077,7 +15126,7 @@ _.define(
 
 module.exports = arrayMethods
 
-},{"../util":128}],113:[function(require,module,exports){
+},{"../util":130}],115:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -15138,7 +15187,7 @@ Dep.prototype.notify = function () {
 
 module.exports = Dep
 
-},{"../util":128}],114:[function(require,module,exports){
+},{"../util":130}],116:[function(require,module,exports){
 var _ = require('../util')
 var config = require('../config')
 var Dep = require('./dep')
@@ -15374,7 +15423,7 @@ function copyAugment (target, src, keys) {
 
 module.exports = Observer
 
-},{"../config":79,"../util":128,"./array":112,"./dep":113,"./object":115}],115:[function(require,module,exports){
+},{"../config":81,"../util":130,"./array":114,"./dep":115,"./object":117}],117:[function(require,module,exports){
 var _ = require('../util')
 var objProto = Object.prototype
 
@@ -15458,7 +15507,7 @@ _.define(
   }
 )
 
-},{"../util":128}],116:[function(require,module,exports){
+},{"../util":130}],118:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var cache = new Cache(1000)
@@ -15640,7 +15689,7 @@ exports.parse = function (s) {
   return dirs
 }
 
-},{"../cache":74,"../util":128}],117:[function(require,module,exports){
+},{"../cache":76,"../util":130}],119:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Path = require('./path')
@@ -15909,7 +15958,7 @@ exports.isSimplePath = function (exp) {
 
 }).call(this,require('_process'))
 
-},{"../cache":74,"../util":128,"./path":118,"_process":20}],118:[function(require,module,exports){
+},{"../cache":76,"../util":130,"./path":120,"_process":22}],120:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Cache = require('../cache')
@@ -16262,7 +16311,7 @@ function warnNonExistent (path) {
 
 }).call(this,require('_process'))
 
-},{"../cache":74,"../util":128,"_process":20}],119:[function(require,module,exports){
+},{"../cache":76,"../util":130,"_process":22}],121:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var templateCache = new Cache(1000)
@@ -16546,7 +16595,7 @@ exports.parse = function (template, clone, noSelector) {
     : frag
 }
 
-},{"../cache":74,"../util":128}],120:[function(require,module,exports){
+},{"../cache":76,"../util":130}],122:[function(require,module,exports){
 var Cache = require('../cache')
 var config = require('../config')
 var dirParser = require('./directive')
@@ -16724,7 +16773,7 @@ function inlineFilters (exp, single) {
   }
 }
 
-},{"../cache":74,"../config":79,"./directive":116}],121:[function(require,module,exports){
+},{"../cache":76,"../config":81,"./directive":118}],123:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -16854,7 +16903,7 @@ var apply = exports.apply = function (el, direction, op, vm, cb) {
   transition[action](op, cb)
 }
 
-},{"../util":128}],122:[function(require,module,exports){
+},{"../util":130}],124:[function(require,module,exports){
 var _ = require('../util')
 var queue = []
 var queued = false
@@ -16891,7 +16940,7 @@ function flush () {
   return f
 }
 
-},{"../util":128}],123:[function(require,module,exports){
+},{"../util":130}],125:[function(require,module,exports){
 var _ = require('../util')
 var queue = require('./queue')
 var addClass = _.addClass
@@ -17234,7 +17283,7 @@ p.setupCssCb = function (event, cb) {
 
 module.exports = Transition
 
-},{"../util":128,"./queue":122}],124:[function(require,module,exports){
+},{"../util":130,"./queue":124}],126:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 
@@ -17363,7 +17412,7 @@ function formatValue (val) {
 
 }).call(this,require('_process'))
 
-},{"./index":128,"_process":20}],125:[function(require,module,exports){
+},{"./index":130,"_process":22}],127:[function(require,module,exports){
 (function (process){
 /**
  * Enable debug utilities.
@@ -17432,7 +17481,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 }).call(this,require('_process'))
 
-},{"../config":79,"_process":20}],126:[function(require,module,exports){
+},{"../config":81,"_process":22}],128:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -17709,7 +17758,7 @@ exports.createAnchor = function (content, persist) {
 
 }).call(this,require('_process'))
 
-},{"../config":79,"./index":128,"_process":20}],127:[function(require,module,exports){
+},{"../config":81,"./index":130,"_process":22}],129:[function(require,module,exports){
 // can we use __proto__?
 exports.hasProto = '__proto__' in {}
 
@@ -17796,7 +17845,7 @@ exports.nextTick = (function () {
   }
 })()
 
-},{}],128:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 var lang = require('./lang')
 var extend = lang.extend
 
@@ -17807,7 +17856,7 @@ extend(exports, require('./options'))
 extend(exports, require('./component'))
 extend(exports, require('./debug'))
 
-},{"./component":124,"./debug":125,"./dom":126,"./env":127,"./lang":129,"./options":130}],129:[function(require,module,exports){
+},{"./component":126,"./debug":127,"./dom":128,"./env":129,"./lang":131,"./options":132}],131:[function(require,module,exports){
 /**
  * Check if a string starts with $ or _
  *
@@ -18119,7 +18168,7 @@ exports.looseEqual = function (a, b) {
   /* eslint-enable eqeqeq */
 }
 
-},{}],130:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -18481,7 +18530,7 @@ exports.resolveAsset = function resolve (options, type, id) {
 
 }).call(this,require('_process'))
 
-},{"../config":79,"./index":128,"_process":20}],131:[function(require,module,exports){
+},{"../config":81,"./index":130,"_process":22}],133:[function(require,module,exports){
 var _ = require('./util')
 var extend = _.extend
 
@@ -18572,7 +18621,7 @@ extend(p, require('./api/lifecycle'))
 
 module.exports = _.Vue = Vue
 
-},{"./api/child":67,"./api/data":68,"./api/dom":69,"./api/events":70,"./api/global":71,"./api/lifecycle":72,"./directives":88,"./element-directives":103,"./filters":106,"./instance/compile":107,"./instance/events":108,"./instance/init":109,"./instance/misc":110,"./instance/scope":111,"./util":128}],132:[function(require,module,exports){
+},{"./api/child":69,"./api/data":70,"./api/dom":71,"./api/events":72,"./api/global":73,"./api/lifecycle":74,"./directives":90,"./element-directives":105,"./filters":108,"./instance/compile":109,"./instance/events":110,"./instance/init":111,"./instance/misc":112,"./instance/scope":113,"./util":130}],134:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -18890,7 +18939,7 @@ module.exports = Watcher
 
 }).call(this,require('_process'))
 
-},{"./batcher":73,"./config":79,"./observer/dep":113,"./parsers/expression":117,"./util":128,"_process":20}]},{},[1])
+},{"./batcher":75,"./config":81,"./observer/dep":115,"./parsers/expression":119,"./util":130,"_process":22}]},{},[1])
 
 
 //# sourceMappingURL=all.js.map
