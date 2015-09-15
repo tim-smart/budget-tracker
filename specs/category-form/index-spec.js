@@ -42,9 +42,9 @@ describe('CategoryForm', function() {
 
   describe('created', function() {
 
-    it('loads category from slug parameter', function() {
+    it('loads category from id parameter', function() {
       const category = categories.create({name: 'Test'})
-      form.$route = {params: {slug: 'test'}}
+      form.$route = {params: {id: category.id}}
       formCreated()
 
       expect(form.category.id).toEqual(category.id)
@@ -65,7 +65,7 @@ describe('CategoryForm', function() {
 
     it('updates an existing category', function() {
       const category = categories.create({name: 'Existing', quota: 5})
-      form.$route.params.slug = 'existing'
+      form.$route.params.id = category.id
       formCreated()
 
       form.category.name = 'Changed'
@@ -89,7 +89,7 @@ describe('CategoryForm', function() {
   describe('remove', function() {
     it('removes the category and redirects', function() {
       const category = categories.create({name: 'Existing', quota: 5})
-      form.$route.params.slug = 'existing'
+      form.$route.params.id = category.id
       formCreated()
 
       spyOn(window, 'confirm').and.returnValue(true)

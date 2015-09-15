@@ -19,7 +19,7 @@ export default Vue.extend({
     }
 
     const categories = this.$root.$.categories
-    const category = categories.bySlug[this.$route.params.slug]
+    const category = categories.find(this.$route.params.id)
     if (category) {
       _assign(this.category, category)
     }
