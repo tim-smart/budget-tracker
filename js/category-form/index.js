@@ -63,5 +63,9 @@ export default Vue.extend({
     }
   },
 
+  components: {
+    transactionList: require('js/transaction-list')
+  },
+
   template: require('./template.html')
 })
