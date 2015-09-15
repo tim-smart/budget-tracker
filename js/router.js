@@ -25,7 +25,7 @@ router.map({
     component: TransactionForm
   },
 
-  '/categories/:slug': {
+  '/categories/:id': {
     name: 'category',
     component: CategoryForm
   }
