@@ -166,7 +166,7 @@ exports['default'] = _vue2['default'].extend({
 module.exports = exports['default'];
 
 },{"./../../js/transaction-list":19,"./template.html":5,"lodash.assign":24,"vue":133}],5:[function(require,module,exports){
-module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Name</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Name"\n        v-model="category.name"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Quota</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="Quota"\n        v-model="category.quota"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="button" class="btn btn-danger" v-on="click: remove" v-if="category.id">Remove</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n\n<transaction-list\n  transactions="{{$root.$.transactions.byCategoryId[category.id]}}"\n></transaction-list>\n';
+module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Name</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Name"\n        v-model="category.name"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Quota</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="Quota"\n        v-model="category.quota"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="button" class="btn btn-danger" v-on="click: remove" v-if="category.id">Remove</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n\n<transaction-list\n  transactions="{{$root.$.transactions.byCategoryId[category.id]}}"\n  hide-category\n></transaction-list>\n';
 },{}],6:[function(require,module,exports){
 'use strict';
 
@@ -662,9 +662,14 @@ exports['default'] = _vue2['default'].extend({
       type: Array
     },
 
-    showTitle: {
+    hideTitle: {
       type: Boolean,
-      'default': true
+      'default': false
+    },
+
+    hideCategory: {
+      type: Boolean,
+      'default': false
     }
   },
 
@@ -679,7 +684,7 @@ exports['default'] = _vue2['default'].extend({
 module.exports = exports['default'];
 
 },{"./template.html":20,"vue":133}],20:[function(require,module,exports){
-module.exports = '<div class="container">\n  <div class="row" v-if="showTitle">\n    <div class="col-xs-12">\n      <h3>Transactions</h3>\n    </div>\n  </div>\n\n  <div class="row">\n    <div\n      class="col-sm-6"\n      v-repeat="transactions | orderBy \'createdAt\' -1"\n    >\n      <div class="card">\n        <div class="card-header clearfix">\n          <span class="label label-primary label-pill">{{amount | currency}}</span>\n          <button\n            type="button"\n            class="btn btn-danger btn-sm pull-right"\n            v-on="click: $root.$.transactions.remove($data)"\n          >&cross;</button>\n        </div>\n        <div class="card-block">\n          <p class="card-text">\n            {{description}}\n            <small class="text-muted">{{createdAt | dateFromNow}}</small>\n          </p>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n';
+module.exports = '<div class="container">\n  <div class="row" v-if="showTitle">\n    <div class="col-xs-12" v-if="!hideTitle">\n      <h3>Transactions</h3>\n    </div>\n  </div>\n\n  <div class="row">\n    <div\n      class="col-sm-6"\n      v-repeat="transactions | orderBy \'createdAt\' -1"\n    >\n      <div class="card">\n        <div class="card-header clearfix">\n          <span class="label label-primary label-pill">{{amount | currency}}</span>\n          <span class="label label-default label-pill" v-if="!hideCategory && categoryId">\n            {{$root.$.categories.find(categoryId).name}}\n          </span>\n          <button\n            type="button"\n            class="btn btn-danger btn-sm pull-right"\n            v-on="click: $root.$.transactions.remove($data)"\n          >&cross;</button>\n        </div>\n        <div class="card-block">\n          <p class="card-text">\n            {{description}}\n            <small class="text-muted">{{createdAt | dateFromNow}}</small>\n          </p>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n';
 },{}],21:[function(require,module,exports){
 
 },{}],22:[function(require,module,exports){
