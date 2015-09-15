@@ -33,6 +33,7 @@
 </form>
 
 <transaction-list
+  v-if="category.id"
   transactions="{{$root.$.transactions.byCategoryId[category.id]}}"
   hide-category
 ></transaction-list>
