@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row" v-if="showTitle">
-    <div class="col-xs-12">
+    <div class="col-xs-12" v-if="!hideTitle">
       <h3>Transactions</h3>
     </div>
   </div>
@@ -13,6 +13,9 @@
       <div class="card">
         <div class="card-header clearfix">
           <span class="label label-primary label-pill">{{amount | currency}}</span>
+          <span class="label label-default label-pill" v-if="!hideCategory && categoryId">
+            {{$root.$.categories.find(categoryId).name}}
+          </span>
           <button
             type="button"
             class="btn btn-danger btn-sm pull-right"
