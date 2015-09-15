@@ -8,9 +8,14 @@ export default Vue.extend({
       type: Array
     },
 
-    showTitle: {
+    hideTitle: {
       type: Boolean,
-      default: true
+      default: false
+    },
+
+    hideCategory: {
+      type: Boolean,
+      default: false
     }
   },
 
