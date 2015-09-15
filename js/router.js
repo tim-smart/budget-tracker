@@ -9,11 +9,16 @@ export default router
 // Components
 import Home from './home'
 import TransactionForm from './transaction-form'
+import TransactionList from './transaction-list'
 import CategoryForm from './category-form'
 
 router.map({
   '/': {
     component: Home
+  },
+
+  '/transactions': {
+    component: TransactionList
   },
 
   '/transactions/:id': {

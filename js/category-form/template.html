@@ -33,6 +33,5 @@
 </form>
 
 <transaction-list
-  show-title
-  v-if="category.id"
+  transactions="{{$root.$.transactions.byCategoryId[category.id]}}"
 ></transaction-list>
