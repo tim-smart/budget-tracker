@@ -36,22 +36,30 @@
   <div class="row">
     <div class="col-xs-12">
       <h3>Transactions</h3>
+    </div>
+  </div>
 
-      <ul class="list-group">
-        <li
-          class="list-group-item"
-          v-repeat="$root.$.transactions.byCategoryId[category.id] | orderBy 'createdAt' -1"
-        >
+  <div class="row">
+    <div
+      class="col-sm-6"
+      v-repeat="$root.$.transactions.byCategoryId[category.id] | orderBy 'createdAt' -1"
+    >
+      <div class="card">
+        <div class="card-header clearfix">
           <span class="label label-primary label-pill">{{amount | currency}}</span>
-          <span class="transaction-description">{{description}}</span>
-          <small class="text-muted">{{createdAt | dateFromNow}}</small>
           <button
             type="button"
             class="btn btn-danger btn-sm pull-right"
-            v-on="click: $root.$.transactions.remove()"
+            v-on="click: $root.$.transactions.remove($data)"
           >&cross;</button>
-        </li>
-      </ul>
+        </div>
+        <div class="card-block">
+          <p class="card-text">
+            {{description}}
+            <small class="text-muted">{{createdAt | dateFromNow}}</small>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
