@@ -63,20 +63,36 @@ export default Vue.extend({
     withRemaining() {
       const totalDeficit = this.totalDeficit
       const withTotals = this.withTotals
-      const quota = withTotals.reduce(function(prev, category) {
-        return prev + (category.total > 0 ? +category.quota : 0)
-      }, 0)
 
-      return withTotals.map(function(category) {
-        if (category.total > 0) {
-          const toRemove = Math.round((category.quota / quota) * totalDeficit * 100) / 100
-          category.remaining = category.total - toRemove
-        } else {
-          category.remaining = 0
+      function adjust(key) {
+        const quota = withTotals.reduce(function(prev, category) {
+          return prev + (category[key] > 0 ? +category.quota : 0)
+        }, 0)
+
+        let readjust = false
+        withTotals.map(function(category) {
+          if (category[key] > 0) {
+            const toRemove = Math.round((category.quota / quota) * totalDeficit * 100) / 100
+            category.remaining = category[key] - toRemove
+          } else {
+            category.remaining = 0
+          }
+
+          if (category.remove < 0) {
+            readjust = true
+          }
+
+          return category
+        })
+
+        if (readjust) {
+          return adjust('remaining')
         }
 
-        return category
-      })
+        return withTotals
+      }
+
+      return adjust('total')
     },
 
     sorted() {
