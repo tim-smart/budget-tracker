@@ -54,6 +54,31 @@ export default Vue.extend({
       })
     },
 
+    totalDeficit() {
+      return this.withTotals.reduce(function(prev, category) {
+        return prev + (category.total < 0 ? -(category.total) : 0)
+      }, 0)
+    },
+
+    withRemaining() {
+      const totalDeficit = this.totalDeficit
+      const withTotals = this.withTotals
+      const quota = withTotals.reduce(function(prev, category) {
+        return prev + (category.total > 0 ? +category.quota : 0)
+      }, 0)
+
+      return withTotals.map(function(category) {
+        if (category.total > 0) {
+          const toRemove = Math.round((category.quota / quota) * totalDeficit * 100) / 100
+          category.remaining = category.total - toRemove
+        } else {
+          category.remaining = 0
+        }
+
+        return category
+      })
+    },
+
     sorted() {
       return this.items.sort(function(a, b) {
         return a.name.localeCompare(b.name)

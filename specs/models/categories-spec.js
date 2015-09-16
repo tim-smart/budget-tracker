@@ -76,4 +76,33 @@ describe('Categories', function() {
     })
   })
 
+  describe('totalDeficit', function() {
+    it('returns total of categories that have a negative amount', function() {
+      const categoryOne = categories.create({name: 'One', quota: 100})
+      const categoryTwo = categories.create({name: 'Two', quota: 100})
+      const categoryThree = categories.create({name: 'Three', quota: 100})
+      transactions.create({ amount: 200, categoryId: categoryOne.id })
+      transactions.create({ amount: 3, categoryId: categoryTwo.id })
+      transactions.create({ amount: 110, categoryId: categoryThree.id })
+
+      expect(categories.totalDeficit).toEqual(110)
+    })
+  })
+
+  describe('withRemaining', function() {
+    it('returns categories with remaining attribute with reduced total', function() {
+      const categoryOne = categories.create({name: 'One', quota: 100})
+      const categoryTwo = categories.create({name: 'Two', quota: 100})
+      const categoryThree = categories.create({name: 'Three', quota: 100})
+      categories.create({name: 'Four', quota: 50})
+
+      transactions.create({ amount: 140, categoryId: categoryOne.id })
+      transactions.create({ amount: 10, categoryId: categoryTwo.id })
+      transactions.create({ amount: 110, categoryId: categoryThree.id })
+
+      expect(categories.withRemaining[1].remaining).toEqual(56.67)
+      expect(categories.withRemaining[3].remaining).toEqual(33.33)
+    })
+  })
+
 })
