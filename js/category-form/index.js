@@ -8,7 +8,7 @@ export default Vue.extend({
     return {
       category: {
         name: '',
-        quota: 0
+        quota: ''
       }
     }
   },

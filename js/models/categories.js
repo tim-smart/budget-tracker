@@ -7,6 +7,7 @@ export default Vue.extend({
   created() {
     this.$on('beforeSave', function(category) {
       category.slug = slug(category.name || '').toLowerCase()
+      category.quota = category.quota ? +category.quota : 0
     })
   },
 
