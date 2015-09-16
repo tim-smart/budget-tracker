@@ -71,8 +71,10 @@ export default Vue.extend({
         let readjust = 0
         withTotals.map(function(category) {
           if (category[key] > 0) {
-            const toRemove = Math.round((category.quota / quota) * totalDeficit * 100) / 100
-            category.remaining = category[key] - toRemove
+            const toRemove = (category.quota / quota) * totalDeficit
+            category.remaining = Math.round(
+              (category[key] - toRemove) * 100
+            ) / 100
           } else {
             category.remaining = 0
           }
