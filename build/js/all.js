@@ -106,7 +106,7 @@ exports['default'] = _vue2['default'].extend({
     return {
       category: {
         name: '',
-        quota: 0
+        quota: ''
       }
     };
   },
@@ -389,6 +389,7 @@ exports['default'] = _vue2['default'].extend({
   created: function created() {
     this.$on('beforeSave', function (category) {
       category.slug = _slug2['default'](category.name || '').toLowerCase();
+      category.quota = category.quota ? +category.quota : 0;
     });
   },
 
@@ -458,7 +459,7 @@ exports['default'] = _vue2['default'].extend({
           }, 0);
 
           var readjust = 0;
-          withTotals.map(function (category) {
+          withTotals.forEach(function (category) {
             if (category[key] > 0) {
               var toRemove = category.quota / quota * totalDeficit;
               category.remaining = Math.round((category[key] - toRemove) * 100) / 100;
@@ -494,7 +495,7 @@ exports['default'] = _vue2['default'].extend({
     },
 
     selectOptions: function selectOptions() {
-      return this.sorted.map(function (category) {
+      return this.items.map(function (category) {
         return {
           text: category.name,
           value: category.id
@@ -518,6 +519,12 @@ var _vue2 = _interopRequireDefault(_vue);
 
 exports['default'] = _vue2['default'].extend({
   name: 'transactions',
+
+  created: function created() {
+    this.$on('beforeSave', function (category) {
+      category.amount = category.amount ? +category.amount : 0;
+    });
+  },
 
   computed: {
     byCategoryId: function byCategoryId() {
@@ -646,7 +653,7 @@ exports['default'] = _vue2['default'].extend({
     return {
       transaction: {
         description: '',
-        amount: 0,
+        amount: '',
         categoryId: null
       }
     };
@@ -694,7 +701,7 @@ exports['default'] = _vue2['default'].extend({
 module.exports = exports['default'];
 
 },{"./template.html":18,"lodash.assign":24,"vue":133}],18:[function(require,module,exports){
-module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Category</label>\n    <div class="col-sm-10">\n      <select\n        class="form-control"\n        v-model="transaction.categoryId"\n        options="$root.$.categories.selectOptions"\n      ></select>\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Description</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Description"\n        v-model="transaction.description"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Amount</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="$0.00"\n        v-model="transaction.amount"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n';
+module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Category</label>\n    <div class="col-sm-10">\n      <select\n        class="form-control"\n        v-model="transaction.categoryId"\n        options="$root.$.categories.selectOptions | orderBy \'text\'"\n      ></select>\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Description</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Description"\n        v-model="transaction.description"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Amount</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="$0.00"\n        v-model="transaction.amount"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n';
 },{}],19:[function(require,module,exports){
 'use strict';
 
