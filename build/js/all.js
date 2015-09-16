@@ -444,20 +444,46 @@ exports['default'] = _vue2['default'].extend({
     withRemaining: function withRemaining() {
       var totalDeficit = this.totalDeficit;
       var withTotals = this.withTotals;
-      var quota = withTotals.reduce(function (prev, category) {
-        return prev + (category.total > 0 ? +category.quota : 0);
-      }, 0);
 
-      return withTotals.map(function (category) {
-        if (category.total > 0) {
-          var toRemove = Math.round(category.quota / quota * totalDeficit * 100) / 100;
-          category.remaining = category.total - toRemove;
-        } else {
-          category.remaining = 0;
+      function adjust(_x) {
+        var _again = true;
+
+        _function: while (_again) {
+          var key = _x;
+          quota = readjust = undefined;
+          _again = false;
+
+          var quota = withTotals.reduce(function (prev, category) {
+            return prev + (category[key] > 0 ? +category.quota : 0);
+          }, 0);
+
+          var readjust = false;
+          withTotals.map(function (category) {
+            if (category[key] > 0) {
+              var toRemove = Math.round(category.quota / quota * totalDeficit * 100) / 100;
+              category.remaining = category[key] - toRemove;
+            } else {
+              category.remaining = 0;
+            }
+
+            if (category.remove < 0) {
+              readjust = true;
+            }
+
+            return category;
+          });
+
+          if (readjust) {
+            _x = 'remaining';
+            _again = true;
+            continue _function;
+          }
+
+          return withTotals;
         }
+      }
 
-        return category;
-      });
+      return adjust('total');
     },
 
     sorted: function sorted() {
