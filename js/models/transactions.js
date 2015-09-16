@@ -3,6 +3,12 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'transactions',
 
+  created() {
+    this.$on('beforeSave', function(category) {
+      category.amount = category.amount ? +category.amount : 0
+    })
+  },
+
   computed: {
     byCategoryId: function() {
       const hash = {}

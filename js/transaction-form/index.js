@@ -8,7 +8,7 @@ export default Vue.extend({
     return {
       transaction: {
         description: '',
-        amount: 0,
+        amount: '',
         categoryId: null
       }
     }
@@ -25,7 +25,7 @@ export default Vue.extend({
 
     if (transaction) {
       _assign(this.transaction, transaction)
-    } else if(categories.items.length) {
+    } else if (categories.items.length) {
       this.transaction.categoryId = categories.sorted[0].id
     }
   },
