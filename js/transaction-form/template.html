@@ -5,7 +5,7 @@
       <select
         class="form-control"
         v-model="transaction.categoryId"
-        options="$root.$.categories.selectOptions"
+        options="$root.$.categories.selectOptions | orderBy 'text'"
       ></select>
     </div>
   </div>

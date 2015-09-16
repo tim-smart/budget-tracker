@@ -69,7 +69,7 @@ export default Vue.extend({
         }, 0)
 
         let readjust = 0
-        withTotals.map(function(category) {
+        withTotals.forEach(function(category) {
           if (category[key] > 0) {
             const toRemove = (category.quota / quota) * totalDeficit
             category.remaining = Math.round(
@@ -103,7 +103,7 @@ export default Vue.extend({
     },
 
     selectOptions() {
-      return this.sorted.map(function(category) {
+      return this.items.map(function(category) {
         return {
           text: category.name,
           value: category.id
