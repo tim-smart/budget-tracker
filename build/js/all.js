@@ -442,14 +442,14 @@ exports['default'] = _vue2['default'].extend({
     },
 
     withRemaining: function withRemaining() {
-      var totalDeficit = this.totalDeficit;
       var withTotals = this.withTotals;
 
-      function adjust(_x) {
+      function adjust(_x, _x2) {
         var _again = true;
 
         _function: while (_again) {
-          var key = _x;
+          var key = _x,
+              totalDeficit = _x2;
           quota = readjust = undefined;
           _again = false;
 
@@ -457,7 +457,7 @@ exports['default'] = _vue2['default'].extend({
             return prev + (category[key] > 0 ? +category.quota : 0);
           }, 0);
 
-          var readjust = false;
+          var readjust = 0;
           withTotals.map(function (category) {
             if (category[key] > 0) {
               var toRemove = Math.round(category.quota / quota * totalDeficit * 100) / 100;
@@ -466,8 +466,8 @@ exports['default'] = _vue2['default'].extend({
               category.remaining = 0;
             }
 
-            if (category.remove < 0) {
-              readjust = true;
+            if (category.remaining < 0) {
+              readjust += -category.remaining;
             }
 
             return category;
@@ -475,6 +475,7 @@ exports['default'] = _vue2['default'].extend({
 
           if (readjust) {
             _x = 'remaining';
+            _x2 = readjust;
             _again = true;
             continue _function;
           }
@@ -483,7 +484,7 @@ exports['default'] = _vue2['default'].extend({
         }
       }
 
-      return adjust('total');
+      return adjust('total', this.totalDeficit);
     },
 
     sorted: function sorted() {
