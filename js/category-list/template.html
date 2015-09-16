@@ -18,6 +18,7 @@
             label-success: total > 0,
             label-danger: total <= 0
           "
+          v-show="!!$root.$.categories.totalDeficit"
         >{{total | currency}}</span>
         <span
           class="label label-pill"
