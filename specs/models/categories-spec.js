@@ -91,17 +91,17 @@ describe('Categories', function() {
 
   describe('withRemaining', function() {
     it('returns categories with remaining attribute with reduced total', function() {
-      const categoryOne = categories.create({name: 'One', quota: 100})
-      const categoryTwo = categories.create({name: 'Two', quota: 100})
-      const categoryThree = categories.create({name: 'Three', quota: 100})
-      categories.create({name: 'Four', quota: 50})
+      categories.create({name: 'One', quota: 90})
+      const categoryTwo = categories.create({name: 'Two', quota: 75})
+      const categoryThree = categories.create({name: 'Three', quota: 230})
+      const categoryFour = categories.create({name: 'Four', quota: 70})
 
-      transactions.create({ amount: 140, categoryId: categoryOne.id })
-      transactions.create({ amount: 10, categoryId: categoryTwo.id })
-      transactions.create({ amount: 110, categoryId: categoryThree.id })
+      transactions.create({ amount: 200, categoryId: categoryTwo.id })
+      transactions.create({ amount: 230, categoryId: categoryThree.id })
+      transactions.create({ amount: 21, categoryId: categoryFour.id })
 
-      expect(categories.withRemaining[1].remaining).toEqual(56.67)
-      expect(categories.withRemaining[3].remaining).toEqual(33.33)
+      expect(categories.withRemaining[0].remaining).toEqual(14)
+      expect(categories.withRemaining[3].remaining).toEqual(0)
     })
   })
 
