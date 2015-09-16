@@ -188,7 +188,7 @@ exports['default'] = _vue2['default'].extend({
 module.exports = exports['default'];
 
 },{"./template.html":7,"vue":133}],7:[function(require,module,exports){
-module.exports = '<div class="form-group">\n  <div class="list-group categories">\n    <a\n      class="list-group-item"\n      type="button"\n      v-repeat="$root.$.categories.withTotals | orderBy \'name\'"\n      href="#!/categories/{{id}}"\n    >\n      {{name}}\n      <span\n        class="label label-pill pull-right"\n        v-class="\n          label-success: total > 0,\n          label-danger: total <= 0\n        "\n      >{{total | currency}}</span>\n      <span\n        class="label label-default label-pill pull-right"\n      >{{$root.$.transactions.byCategoryId[id].length}}</span>\n    </a>\n  </div>\n</div>\n';
+module.exports = '<div class="form-group">\n  <div class="list-group categories">\n    <a\n      class="list-group-item"\n      type="button"\n      v-repeat="$root.$.categories.withRemaining | orderBy \'name\'"\n      href="#!/categories/{{id}}"\n    >\n      {{name}}\n      <span\n        class="label label-pill pull-right"\n        v-class="\n          label-success: total > 0,\n          label-danger: total <= 0\n        "\n      >{{remaining | currency}}</span>\n      <span\n        class="label label-default label-pill pull-right"\n      >{{$root.$.transactions.byCategoryId[id].length}}</span>\n    </a>\n  </div>\n</div>\n';
 },{}],8:[function(require,module,exports){
 'use strict';
 
@@ -430,6 +430,31 @@ exports['default'] = _vue2['default'].extend({
         category.total = categoryTransactions.reduce(function (prev, category) {
           return prev - +category.amount;
         }, category.quota);
+
+        return category;
+      });
+    },
+
+    totalDeficit: function totalDeficit() {
+      return this.withTotals.reduce(function (prev, category) {
+        return prev + (category.total < 0 ? -category.total : 0);
+      }, 0);
+    },
+
+    withRemaining: function withRemaining() {
+      var totalDeficit = this.totalDeficit;
+      var withTotals = this.withTotals;
+      var quota = withTotals.reduce(function (prev, category) {
+        return prev + (category.total > 0 ? +category.quota : 0);
+      }, 0);
+
+      return withTotals.map(function (category) {
+        if (category.total > 0) {
+          var toRemove = Math.round(category.quota / quota * totalDeficit * 100) / 100;
+          category.remaining = category.total - toRemove;
+        } else {
+          category.remaining = 0;
+        }
 
         return category;
       });
