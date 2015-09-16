@@ -2,3 +2,4 @@
 build/**/*.js
 build/**/*.map
 build/**/*.css
+budget-tracker.appcache
