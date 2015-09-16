@@ -6,17 +6,27 @@
       v-repeat="$root.$.categories.withRemaining | orderBy 'name'"
       href="#!/categories/{{id}}"
     >
-      {{name}}
       <span
-        class="label label-pill pull-right"
-        v-class="
-          label-success: remaining > 0,
-          label-danger: remaining == 0
-        "
-      >{{remaining | currency}}</span>
-      <span
-        class="label label-default label-pill pull-right"
+        class="label label-default label-pill"
       >{{$root.$.transactions.byCategoryId[id].length}}</span>
+      {{name}}
+      <div class="pull-right">
+        <span
+          class="label label-pill"
+          style="opacity: 0.8"
+          v-class="
+            label-success: total > 0,
+            label-danger: total <= 0
+          "
+        >{{total | currency}}</span>
+        <span
+          class="label label-pill"
+          v-class="
+            label-success: remaining > 0,
+            label-danger: remaining == 0
+          "
+        >{{remaining | currency}}</span>
+      </div>
     </a>
   </div>
 </div>
