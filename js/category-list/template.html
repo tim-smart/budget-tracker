@@ -10,8 +10,8 @@
       <span
         class="label label-pill pull-right"
         v-class="
-          label-success: total > 0,
-          label-danger: total <= 0
+          label-success: remaining > 0,
+          label-danger: remaining == 0
         "
       >{{remaining | currency}}</span>
       <span
