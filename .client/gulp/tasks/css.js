@@ -1,7 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
-var sourcemaps = require('gulp-sourcemaps');
+// var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
 var sass = require('gulp-sass');
 var minify = require('gulp-minify-css');
@@ -15,11 +15,11 @@ gulp.task('css', function() {
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer())
   // .pipe(sourcemaps.write())
-  .pipe(gulp.dest('./build/css'))
+  .pipe(gulp.dest('../client/css'))
   .pipe(livereload())
   .pipe(minify())
   .pipe(rename(function(path) {
     path.extname = '.min.css';
   }))
-  .pipe(gulp.dest('./build/css'));
+  .pipe(gulp.dest('../client/css'));
 });

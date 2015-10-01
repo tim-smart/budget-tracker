@@ -1,5 +1,2 @@
-/node_modules/
-build/**/*.js
-build/**/*.map
-build/**/*.css
+node_modules/
 budget-tracker.appcache
