@@ -81,9 +81,7 @@ export default {
     },
 
     removeAll() {
-      Meteor.call(this.getMethod('removeAll'))
-
-      this.callMethod('removeAll', id)
+      this.callMethod('removeAll')
     }
   }
 }

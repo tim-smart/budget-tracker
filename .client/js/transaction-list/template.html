@@ -8,7 +8,7 @@
   <div class="row">
     <div
       class="col-sm-6"
-      v-repeat="transactions | orderBy 'createdAt' -1"
+      v-repeat="(transactions || $root.$.transactions.items) | orderBy 'createdAt' -1"
     >
       <div class="card">
         <div class="card-header clearfix">
@@ -16,11 +16,18 @@
           <span class="label label-default label-pill" v-if="!hideCategory && categoryId">
             {{$root.$.categories.find(categoryId).name}}
           </span>
-          <button
-            type="button"
-            class="btn btn-danger btn-sm pull-right"
-            v-on="click: $root.$.transactions.remove($data)"
-          >&cross;</button>
+          <div class="pull-right">
+            <a
+              type="button"
+              class="btn btn-default btn-sm"
+              v-link="{name: 'transaction', params: {id: $data._id}}"
+            >&#9998;</a>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              v-on="click: $root.$.transactions.remove($data)"
+            >&#10006;</button>
+          </div>
         </div>
         <div class="card-block">
           <p class="card-text">
@@ -28,6 +35,13 @@
             <small class="text-muted">{{createdAt | dateFromNow}}</small>
           </p>
         </div>
+
+        <img
+          v-if="image"
+          v-attr="src: image"
+          class="card-img-bottom"
+          alt="{{description}}"
+        />
       </div>
     </div>
   </div>

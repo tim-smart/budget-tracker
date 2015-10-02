@@ -13,7 +13,7 @@ BT.crudCollection = function(className, collName, attributes) {
     attr.sessionId = sessionId
     attr.createdAt = new Date()
     attr.updatedAt = new Date()
-    BT[className].insert(attr)
+    return BT[className].insert(attr)
   }
 
   methods[`${className}.update`] = function(sessionId, id, attr) {

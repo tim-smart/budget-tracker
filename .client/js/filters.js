@@ -9,3 +9,12 @@ Vue.filter('dateFromNow', function(value) {
 // Vue.filter('numberToCurrency', function(value) {
 //   return numeral(value).format('$0,0.00')
 // })
+
+Vue.filter('fileDataUrl', function(file) {
+  if (!file || !file.data) {
+    return ''
+  }
+
+  const blob = new Blob([file.data], {type: file.type})
+  return URL.createObjectURL(blob)
+})

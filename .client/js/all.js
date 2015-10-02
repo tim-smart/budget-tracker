@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Sync from './vue-sync.js'
+import Sync from './lib/vue-sync.js'
 import App from './app'
 
 import router from './router.js'

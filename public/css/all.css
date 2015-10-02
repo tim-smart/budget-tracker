@@ -4744,3 +4744,6 @@ header.navbar-fixed-top .navbar-toggler {
   top: 0.5rem; }
   header.navbar-fixed-top .navbar-toggler.v-link-active-exact {
     display: none; }
+
+.card-img-bottom {
+  width: 100%; }

@@ -18,9 +18,6 @@ export default Vue.extend({
   },
 
   created() {
-    if (!this.transactions) {
-      this.transactions = this.$root.$.transactions.items
-    }
   },
 
   template: require('./template.html')

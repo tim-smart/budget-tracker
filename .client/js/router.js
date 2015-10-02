@@ -22,6 +22,7 @@ router.map({
   },
 
   '/transactions/:id': {
+    name: 'transaction',
     component: TransactionForm
   },
 
