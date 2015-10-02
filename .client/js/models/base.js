@@ -19,12 +19,8 @@ export default {
 
   created() {
     const Coll = this.getCollection()
-    const sub = BT[this.$options.collection.toLowerCase() + 'Sub']
 
     this.$sync('items', function() {
-      if (!sub.ready()) {
-        return
-      }
       return Coll.find()
     })
   },

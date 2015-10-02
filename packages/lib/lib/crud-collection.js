@@ -5,7 +5,7 @@ function getSessionId(sessionId) {
 BT.crudCollection = function(className, collName, attributes) {
 
   attributes = _.union(['createdAt', 'updatedAt', 'sessionId'], attributes)
-  BT[className] = new Ground.Collection(collName)
+  BT[className] = new Mongo.Collection(collName)
 
   const methods = {}
 
