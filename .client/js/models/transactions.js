@@ -38,7 +38,7 @@ export default Vue.extend({
       const hash = {}
       const categories = this.$root.$.categories.items
 
-      categories.items.forEach(function(category) {
+      categories.forEach(function(category) {
         hash[category._id] = []
       })
 

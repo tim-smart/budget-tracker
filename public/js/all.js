@@ -601,7 +601,7 @@ exports['default'] = _vue2['default'].extend({
       var hash = {};
       var categories = this.$root.$.categories.items;
 
-      categories.items.forEach(function (category) {
+      categories.forEach(function (category) {
         hash[category._id] = [];
       });
 
