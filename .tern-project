@@ -3,10 +3,11 @@
     "browser",
     "ecma5",
     "ecma6",
-    "jquery"
+    "meteor"
   ],
   "loadEagerly": [
-    "js/**/*.js"
+    ".client/js/**/*.js",
+    "packages/**/*.js"
   ],
   "plugins": {
     "complete_strings": {},

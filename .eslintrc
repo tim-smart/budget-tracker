@@ -3,7 +3,8 @@
 
   "env": {
     "node": true,
-    "browser": true
+    "browser": true,
+    "meteor": true
   },
 
   "extends": "eslint:recommended",
