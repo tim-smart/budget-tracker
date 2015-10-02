@@ -17,23 +17,28 @@ Package.onUse(function(api) {
 
   const packages = [
     'meteor-base',        // Packages every Meteor app needs to have
-    'mobile-experience',  // Packages for a great mobile UX
+
     'mongo',              // The database Meteor supports right now
+
     'session',            // Client-side reactive dictionary for your app
     'tracker',            // Meteor's client-side reactive programming library
     'standard-minifiers', // JS/CSS minifiers run for production mode
     'es5-shim',           // ECMAScript 5 compatibility for older browsers.
     'ecmascript',         // Enable ECMAScript2015+ syntax in app code
     'static-html',
+
+    'appcache',
+
+    'ground:db',
   ]
+
+  api.use(packages);
+  api.imply(packages);
 
   api.addFiles([
     'namespace.js',
     'lib/crud-collection.js'
   ], both);
-
-  api.use(packages);
-  api.imply(packages);
 
   api.export([
     'BT'

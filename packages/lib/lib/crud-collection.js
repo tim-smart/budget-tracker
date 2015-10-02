@@ -4,7 +4,7 @@ function getSessionId(sessionId) {
 
 BT.crudCollection = function(className, collName, attributes) {
 
-  BT[className] = new Mongo.Collection(collName)
+  BT[className] = new Ground.Collection(collName)
 
   const methods = {}
 
