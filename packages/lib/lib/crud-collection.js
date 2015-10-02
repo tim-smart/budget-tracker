@@ -36,4 +36,16 @@ BT.crudCollection = function(className, collName, attributes) {
   }
 
   Meteor.methods(methods)
+
+  if (Meteor.isServer) {
+    Meteor.publish(collName, function(sessionId = 'public') {
+      return BT[className].find({sessionId: sessionId})
+    })
+  }
+
+  if (Meteor.isClient) {
+    Meteor.autorun(function() {
+      BT[collName + 'Sub'] = Meteor.subscribe(collName, Session.get('sessionId') || 'public')
+    })
+  }
 }
