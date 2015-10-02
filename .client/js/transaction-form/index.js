@@ -26,7 +26,7 @@ export default Vue.extend({
     if (transaction) {
       _assign(this.transaction, transaction)
     } else if (categories.items.length) {
-      this.transaction.categoryId = categories.sorted[0].id
+      this.transaction.categoryId = categories.sorted[0]._id
     }
   },
 
@@ -37,7 +37,7 @@ export default Vue.extend({
       const transactions = this.$root.$.transactions
       const attributes = this.transaction
 
-      if (attributes.id) {
+      if (attributes._id) {
         transactions.update(attributes)
       } else {
         transactions.create(attributes)

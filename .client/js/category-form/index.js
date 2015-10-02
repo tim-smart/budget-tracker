@@ -32,7 +32,7 @@ export default Vue.extend({
       const categories = this.$root.$.categories
       const attributes = this.category
 
-      if (attributes.id) {
+      if (attributes._id) {
         categories.update(attributes)
       } else {
         categories.create(attributes)
@@ -48,15 +48,13 @@ export default Vue.extend({
     remove() {
       const categories = this.$root.$.categories
 
-      if (
-        this.category.id
-      ) {
+      if (this.category._id) {
         if (
           !confirm(`Do you really want to delete this category?`)
         ) {
           return
         }
-        categories.remove(this.category.id)
+        categories.remove(this.category._id)
       }
 
       this.$route.router.go('/')

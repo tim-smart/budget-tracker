@@ -4,9 +4,7 @@ export default Vue.extend({
   name: 'transactions-list',
 
   props: {
-    transactions: {
-      type: Array
-    },
+    transactions: { },
 
     hideTitle: {
       type: Boolean,

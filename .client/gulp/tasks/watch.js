@@ -24,7 +24,4 @@ gulp.task('watch', function() {
     singleRun: false,
     autoWatch: true
   }).start();
-
-  // HTML
-  watch('index.html', {read: false}).pipe(livereload());
 });

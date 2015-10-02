@@ -15,11 +15,11 @@ gulp.task('css', function() {
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer())
   // .pipe(sourcemaps.write())
-  .pipe(gulp.dest('../client/css'))
+  .pipe(gulp.dest('../public/css'))
   .pipe(livereload())
   .pipe(minify())
   .pipe(rename(function(path) {
     path.extname = '.min.css';
   }))
-  .pipe(gulp.dest('../client/css'));
+  .pipe(gulp.dest('../public/css'));
 });

@@ -1,14 +1,27 @@
 import Vue from 'vue'
 import baseMixin from 'js/models/base.js'
 import fastclick from 'fastclick'
+import uuid from 'uuid'
 
 export default Vue.extend({
   data() {
     return {
+      sessionId: null
     }
   },
 
   created() {
+    this.$watch('sessionId', function() {
+      Session.set('sessionId', this.sessionId)
+      localStorage.setItem('sessionId', this.sessionId)
+    })
+
+    let sessionId = localStorage.getItem('sessionId')
+    if (!sessionId) {
+      sessionId = uuid.v4()
+    }
+    this.$set('sessionId', sessionId)
+
     // models
     this.addModel(
       'categories',

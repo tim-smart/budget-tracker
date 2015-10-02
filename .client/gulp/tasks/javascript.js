@@ -55,7 +55,7 @@ function bundle(b, watch) {
     .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
        // Add transformation tasks to the pipeline here.
     .pipe(sourcemaps.write('./')) // writes .map file
-    .pipe(gulp.dest('../client/js'));
+    .pipe(gulp.dest('../public/js'));
 
     if (watch) {
       ret = ret.pipe(livereload());
@@ -68,7 +68,7 @@ function bundle(b, watch) {
     // optional, remove if you don't need to buffer file contents
     .pipe(buffer())
     .pipe(uglify())
-    .pipe(gulp.dest('../client/js'));
+    .pipe(gulp.dest('../public/js'));
 
     return ret;
   }
