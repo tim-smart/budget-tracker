@@ -18,6 +18,7 @@ BT.crudCollection = function(className, collName, attributes) {
 
   methods[`${className}.update`] = function(sessionId, id, attr) {
     attr = _.pick(attr, attributes)
+    attr.sessionId = sessionId
     attr.updatedAt = new Date()
     BT[className].update({_id: id, sessionId: getSessionId(sessionId)}, attr)
   }
