@@ -36,13 +36,17 @@ export default Vue.extend({
   computed: {
     byCategoryId: function() {
       const hash = {}
+      const categories = this.$root.$.categories.items
 
-      this.$root.$.categories.items.forEach(function(category) {
+      categories.items.forEach(function(category) {
         hash[category._id] = []
       })
 
       for (let i = 0, len = this.items.length; i < len; i++) {
         let item = this.items[i]
+        if (!hash[item.categoryId]) {
+          continue
+        }
         hash[item.categoryId].push(item)
       }
 
