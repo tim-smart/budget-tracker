@@ -373,9 +373,9 @@ exports["default"] = function (Vue) {
       if (!val) {
         return;
       } else if (val.fetch) {
-        self.$set(key, val.fetch());
+        self.$set(key, val.fetch() || []);
       } else {
-        self.$set(key, val);
+        self.$set(key, val || []);
       }
     });
   };
