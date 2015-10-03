@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import _assign from 'lodash.assign'
-import 'blueimp-load-image/js/load-image.all.min'
+import imageReader from '../lib/image-reader.js'
 
 export default Vue.extend({
   name: 'transaction-form',
@@ -60,26 +60,13 @@ export default Vue.extend({
         return
       }
 
-      loadImage.parseMetaData(input.files[0], function(data) {
-        let orientation = null
-        if (data.exif && data.exif.get) {
-          orientation = data.exif.get('Orientation')
-        }
-
-        loadImage(
-          input.files[0],
-          imageLoaded,
-          {
-            canvas: true,
-            maxWidth: 500,
-            orientation: orientation
-          }
-        )
+      imageReader(input.files[0])
+      .then(function(data) {
+        self.transaction.image = data
       })
-
-      function imageLoaded(canvas) {
-        self.transaction.image = canvas.toDataURL()
-      }
+      .catch(function(err) {
+        console.error(err)
+      })
     },
 
     clearImage(event) {
