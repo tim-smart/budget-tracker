@@ -36,12 +36,12 @@
           </p>
         </div>
 
-        <img
+        <a
           v-if="image"
-          v-attr="src: image"
+          v-attr="href: image"
           class="card-img-bottom"
-          alt="{{description}}"
-        />
+          download="{{description | slugify}}.jpg"
+        ><img v-attr="src: image" alt="{{description}}" /></a>
       </div>
     </div>
   </div>

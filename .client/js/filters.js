@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import moment from 'moment'
-// import numeral from 'numeral'
+import slugify from 'slugify'
 
 Vue.filter('dateFromNow', function(value) {
   return moment(value).fromNow()
@@ -17,4 +17,8 @@ Vue.filter('fileDataUrl', function(file) {
 
   const blob = new Blob([file.data], {type: file.type})
   return URL.createObjectURL(blob)
+})
+
+Vue.filter('slugify', function(value) {
+  return slugify(value)
 })
