@@ -19,8 +19,9 @@ BT.crudCollection = function(className, collName, attributes) {
 
   methods[`${className}.update`] = function(sessionId, id, attr) {
     attr = _.pick(attr, attributes)
+    attr.sessionId = sessionId
     attr.updatedAt = new Date()
-    BT[className].update(id, attr)
+    BT[className].update({_id: id, sessionId: getSessionId(sessionId)}, {$set: attr})
   }
 
   methods[`${className}.remove`] = function(sessionId, id) {
@@ -28,7 +29,7 @@ BT.crudCollection = function(className, collName, attributes) {
       return
     }
 
-    BT[className].remove(id)
+    BT[className].remove({_id: id, sessionId: getSessionId(sessionId)})
   }
 
   methods[`${className}.removeAll`] = function(sessionId) {
@@ -44,8 +45,12 @@ BT.crudCollection = function(className, collName, attributes) {
   }
 
   if (Meteor.isClient) {
+    let sub = null
     Meteor.autorun(function() {
-      BT[collName + 'Sub'] = Meteor.subscribe(collName, Session.get('sessionId') || 'public')
+      if (sub) {
+        sub.stop()
+      }
+      sub = Meteor.subscribe(collName, Session.get('sessionId') || 'public')
     })
   }
 }

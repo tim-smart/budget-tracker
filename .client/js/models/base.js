@@ -18,10 +18,11 @@ export default {
   },
 
   created() {
+    const self = this
     const Coll = this.getCollection()
 
-    this.$sync('items', function() {
-      return Coll.find()
+    Deps.autorun(function() {
+      self.$set('items', Coll.find().fetch())
     })
   },
 
