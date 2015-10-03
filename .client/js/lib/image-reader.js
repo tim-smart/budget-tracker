@@ -1,5 +1,4 @@
 import 'blueimp-load-image/js/load-image.all.min'
-import toBlob from 'canvas-to-blob'
 
 export default function(file, maxWidth = 500) {
   return new Promise(function(resolve, reject) {

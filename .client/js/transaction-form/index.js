@@ -45,11 +45,11 @@ export default Vue.extend({
         transactions.create(attributes)
       }
 
-      this.$route.router.go('/')
+      history.back()
     },
 
     cancel() {
-      this.$route.router.go('/')
+      history.back()
     },
 
     onImageChange(event) {
