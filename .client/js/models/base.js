@@ -22,7 +22,6 @@ export default {
     const Coll = this.getCollection()
 
     Tracker.autorun(function() {
-      debugger
       self.$set('items', Coll.find().fetch())
     })
   },
