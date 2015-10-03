@@ -363,7 +363,8 @@ exports['default'] = {
     var self = this;
     var Coll = this.getCollection();
 
-    Deps.autorun(function () {
+    Tracker.autorun(function () {
+      debugger;
       self.$set('items', Coll.find().fetch());
     });
   },
