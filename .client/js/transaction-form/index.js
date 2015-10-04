@@ -82,7 +82,8 @@ export default Vue.extend({
           self.$.cropper = new Cropper(self.$$.imagePreview, {
             mouseWheelZoom: false,
             dragCrop: false,
-            movable: false
+            movable: false,
+            autoCropArea: 1
           })
         })
       })

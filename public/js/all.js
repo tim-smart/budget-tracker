@@ -738,7 +738,8 @@ exports['default'] = _vue2['default'].extend({
           self.$.cropper = new _cropperjs2['default'](self.$$.imagePreview, {
             mouseWheelZoom: false,
             dragCrop: false,
-            movable: false
+            movable: false,
+            autoCropArea: 1
           });
         });
       })['catch'](function (err) {
