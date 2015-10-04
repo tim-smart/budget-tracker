@@ -5019,3 +5019,7 @@ header.navbar-fixed-top .navbar-toggler {
   .card-img-bottom img {
     display: block;
     width: 100%; }
+
+.img-responsive {
+  height: auto;
+  width: 100%; }
