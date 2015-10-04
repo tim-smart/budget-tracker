@@ -5,6 +5,4 @@ import './filters.js'
 
 window.router = router
 
-document.addEventListener('DOMContentLoaded', function() {
-  router.start(require('./app'), '#budget-app')
-})
+router.start(require('./app'), '#budget-app')

@@ -15,9 +15,7 @@ require('./filters.js');
 
 window.router = _routerJs2['default'];
 
-document.addEventListener('DOMContentLoaded', function () {
-  _routerJs2['default'].start(require('./app'), '#budget-app');
-});
+_routerJs2['default'].start(require('./app'), '#budget-app');
 
 },{"./app":2,"./filters.js":8,"./router.js":17,"vue":135}],2:[function(require,module,exports){
 'use strict';
