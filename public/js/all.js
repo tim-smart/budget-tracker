@@ -17,7 +17,7 @@ window.router = _routerJs2['default'];
 
 _routerJs2['default'].start(require('./app'), '#budget-app');
 
-},{"./app":2,"./filters.js":8,"./router.js":17,"vue":135}],2:[function(require,module,exports){
+},{"./app":2,"./filters.js":8,"./router.js":17,"vue":136}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -93,7 +93,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./../../js/models/base.js":12,"./../../js/models/categories.js":13,"./../../js/models/transactions.js":14,"./../../js/navbar":15,"./template.html":3,"fastclick":25,"uuid":40,"vue":135}],3:[function(require,module,exports){
+},{"./../../js/models/base.js":12,"./../../js/models/categories.js":13,"./../../js/models/transactions.js":14,"./../../js/navbar":15,"./template.html":3,"fastclick":26,"uuid":41,"vue":136}],3:[function(require,module,exports){
 module.exports = '<div id="budget-app">\n  <navbar></navbar>\n\n  <router-view></router-view>\n</div>\n';
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -176,7 +176,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./../../js/transaction-list":20,"./template.html":5,"lodash.assign":26,"vue":135}],5:[function(require,module,exports){
+},{"./../../js/transaction-list":20,"./template.html":5,"lodash.assign":27,"vue":136}],5:[function(require,module,exports){
 module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Name</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Name"\n        v-model="category.name"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Quota</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="$0.00"\n        v-model="category.quota"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="button" class="btn btn-danger" v-on="click: remove" v-if="category._id">Remove</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n\n<transaction-list\n  v-if="category._id || $root.$.transactions.byCategoryId[category._id]"\n  transactions="{{$root.$.transactions.byCategoryId[category._id]}}"\n  hide-category\n></transaction-list>\n';
 },{}],6:[function(require,module,exports){
 'use strict';
@@ -198,7 +198,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./template.html":7,"vue":135}],7:[function(require,module,exports){
+},{"./template.html":7,"vue":136}],7:[function(require,module,exports){
 module.exports = '<div class="form-group">\n  <div class="list-group categories">\n    <a\n      class="list-group-item"\n      type="button"\n      v-repeat="category in $root.$.categories.items | orderBy \'name\'"\n      href="#!/categories/{{category._id}}"\n    >\n      <span\n        class="label label-default label-pill"\n      >{{$root.$.transactions.byCategoryId[category._id].length}}</span>\n      {{category.name}}\n      <div class="pull-right">\n        <span\n          class="label label-pill"\n          v-class="\n            label-success: $root.$.transactions.totalsByCategoryId[category._id] > 0,\n            label-danger: $root.$.transactions.totalsByCategoryId[category._id] <= 0\n          "\n        >{{$root.$.transactions.totalsByCategoryId[category._id] | currency}}</span>\n      </div>\n    </a>\n  </div>\n</div>\n';
 },{}],8:[function(require,module,exports){
 'use strict';
@@ -238,7 +238,7 @@ _vue2['default'].filter('slugify', function (value) {
   return _slug2['default'](value);
 });
 
-},{"moment":37,"slug":38,"vue":135}],9:[function(require,module,exports){
+},{"moment":38,"slug":39,"vue":136}],9:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -268,7 +268,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./../../js/category-list":6,"./template.html":10,"vue":135}],10:[function(require,module,exports){
+},{"./../../js/category-list":6,"./template.html":10,"vue":136}],10:[function(require,module,exports){
 module.exports = '<div class="home container">\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <strong>\n          Total: {{$root.$.categories.totalQuota | currency}},\n          Remaining: {{$root.$.categories.totalQuotaRemaining | currency}}\n        </strong>\n        <progress\n          class="progress progress-success"\n          v-class="\n            progress-warning: $root.$.categories.totalQuotaPercent <= 25,\n            progress-danger: $root.$.categories.totalQuotaPercent < 10\n          "\n          value="{{$root.$.categories.totalQuotaRemaining}}"\n          max="{{$root.$.categories.totalQuota}}"\n        ></progress>\n      </div>\n\n      <div class="form-group">\n        <a\n          type="button"\n          class="btn btn-success btn-lg btn-block"\n          href="#!/transactions/new"\n        >\n          Add Transaction\n        </a>\n      </div>\n\n      <category-list></category-list>\n    </div>\n  </div>\n\n  <div class="row">\n    <div class="col-xs-12">\n      <div class="form-group">\n        <a type="button" class="btn btn-success btn-lg btn-block" href="#!/categories/new">\n          Add Category\n        </a>\n      </div>\n\n      <div class="form-group">\n        <a type="button" class="btn btn-secondary btn-lg btn-block" v-link="\'/transactions\'">\n          All transactions\n        </a>\n      </div>\n\n      <div class="form-group">\n        <button\n          type="button"\n          class="btn btn-danger btn-lg btn-block"\n          v-on="click: reset"\n        >\n          Reset transactions\n        </button>\n      </div>\n\n      <div class="form-group">\n        <label class="col-sm-2 form-control-label">Share me</label>\n        <div class="col-sm-10">\n          <input class="form-control" type="text" v-model="$root.sessionId" />\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n';
 },{}],11:[function(require,module,exports){
 'use strict';
@@ -278,7 +278,7 @@ exports.__esModule = true;
 require('blueimp-load-image/js/load-image.all.min');
 
 exports['default'] = function (file) {
-  var maxWidth = arguments.length <= 1 || arguments[1] === undefined ? 500 : arguments[1];
+  var maxWidth = arguments.length <= 1 || arguments[1] === undefined ? 800 : arguments[1];
 
   return new Promise(function (resolve, reject) {
     loadImage.parseMetaData(file, function (data) {
@@ -476,7 +476,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"slug":38,"vue":135}],14:[function(require,module,exports){
+},{"slug":39,"vue":136}],14:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -556,7 +556,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"vue":135}],15:[function(require,module,exports){
+},{"vue":136}],15:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -576,7 +576,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./template.html":16,"vue":135}],16:[function(require,module,exports){
+},{"./template.html":16,"vue":136}],16:[function(require,module,exports){
 module.exports = '<header class="navbar navbar-fixed-top navbar-dark bg-primary text-center clearfix">\n  <a v-link="\'/\'" class="navbar-toggler pull-left" type="button">\n    &#127968;\n  </a>\n\n  <div class="navbar-nav">\n    <strong class="nav-link active">Cash Money</strong>\n  </div>\n</header>\n';
 },{}],17:[function(require,module,exports){
 'use strict';
@@ -637,7 +637,7 @@ router.map({
 });
 module.exports = exports['default'];
 
-},{"./category-form":4,"./home":9,"./transaction-form":18,"./transaction-list":20,"vue":135,"vue-router":46}],18:[function(require,module,exports){
+},{"./category-form":4,"./home":9,"./transaction-form":18,"./transaction-list":20,"vue":136,"vue-router":47}],18:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -656,6 +656,10 @@ var _libImageReaderJs = require('../lib/image-reader.js');
 
 var _libImageReaderJs2 = _interopRequireDefault(_libImageReaderJs);
 
+var _cropperjs = require('cropperjs');
+
+var _cropperjs2 = _interopRequireDefault(_cropperjs);
+
 exports['default'] = _vue2['default'].extend({
   name: 'transaction-form',
 
@@ -666,7 +670,8 @@ exports['default'] = _vue2['default'].extend({
         amount: '',
         categoryId: null,
         image: null
-      }
+      },
+      imagePreview: null
     };
   },
 
@@ -686,9 +691,18 @@ exports['default'] = _vue2['default'].extend({
     }
   },
 
+  ready: function ready() {
+    var self = this;
+  },
+
   methods: {
     save: function save(event) {
       event.preventDefault();
+
+      // Image crop?
+      if (this.imagePreview) {
+        this.transaction.image = this.$.cropper.getCroppedCanvas().toDataURL('image/jpg', 0.8);
+      }
 
       var transactions = this.$root.$.transactions;
       var attributes = this.transaction;
@@ -716,6 +730,15 @@ exports['default'] = _vue2['default'].extend({
 
       _libImageReaderJs2['default'](input.files[0]).then(function (data) {
         self.transaction.image = data;
+        if (self.$.cropper) {
+          self.$.cropper.destroy();
+        }
+        self.imagePreview = data;
+        self.$nextTick(function () {
+          self.$.cropper = new _cropperjs2['default'](self.$$.imagePreview, {
+            mouseWheelZoom: false
+          });
+        });
       })['catch'](function (err) {
         console.error(err);
       });
@@ -731,8 +754,8 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"../lib/image-reader.js":11,"./template.html":19,"lodash.assign":26,"vue":135}],19:[function(require,module,exports){
-module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Category</label>\n    <div class="col-sm-10">\n      <select\n        class="form-control"\n        v-model="transaction.categoryId"\n        options="$root.$.categories.selectOptions | orderBy \'text\'"\n      ></select>\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Description</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Description"\n        v-model="transaction.description"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Amount</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="$0.00"\n        v-model="transaction.amount"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Image</label>\n    <div class="col-sm-10">\n      <button\n        type="button"\n        v-on="click: clearImage"\n        class="btn btn-sm btn-danger"\n        v-show="transaction.image"\n      >\n        Clear image\n      </button>\n      <input\n        type="file"\n        class="form-control"\n        accept="image/jpeg"\n        capture="camera"\n        v-el=\'imageInput\'\n        v-on="change: onImageChange"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n';
+},{"../lib/image-reader.js":11,"./template.html":19,"cropperjs":25,"lodash.assign":27,"vue":136}],19:[function(require,module,exports){
+module.exports = '<form class="container" v-on="submit: save">\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Category</label>\n    <div class="col-sm-10">\n      <select\n        class="form-control"\n        v-model="transaction.categoryId"\n        options="$root.$.categories.selectOptions | orderBy \'text\'"\n      ></select>\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Description</label>\n    <div class="col-sm-10">\n      <input\n        type="text"\n        class="form-control"\n        placeholder="Description"\n        v-model="transaction.description"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Amount</label>\n    <div class="col-sm-10">\n      <input\n        type="number"\n        min="0"\n        step="0.01"\n        class="form-control"\n        placeholder="$0.00"\n        v-model="transaction.amount"\n      />\n    </div>\n  </div>\n  <div class="form-group row">\n    <label class="col-sm-2 form-control-label">Image</label>\n    <div class="col-sm-10">\n      <button\n        type="button"\n        v-on="click: clearImage"\n        class="btn btn-sm btn-danger"\n        v-show="transaction.image"\n      >\n        Clear image\n      </button>\n      <input\n        type="file"\n        class="form-control"\n        accept="image/jpeg"\n        capture="camera"\n        v-el=\'imageInput\'\n        v-on="change: onImageChange"\n      />\n    </div>\n  </div>\n  <div\n    class="form-group row"\n    v-show="imagePreview"\n  >\n    <img\n      class="img-responsive"\n      v-el="imagePreview"\n      v-attr="src: imagePreview"\n    />\n  </div>\n  <div class="form-group row">\n    <div class="col-xs-12">\n      <button type="button" class="btn btn-secondary" v-on="click: cancel">Cancel</button>\n      <button type="submit" class="btn btn-primary">Save</button>\n    </div>\n  </div>\n</form>\n';
 },{}],20:[function(require,module,exports){
 'use strict';
 
@@ -767,7 +790,7 @@ exports['default'] = _vue2['default'].extend({
 });
 module.exports = exports['default'];
 
-},{"./template.html":21,"vue":135}],21:[function(require,module,exports){
+},{"./template.html":21,"vue":136}],21:[function(require,module,exports){
 module.exports = '<div class="container">\n  <div class="row" v-if="!hideTitle">\n    <div class="col-xs-12">\n      <h3>Transactions</h3>\n    </div>\n  </div>\n\n  <div class="row">\n    <div\n      class="col-sm-6"\n      v-repeat="(transactions || $root.$.transactions.items) | orderBy \'createdAt\' -1"\n    >\n      <div class="card">\n        <div class="card-header clearfix">\n          <span class="label label-primary label-pill">{{amount | currency}}</span>\n          <span class="label label-default label-pill" v-if="!hideCategory && categoryId">\n            {{$root.$.categories.find(categoryId).name}}\n          </span>\n          <div class="pull-right">\n            <a\n              type="button"\n              class="btn btn-default btn-sm"\n              v-link="{name: \'transaction\', params: {id: $data._id}}"\n            >&#9998;</a>\n            <button\n              type="button"\n              class="btn btn-danger btn-sm"\n              v-on="click: $root.$.transactions.remove($data)"\n            >&#10006;</button>\n          </div>\n        </div>\n        <div class="card-block">\n          <p class="card-text">\n            {{description}}\n            <small class="text-muted">{{createdAt | dateFromNow}}</small>\n          </p>\n        </div>\n\n        <a\n          v-if="image"\n          v-attr="href: image"\n          class="card-img-bottom"\n          download="{{description | slugify}}.jpg"\n        ><img v-attr="src: image" alt="{{description}}" /></a>\n      </div>\n    </div>\n  </div>\n</div>\n';
 },{}],22:[function(require,module,exports){
 !function(a){"use strict";var b=function(a,c,d){var e,f,g=document.createElement("img");if(g.onerror=c,g.onload=function(){!f||d&&d.noRevoke||b.revokeObjectURL(f),c&&c(b.scale(g,d))},b.isInstanceOf("Blob",a)||b.isInstanceOf("File",a))e=f=b.createObjectURL(a),g._type=a.type;else{if("string"!=typeof a)return!1;e=a,d&&d.crossOrigin&&(g.crossOrigin=d.crossOrigin)}return e?(g.src=e,g):b.readFile(a,function(a){var b=a.target;b&&b.result?g.src=b.result:c&&c(a)})},c=window.createObjectURL&&window||window.URL&&URL.revokeObjectURL&&URL||window.webkitURL&&webkitURL;b.isInstanceOf=function(a,b){return Object.prototype.toString.call(b)==="[object "+a+"]"},b.transformCoordinates=function(){},b.getTransformedOptions=function(a,b){var c,d,e,f,g=b.aspectRatio;if(!g)return b;c={};for(d in b)b.hasOwnProperty(d)&&(c[d]=b[d]);return c.crop=!0,e=a.naturalWidth||a.width,f=a.naturalHeight||a.height,e/f>g?(c.maxWidth=f*g,c.maxHeight=f):(c.maxWidth=e,c.maxHeight=e/g),c},b.renderImageToCanvas=function(a,b,c,d,e,f,g,h,i,j){return a.getContext("2d").drawImage(b,c,d,e,f,g,h,i,j),a},b.hasCanvasOption=function(a){return a.canvas||a.crop||a.aspectRatio},b.scale=function(a,c){c=c||{};var d,e,f,g,h,i,j,k,l,m=document.createElement("canvas"),n=a.getContext||b.hasCanvasOption(c)&&m.getContext,o=a.naturalWidth||a.width,p=a.naturalHeight||a.height,q=o,r=p,s=function(){var a=Math.max((f||q)/q,(g||r)/r);a>1&&(q*=a,r*=a)},t=function(){var a=Math.min((d||q)/q,(e||r)/r);1>a&&(q*=a,r*=a)};return n&&(c=b.getTransformedOptions(a,c),j=c.left||0,k=c.top||0,c.sourceWidth?(h=c.sourceWidth,void 0!==c.right&&void 0===c.left&&(j=o-h-c.right)):h=o-j-(c.right||0),c.sourceHeight?(i=c.sourceHeight,void 0!==c.bottom&&void 0===c.top&&(k=p-i-c.bottom)):i=p-k-(c.bottom||0),q=h,r=i),d=c.maxWidth,e=c.maxHeight,f=c.minWidth,g=c.minHeight,n&&d&&e&&c.crop?(q=d,r=e,l=h/i-d/e,0>l?(i=e*h/d,void 0===c.top&&void 0===c.bottom&&(k=(p-i)/2)):l>0&&(h=d*i/e,void 0===c.left&&void 0===c.right&&(j=(o-h)/2))):((c.contain||c.cover)&&(f=d=d||f,g=e=e||g),c.cover?(t(),s()):(s(),t())),n?(m.width=q,m.height=r,b.transformCoordinates(m,c),b.renderImageToCanvas(m,a,j,k,h,i,0,0,q,r)):(a.width=q,a.height=r,a)},b.createObjectURL=function(a){return c?c.createObjectURL(a):!1},b.revokeObjectURL=function(a){return c?c.revokeObjectURL(a):!1},b.readFile=function(a,b,c){if(window.FileReader){var d=new FileReader;if(d.onload=d.onerror=b,c=c||"readAsDataURL",d[c])return d[c](a),d}return!1},"function"==typeof define&&define.amd?define(function(){return b}):a.loadImage=b}(window),function(a){"use strict";"function"==typeof define&&define.amd?define(["load-image"],a):a(window.loadImage)}(function(a){"use strict";if(window.navigator&&window.navigator.platform&&/iP(hone|od|ad)/.test(window.navigator.platform)){var b=a.renderImageToCanvas;a.detectSubsampling=function(a){var b,c;return a.width*a.height>1048576?(b=document.createElement("canvas"),b.width=b.height=1,c=b.getContext("2d"),c.drawImage(a,-a.width+1,0),0===c.getImageData(0,0,1,1).data[3]):!1},a.detectVerticalSquash=function(a,b){var c,d,e,f,g,h=a.naturalHeight||a.height,i=document.createElement("canvas"),j=i.getContext("2d");for(b&&(h/=2),i.width=1,i.height=h,j.drawImage(a,0,0),c=j.getImageData(0,0,1,h).data,d=0,e=h,f=h;f>d;)g=c[4*(f-1)+3],0===g?e=f:d=f,f=e+d>>1;return f/h||1},a.renderImageToCanvas=function(c,d,e,f,g,h,i,j,k,l){if("image/jpeg"===d._type){var m,n,o,p,q=c.getContext("2d"),r=document.createElement("canvas"),s=1024,t=r.getContext("2d");if(r.width=s,r.height=s,q.save(),m=a.detectSubsampling(d),m&&(e/=2,f/=2,g/=2,h/=2),n=a.detectVerticalSquash(d,m),m||1!==n){for(f*=n,k=Math.ceil(s*k/g),l=Math.ceil(s*l/h/n),j=0,p=0;h>p;){for(i=0,o=0;g>o;)t.clearRect(0,0,s,s),t.drawImage(d,e,f,g,h,-o,-p,g,h),q.drawImage(r,0,0,s,s,i,j,k,l),o+=s,i+=k;p+=s,j+=l}return q.restore(),c}}return b(c,d,e,f,g,h,i,j,k,l)}}}),function(a){"use strict";"function"==typeof define&&define.amd?define(["load-image"],a):a(window.loadImage)}(function(a){"use strict";var b=a.hasCanvasOption,c=a.transformCoordinates,d=a.getTransformedOptions;a.hasCanvasOption=function(c){return b.call(a,c)||c.orientation},a.transformCoordinates=function(b,d){c.call(a,b,d);var e=b.getContext("2d"),f=b.width,g=b.height,h=d.orientation;if(h&&!(h>8))switch(h>4&&(b.width=g,b.height=f),h){case 2:e.translate(f,0),e.scale(-1,1);break;case 3:e.translate(f,g),e.rotate(Math.PI);break;case 4:e.translate(0,g),e.scale(1,-1);break;case 5:e.rotate(.5*Math.PI),e.scale(1,-1);break;case 6:e.rotate(.5*Math.PI),e.translate(0,-g);break;case 7:e.rotate(.5*Math.PI),e.translate(f,-g),e.scale(-1,1);break;case 8:e.rotate(-.5*Math.PI),e.translate(-f,0)}},a.getTransformedOptions=function(b,c){var e,f,g=d.call(a,b,c),h=g.orientation;if(!h||h>8||1===h)return g;e={};for(f in g)g.hasOwnProperty(f)&&(e[f]=g[f]);switch(g.orientation){case 2:e.left=g.right,e.right=g.left;break;case 3:e.left=g.right,e.top=g.bottom,e.right=g.left,e.bottom=g.top;break;case 4:e.top=g.bottom,e.bottom=g.top;break;case 5:e.left=g.top,e.top=g.left,e.right=g.bottom,e.bottom=g.right;break;case 6:e.left=g.top,e.top=g.right,e.right=g.bottom,e.bottom=g.left;break;case 7:e.left=g.bottom,e.top=g.right,e.right=g.top,e.bottom=g.left;break;case 8:e.left=g.bottom,e.top=g.left,e.right=g.top,e.bottom=g.right}return g.orientation>4&&(e.maxWidth=g.maxHeight,e.maxHeight=g.maxWidth,e.minWidth=g.minHeight,e.minHeight=g.minWidth,e.sourceWidth=g.sourceHeight,e.sourceHeight=g.sourceWidth),e}}),function(a){"use strict";"function"==typeof define&&define.amd?define(["load-image"],a):a(window.loadImage)}(function(a){"use strict";var b=window.Blob&&(Blob.prototype.slice||Blob.prototype.webkitSlice||Blob.prototype.mozSlice);a.blobSlice=b&&function(){var a=this.slice||this.webkitSlice||this.mozSlice;return a.apply(this,arguments)},a.metaDataParsers={jpeg:{65505:[]}},a.parseMetaData=function(b,c,d){d=d||{};var e=this,f=d.maxMetaDataSize||262144,g={},h=!(window.DataView&&b&&b.size>=12&&"image/jpeg"===b.type&&a.blobSlice);(h||!a.readFile(a.blobSlice.call(b,0,f),function(b){if(b.target.error)return console.log(b.target.error),void c(g);var f,h,i,j,k=b.target.result,l=new DataView(k),m=2,n=l.byteLength-4,o=m;if(65496===l.getUint16(0)){for(;n>m&&(f=l.getUint16(m),f>=65504&&65519>=f||65534===f);){if(h=l.getUint16(m+2)+2,m+h>l.byteLength){console.log("Invalid meta data: Invalid segment size.");break}if(i=a.metaDataParsers.jpeg[f])for(j=0;j<i.length;j+=1)i[j].call(e,l,m,h,g,d);m+=h,o=m}!d.disableImageHead&&o>6&&(g.imageHead=k.slice?k.slice(0,o):new Uint8Array(k).subarray(0,o))}else console.log("Invalid JPEG file: Missing JPEG marker.");c(g)},"readAsArrayBuffer"))&&c(g)}}),function(a){"use strict";"function"==typeof define&&define.amd?define(["load-image","load-image-meta"],a):a(window.loadImage)}(function(a){"use strict";a.ExifMap=function(){return this},a.ExifMap.prototype.map={Orientation:274},a.ExifMap.prototype.get=function(a){return this[a]||this[this.map[a]]},a.getExifThumbnail=function(a,b,c){var d,e,f;if(!c||b+c>a.byteLength)return void console.log("Invalid Exif data: Invalid thumbnail data.");for(d=[],e=0;c>e;e+=1)f=a.getUint8(b+e),d.push((16>f?"0":"")+f.toString(16));return"data:image/jpeg,%"+d.join("%")},a.exifTagTypes={1:{getValue:function(a,b){return a.getUint8(b)},size:1},2:{getValue:function(a,b){return String.fromCharCode(a.getUint8(b))},size:1,ascii:!0},3:{getValue:function(a,b,c){return a.getUint16(b,c)},size:2},4:{getValue:function(a,b,c){return a.getUint32(b,c)},size:4},5:{getValue:function(a,b,c){return a.getUint32(b,c)/a.getUint32(b+4,c)},size:8},9:{getValue:function(a,b,c){return a.getInt32(b,c)},size:4},10:{getValue:function(a,b,c){return a.getInt32(b,c)/a.getInt32(b+4,c)},size:8}},a.exifTagTypes[7]=a.exifTagTypes[1],a.getExifValue=function(b,c,d,e,f,g){var h,i,j,k,l,m,n=a.exifTagTypes[e];if(!n)return void console.log("Invalid Exif data: Invalid tag type.");if(h=n.size*f,i=h>4?c+b.getUint32(d+8,g):d+8,i+h>b.byteLength)return void console.log("Invalid Exif data: Invalid data offset.");if(1===f)return n.getValue(b,i,g);for(j=[],k=0;f>k;k+=1)j[k]=n.getValue(b,i+k*n.size,g);if(n.ascii){for(l="",k=0;k<j.length&&(m=j[k],"\x00"!==m);k+=1)l+=m;return l}return j},a.parseExifTag=function(b,c,d,e,f){var g=b.getUint16(d,e);f.exif[g]=a.getExifValue(b,c,d,b.getUint16(d+2,e),b.getUint32(d+4,e),e)},a.parseExifTags=function(a,b,c,d,e){var f,g,h;if(c+6>a.byteLength)return void console.log("Invalid Exif data: Invalid directory offset.");if(f=a.getUint16(c,d),g=c+2+12*f,g+4>a.byteLength)return void console.log("Invalid Exif data: Invalid directory size.");for(h=0;f>h;h+=1)this.parseExifTag(a,b,c+2+12*h,d,e);return a.getUint32(g,d)},a.parseExifData=function(b,c,d,e,f){if(!f.disableExif){var g,h,i,j=c+10;if(1165519206===b.getUint32(c+4)){if(j+8>b.byteLength)return void console.log("Invalid Exif data: Invalid segment size.");if(0!==b.getUint16(c+8))return void console.log("Invalid Exif data: Missing byte alignment offset.");switch(b.getUint16(j)){case 18761:g=!0;break;case 19789:g=!1;break;default:return void console.log("Invalid Exif data: Invalid byte alignment marker.")}if(42!==b.getUint16(j+2,g))return void console.log("Invalid Exif data: Missing TIFF marker.");h=b.getUint32(j+4,g),e.exif=new a.ExifMap,h=a.parseExifTags(b,j,j+h,g,e),h&&!f.disableExifThumbnail&&(i={exif:{}},h=a.parseExifTags(b,j,j+h,g,i),i.exif[513]&&(e.exif.Thumbnail=a.getExifThumbnail(b,j+i.exif[513],i.exif[514]))),e.exif[34665]&&!f.disableExifSub&&a.parseExifTags(b,j,j+e.exif[34665],g,e),e.exif[34853]&&!f.disableExifGps&&a.parseExifTags(b,j,j+e.exif[34853],g,e)}}},a.metaDataParsers.jpeg[65505].push(a.parseExifData)}),function(a){"use strict";"function"==typeof define&&define.amd?define(["load-image","load-image-exif"],a):a(window.loadImage)}(function(a){"use strict";a.ExifMap.prototype.tags={256:"ImageWidth",257:"ImageHeight",34665:"ExifIFDPointer",34853:"GPSInfoIFDPointer",40965:"InteroperabilityIFDPointer",258:"BitsPerSample",259:"Compression",262:"PhotometricInterpretation",274:"Orientation",277:"SamplesPerPixel",284:"PlanarConfiguration",530:"YCbCrSubSampling",531:"YCbCrPositioning",282:"XResolution",283:"YResolution",296:"ResolutionUnit",273:"StripOffsets",278:"RowsPerStrip",279:"StripByteCounts",513:"JPEGInterchangeFormat",514:"JPEGInterchangeFormatLength",301:"TransferFunction",318:"WhitePoint",319:"PrimaryChromaticities",529:"YCbCrCoefficients",532:"ReferenceBlackWhite",306:"DateTime",270:"ImageDescription",271:"Make",272:"Model",305:"Software",315:"Artist",33432:"Copyright",36864:"ExifVersion",40960:"FlashpixVersion",40961:"ColorSpace",40962:"PixelXDimension",40963:"PixelYDimension",42240:"Gamma",37121:"ComponentsConfiguration",37122:"CompressedBitsPerPixel",37500:"MakerNote",37510:"UserComment",40964:"RelatedSoundFile",36867:"DateTimeOriginal",36868:"DateTimeDigitized",37520:"SubSecTime",37521:"SubSecTimeOriginal",37522:"SubSecTimeDigitized",33434:"ExposureTime",33437:"FNumber",34850:"ExposureProgram",34852:"SpectralSensitivity",34855:"PhotographicSensitivity",34856:"OECF",34864:"SensitivityType",34865:"StandardOutputSensitivity",34866:"RecommendedExposureIndex",34867:"ISOSpeed",34868:"ISOSpeedLatitudeyyy",34869:"ISOSpeedLatitudezzz",37377:"ShutterSpeedValue",37378:"ApertureValue",37379:"BrightnessValue",37380:"ExposureBias",37381:"MaxApertureValue",37382:"SubjectDistance",37383:"MeteringMode",37384:"LightSource",37385:"Flash",37396:"SubjectArea",37386:"FocalLength",41483:"FlashEnergy",41484:"SpatialFrequencyResponse",41486:"FocalPlaneXResolution",41487:"FocalPlaneYResolution",41488:"FocalPlaneResolutionUnit",41492:"SubjectLocation",41493:"ExposureIndex",41495:"SensingMethod",41728:"FileSource",41729:"SceneType",41730:"CFAPattern",41985:"CustomRendered",41986:"ExposureMode",41987:"WhiteBalance",41988:"DigitalZoomRatio",41989:"FocalLengthIn35mmFilm",41990:"SceneCaptureType",41991:"GainControl",41992:"Contrast",41993:"Saturation",41994:"Sharpness",41995:"DeviceSettingDescription",41996:"SubjectDistanceRange",42016:"ImageUniqueID",42032:"CameraOwnerName",42033:"BodySerialNumber",42034:"LensSpecification",42035:"LensMake",42036:"LensModel",42037:"LensSerialNumber",0:"GPSVersionID",1:"GPSLatitudeRef",2:"GPSLatitude",3:"GPSLongitudeRef",4:"GPSLongitude",5:"GPSAltitudeRef",6:"GPSAltitude",7:"GPSTimeStamp",8:"GPSSatellites",9:"GPSStatus",10:"GPSMeasureMode",11:"GPSDOP",12:"GPSSpeedRef",13:"GPSSpeed",14:"GPSTrackRef",15:"GPSTrack",16:"GPSImgDirectionRef",17:"GPSImgDirection",18:"GPSMapDatum",19:"GPSDestLatitudeRef",20:"GPSDestLatitude",21:"GPSDestLongitudeRef",22:"GPSDestLongitude",23:"GPSDestBearingRef",24:"GPSDestBearing",25:"GPSDestDistanceRef",26:"GPSDestDistance",27:"GPSProcessingMethod",28:"GPSAreaInformation",29:"GPSDateStamp",30:"GPSDifferential",31:"GPSHPositioningError"},a.ExifMap.prototype.stringValues={ExposureProgram:{0:"Undefined",1:"Manual",2:"Normal program",3:"Aperture priority",4:"Shutter priority",5:"Creative program",6:"Action program",7:"Portrait mode",8:"Landscape mode"},MeteringMode:{0:"Unknown",1:"Average",2:"CenterWeightedAverage",3:"Spot",4:"MultiSpot",5:"Pattern",6:"Partial",255:"Other"},LightSource:{0:"Unknown",1:"Daylight",2:"Fluorescent",3:"Tungsten (incandescent light)",4:"Flash",9:"Fine weather",10:"Cloudy weather",11:"Shade",12:"Daylight fluorescent (D 5700 - 7100K)",13:"Day white fluorescent (N 4600 - 5400K)",14:"Cool white fluorescent (W 3900 - 4500K)",15:"White fluorescent (WW 3200 - 3700K)",17:"Standard light A",18:"Standard light B",19:"Standard light C",20:"D55",21:"D65",22:"D75",23:"D50",24:"ISO studio tungsten",255:"Other"},Flash:{0:"Flash did not fire",1:"Flash fired",5:"Strobe return light not detected",7:"Strobe return light detected",9:"Flash fired, compulsory flash mode",13:"Flash fired, compulsory flash mode, return light not detected",15:"Flash fired, compulsory flash mode, return light detected",16:"Flash did not fire, compulsory flash mode",24:"Flash did not fire, auto mode",25:"Flash fired, auto mode",29:"Flash fired, auto mode, return light not detected",31:"Flash fired, auto mode, return light detected",32:"No flash function",65:"Flash fired, red-eye reduction mode",69:"Flash fired, red-eye reduction mode, return light not detected",71:"Flash fired, red-eye reduction mode, return light detected",73:"Flash fired, compulsory flash mode, red-eye reduction mode",77:"Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected",79:"Flash fired, compulsory flash mode, red-eye reduction mode, return light detected",89:"Flash fired, auto mode, red-eye reduction mode",93:"Flash fired, auto mode, return light not detected, red-eye reduction mode",95:"Flash fired, auto mode, return light detected, red-eye reduction mode"},SensingMethod:{1:"Undefined",2:"One-chip color area sensor",3:"Two-chip color area sensor",4:"Three-chip color area sensor",5:"Color sequential area sensor",7:"Trilinear sensor",8:"Color sequential linear sensor"},SceneCaptureType:{0:"Standard",1:"Landscape",2:"Portrait",3:"Night scene"},SceneType:{1:"Directly photographed"},CustomRendered:{0:"Normal process",1:"Custom process"},WhiteBalance:{0:"Auto white balance",1:"Manual white balance"},GainControl:{0:"None",1:"Low gain up",2:"High gain up",3:"Low gain down",4:"High gain down"},Contrast:{0:"Normal",1:"Soft",2:"Hard"},Saturation:{0:"Normal",1:"Low saturation",2:"High saturation"},Sharpness:{0:"Normal",1:"Soft",2:"Hard"},SubjectDistanceRange:{0:"Unknown",1:"Macro",2:"Close view",3:"Distant view"},FileSource:{3:"DSC"},ComponentsConfiguration:{0:"",1:"Y",2:"Cb",3:"Cr",4:"R",5:"G",6:"B"},Orientation:{1:"top-left",2:"top-right",3:"bottom-right",4:"bottom-left",5:"left-top",6:"right-top",7:"right-bottom",8:"left-bottom"}},a.ExifMap.prototype.getText=function(a){var b=this.get(a);switch(a){case"LightSource":case"Flash":case"MeteringMode":case"ExposureProgram":case"SensingMethod":case"SceneCaptureType":case"SceneType":case"CustomRendered":case"WhiteBalance":case"GainControl":case"Contrast":case"Saturation":case"Sharpness":case"SubjectDistanceRange":case"FileSource":case"Orientation":return this.stringValues[a][b];case"ExifVersion":case"FlashpixVersion":return String.fromCharCode(b[0],b[1],b[2],b[3]);case"ComponentsConfiguration":return this.stringValues[a][b[0]]+this.stringValues[a][b[1]]+this.stringValues[a][b[2]]+this.stringValues[a][b[3]];case"GPSVersionID":return b[0]+"."+b[1]+"."+b[2]+"."+b[3]}return String(b)},function(a){var b,c=a.tags,d=a.map;for(b in c)c.hasOwnProperty(b)&&(d[c[b]]=b)}(a.ExifMap.prototype),a.ExifMap.prototype.getAll=function(){var a,b,c={};for(a in this)this.hasOwnProperty(a)&&(b=this.tags[a],b&&(c[b]=this.getText(b)));return c}});
@@ -867,6 +890,2869 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],25:[function(require,module,exports){
+/*!
+ * Cropper v0.1.0
+ * https://github.com/fengyuanchen/cropperjs
+ *
+ * Copyright (c) 2015 Fengyuan Chen
+ * Released under the MIT license
+ *
+ * Date: 2015-09-25T09:19:59.321Z
+ */
+
+(function (global, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = global.document ? factory(global, true) : function (w) {
+      if (!w.document) {
+        throw new Error('Cropper requires a window with a document');
+      }
+
+      return factory(w);
+    };
+  } else {
+    factory(global);
+  }
+})(typeof window !== 'undefined' ? window : this, function (window, noGlobal) {
+
+  'use strict';
+
+  // Globals
+  var document = window.document;
+  var location = window.location;
+
+  // Constants
+  var NAMESPACE = 'cropper';
+
+  // Classes
+  var CLASS_MODAL = 'cropper-modal';
+  var CLASS_HIDE = 'cropper-hide';
+  var CLASS_HIDDEN = 'cropper-hidden';
+  var CLASS_INVISIBLE = 'cropper-invisible';
+  var CLASS_MOVE = 'cropper-move';
+  var CLASS_CROP = 'cropper-crop';
+  var CLASS_DISABLED = 'cropper-disabled';
+  var CLASS_BG = 'cropper-bg';
+
+  // Events
+  var EVENT_MOUSE_DOWN = 'mousedown touchstart pointerdown MSPointerDown';
+  var EVENT_MOUSE_MOVE = 'mousemove touchmove pointermove MSPointerMove';
+  var EVENT_MOUSE_UP = 'mouseup touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel';
+  var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
+  var EVENT_DBLCLICK = 'dblclick';
+  var EVENT_RESIZE = 'resize';
+  var EVENT_ERROR = 'error';
+  var EVENT_LOAD = 'load';
+
+  // RegExps
+  var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+  var REGEXP_SPACES = /\s+/;
+  var REGEXP_TYPES = /\s([a-zA-Z]+)/;
+  var REGEXP_TRIM = /^\s+(.*)\s+^/;
+
+  // Data
+  var DATA_PREVIEW = 'preview';
+  var DATA_ACTION = 'action';
+
+  // Actions
+  var ACTION_EAST = 'e';
+  var ACTION_WEST = 'w';
+  var ACTION_SOUTH = 's';
+  var ACTION_NORTH = 'n';
+  var ACTION_SOUTH_EAST = 'se';
+  var ACTION_SOUTH_WEST = 'sw';
+  var ACTION_NORTH_EAST = 'ne';
+  var ACTION_NORTH_WEST = 'nw';
+  var ACTION_ALL = 'all';
+  var ACTION_CROP = 'crop';
+  var ACTION_MOVE = 'move';
+  var ACTION_ZOOM = 'zoom';
+  var ACTION_NONE = 'none';
+
+  // Supports
+  var SUPPORT_CANVAS = !!document.createElement('canvas').getContext;
+
+  // Maths
+  var sqrt = Math.sqrt;
+  var min = Math.min;
+  var max = Math.max;
+  var abs = Math.abs;
+  var sin = Math.sin;
+  var cos = Math.cos;
+  var num = parseFloat;
+
+  // Prototype
+  var prototype = {
+    version: '0.1.0'
+  };
+
+  // Utilities
+  var EMPTY_OBJECT = {};
+  var toString = EMPTY_OBJECT.toString;
+  var hasOwnProperty = EMPTY_OBJECT.hasOwnProperty;
+
+  function typeOf(obj) {
+    return toString.call(obj).match(REGEXP_TYPES)[1].toLowerCase();
+  }
+
+  function isString(str) {
+    return typeof str === 'string';
+  }
+
+  function isNumber(num) {
+    return typeof num === 'number' && !isNaN(num);
+  }
+
+  function isUndefined(obj) {
+    return typeof obj === 'undefined';
+  }
+
+  function isObject(obj) {
+    return typeof obj === 'object' && obj !== null;
+  }
+
+  function isPlainObject(obj) {
+    var constructor;
+    var prototype;
+
+    if (!isObject(obj)) {
+      return false;
+    }
+
+    try {
+      constructor = obj.constructor;
+      prototype = constructor.prototype;
+
+      return constructor && prototype && hasOwnProperty.call(prototype, 'isPrototypeOf');
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function isFunction(fn) {
+    return typeOf(fn) === 'function';
+  }
+
+  function isArray(arr) {
+    return Array.isArray ? Array.isArray(arr) : typeOf(arr) === 'array';
+  }
+
+  function toArray(obj, offset) {
+    var args = [];
+
+    // This is necessary for IE8
+    if (isNumber(offset)) {
+      args.push(offset);
+    }
+
+    return args.slice.apply(obj, args);
+  }
+
+  function inArray(value, arr) {
+    var index = -1;
+
+    each(arr, function (n, i) {
+      if (n === value) {
+        index = i;
+        return false;
+      }
+    });
+
+    return index;
+  }
+
+  function trim(str) {
+    if (!isString(str)) {
+      str = String(str);
+    }
+
+    if (str.trim) {
+      str = str.trim();
+    } else {
+      str = str.replace(REGEXP_TRIM, '$1');
+    }
+
+    return str;
+  }
+
+  function each(obj, callback) {
+    var length;
+    var i;
+
+    if (obj && isFunction(callback)) {
+      if (isArray(obj) || isNumber(obj.length)/* array-like */) {
+        for (i = 0, length = obj.length; i < length; i++) {
+          if (callback.call(obj, obj[i], i, obj) === false) {
+            break;
+          }
+        }
+      } else if (isObject(obj)) {
+        for (i in obj) {
+          if (hasOwnProperty.call(obj, i)) {
+            if (callback.call(obj, obj[i], i, obj) === false) {
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    return obj;
+  }
+
+  function extend(obj) {
+    var args = toArray(arguments);
+
+    if (args.length > 1) {
+      args.shift();
+    }
+
+    each(args, function (arg) {
+      each(arg, function (prop, i) {
+        obj[i] = prop;
+      });
+    });
+
+    return obj;
+  }
+
+  function proxy(fn, context) {
+    var args = toArray(arguments, 2);
+
+    return function () {
+      return fn.apply(context, args.concat(toArray(arguments)));
+    };
+  }
+
+  function parseClass(className) {
+    return trim(className).split(REGEXP_SPACES);
+  }
+
+  function hasClass(element, value) {
+    return element.className.indexOf(value) > -1;
+  }
+
+  function addClass(element, value) {
+    var classes;
+
+    if (isNumber(element.length)) {
+      return each(element, function (elem) {
+        addClass(elem, value);
+      });
+    }
+
+    classes = parseClass(element.className);
+
+    each(parseClass(value), function (n) {
+      if (inArray(n, classes) < 0) {
+        classes.push(n);
+      }
+    });
+
+    element.className = classes.join(' ');
+  }
+
+  function removeClass(element, value) {
+    var classes;
+
+    if (isNumber(element.length)) {
+      return each(element, function (elem) {
+        removeClass(elem, value);
+      });
+    }
+
+    classes = parseClass(element.className);
+
+    each(parseClass(value), function (n, i) {
+      if ((i = inArray(n, classes)) > -1) {
+        classes.splice(i, 1);
+      }
+    });
+
+    element.className = classes.join(' ');
+  }
+
+  function toggleClass(element, value, added) {
+    return added ? addClass(element, value) : removeClass(element, value);
+  }
+
+  function getData(element, name) {
+    if (isObject(element[name])) {
+      return element[name];
+    } else if (element.dataset) {
+      return element.dataset[name];
+    } else {
+      return element.getAttribute('data-' + name);
+    }
+  }
+
+  function setData(element, name, data) {
+    if (isObject(data) && isUndefined(element[name])) {
+      element[name] = data;
+    } else if (element.dataset) {
+      element.dataset[name] = data;
+    } else {
+      element.setAttribute('data-' + name, data);
+    }
+  }
+
+  function removeData(element, name) {
+    if (isObject(element[name])) {
+      delete element[name];
+    } else if (element.dataset) {
+      delete element.dataset[name];
+    } else {
+      element.removeAttribute('data-' + name);
+    }
+  }
+
+  function addListener(element, type, handler) {
+    var types;
+
+    if (!isFunction(handler)) {
+      return;
+    }
+
+    types = trim(type).split(REGEXP_SPACES);
+
+    if (types.length > 1) {
+      return each(types, function (type) {
+        addListener(element, type, handler);
+      });
+    }
+
+    if (element.addEventListener) {
+      element.addEventListener(type, handler, false);
+    } else if (element.attachEvent) {
+      element.attachEvent('on' + type, handler);
+    }
+  }
+
+  function removeListener(element, type, handler) {
+    var types;
+
+    if (!isFunction(handler)) {
+      return;
+    }
+
+    types = trim(type).split(REGEXP_SPACES);
+
+    if (types.length > 1) {
+      return each(types, function (type) {
+        removeListener(element, type, handler);
+      });
+    }
+
+    if (element.removeEventListener) {
+      element.removeEventListener(type, handler, false);
+    } else if (element.detachEvent) {
+      element.detachEvent('on' + type, handler);
+    }
+  }
+
+  function preventDefault(e) {
+    if (e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      } else {
+        e.returnValue = false;
+      }
+    }
+  }
+
+  function getEvent(event) {
+    var e = event || window.event;
+    var doc;
+
+    // Fix target property (IE8)
+    if (!e.target) {
+      e.target = e.srcElement || document;
+    }
+
+    if (!isNumber(e.pageX)) {
+      doc = document.documentElement;
+      e.pageX = e.clientX + (window.scrollX || doc && doc.scrollLeft || 0) - (doc && doc.clientLeft || 0);
+      e.pageY = e.clientY + (window.scrollY || doc && doc.scrollTop || 0) - (doc && doc.clientTop || 0);
+    }
+
+    return e;
+  }
+
+  function getOffset(element) {
+    var doc = document.documentElement;
+    var box = element.getBoundingClientRect();
+
+    return {
+      left: box.left + (window.scrollX || doc && doc.scrollLeft || 0) - (doc && doc.clientLeft || 0),
+      top: box.top  + (window.scrollY || doc && doc.scrollTop || 0)  - (doc && doc.clientTop  || 0)
+    };
+  }
+
+  function querySelector(element, selector) {
+    return element.querySelector(selector);
+  }
+
+  function querySelectorAll(element, selector) {
+    return element.querySelectorAll(selector);
+  }
+
+  function insertBefore(element, elem) {
+    element.parentNode.insertBefore(elem, element);
+  }
+
+  function appendChild(element, elem) {
+    element.appendChild(elem);
+  }
+
+  function removeChild(element) {
+    element.parentNode.removeChild(element);
+  }
+
+  function empty(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+
+  function isCrossOriginURL(url) {
+    var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
+
+    return parts && (
+      parts[1] !== location.protocol ||
+      parts[2] !== location.hostname ||
+      parts[3] !== location.port
+    );
+  }
+
+  function addTimestamp(url) {
+    var timestamp = 'timestamp=' + (new Date()).getTime();
+
+    return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
+  }
+
+  function getImageSize(image, callback) {
+    var newImage;
+
+    // Modern browsers
+    if (image.naturalWidth) {
+      return callback(image.naturalWidth, image.naturalHeight);
+    }
+
+    // IE8: Don't use `new Image()` here
+    newImage = document.createElement('img');
+
+    newImage.onload = function () {
+      callback(this.width, this.height);
+    };
+
+    newImage.src = image.src;
+  }
+
+  function getTransform(options) {
+    var transforms = [];
+    var rotate = options.rotate;
+    var scaleX = options.scaleX;
+    var scaleY = options.scaleY;
+
+    if (isNumber(rotate)) {
+      transforms.push('rotate(' + rotate + 'deg)');
+    }
+
+    if (isNumber(scaleX) && isNumber(scaleY)) {
+      transforms.push('scale(' + scaleX + ',' + scaleY + ')');
+    }
+
+    return transforms.length ? transforms.join(' ') : 'none';
+  }
+
+  function getRotatedSizes(data, reverse) {
+    var deg = abs(data.degree) % 180;
+    var arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180;
+    var sinArc = sin(arc);
+    var cosArc = cos(arc);
+    var width = data.width;
+    var height = data.height;
+    var aspectRatio = data.aspectRatio;
+    var newWidth;
+    var newHeight;
+
+    if (!reverse) {
+      newWidth = width * cosArc + height * sinArc;
+      newHeight = width * sinArc + height * cosArc;
+    } else {
+      newWidth = width / (cosArc + sinArc / aspectRatio);
+      newHeight = newWidth / aspectRatio;
+    }
+
+    return {
+      width: newWidth,
+      height: newHeight
+    };
+  }
+
+  function getSourceCanvas(image, data) {
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    var x = 0;
+    var y = 0;
+    var width = data.naturalWidth;
+    var height = data.naturalHeight;
+    var rotate = data.rotate;
+    var scaleX = data.scaleX;
+    var scaleY = data.scaleY;
+    var scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
+    var rotatable = isNumber(rotate) && rotate !== 0;
+    var advanced = rotatable || scalable;
+    var canvasWidth = width;
+    var canvasHeight = height;
+    var translateX;
+    var translateY;
+    var rotated;
+
+    if (scalable) {
+      translateX = width / 2;
+      translateY = height / 2;
+    }
+
+    if (rotatable) {
+      rotated = getRotatedSizes({
+        width: width,
+        height: height,
+        degree: rotate
+      });
+
+      canvasWidth = rotated.width;
+      canvasHeight = rotated.height;
+      translateX = rotated.width / 2;
+      translateY = rotated.height / 2;
+    }
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    if (advanced) {
+      x = -width / 2;
+      y = -height / 2;
+
+      context.save();
+      context.translate(translateX, translateY);
+    }
+
+    if (rotatable) {
+      context.rotate(rotate * Math.PI / 180);
+    }
+
+    // Should call `scale` after rotated
+    if (scalable) {
+      context.scale(scaleX, scaleY);
+    }
+
+    context.drawImage(image, x, y, width, height);
+
+    if (advanced) {
+      context.restore();
+    }
+
+    return canvas;
+  }
+
+  function Cropper(element, options) {
+    this.element = element;
+    this.options = extend({}, Cropper.DEFAULTS, isPlainObject(options) && options);
+    this.ready = false;
+    this.built = false;
+    this.complete = false;
+    this.rotated = false;
+    this.cropped = false;
+    this.disabled = false;
+    this.replaced = false;
+    this.isImg = false;
+    this.originalUrl = '';
+    this.canvasData = null;
+    this.cropBoxData = null;
+    this.previews = null;
+    this.init();
+  }
+
+  extend(prototype, {
+    init: function () {
+      var element = this.element;
+      var tagName = element.tagName.toLowerCase();
+      var url;
+
+      if (getData(element, NAMESPACE)) {
+        return;
+      }
+
+      setData(element, NAMESPACE, this);
+
+      if (tagName === 'img') {
+        this.isImg = true;
+
+        // Should use `fn.attr` here. e.g.: "img/picture.jpg"
+        this.originalUrl = url = element.getAttribute('src');
+
+        // Stop when it's a blank image
+        if (!url) {
+          return;
+        }
+
+        // Should use `fn.prop` here. e.g.: "http://example.com/img/picture.jpg"
+        url = element.src;
+      } else if (tagName === 'canvas' && SUPPORT_CANVAS) {
+        url = element.toDataURL();
+      }
+
+      this.load(url);
+    },
+
+    load: function (url) {
+      var options = this.options;
+      var element = this.element;
+      var crossOrigin;
+      var bustCacheUrl;
+      var image;
+      var start;
+      var stop;
+
+      if (!url) {
+        return;
+      }
+
+      this.url = url;
+
+      if (isFunction(options.build) && options.build.call(element) === false) {
+        return;
+      }
+
+      if (options.checkImageOrigin && isCrossOriginURL(url)) {
+        crossOrigin = 'anonymous';
+
+        if (!element.crossOrigin) {
+          bustCacheUrl = addTimestamp(url);
+        }
+      }
+
+      image = document.createElement('img');
+
+      if (crossOrigin) {
+        image.crossOrigin = crossOrigin;
+      }
+
+      image.src = bustCacheUrl || url;
+      this.image = image;
+      this._start = start = proxy(this.start, this);
+      this._stop = stop = proxy(this.stop, this);
+
+      if (this.isImg) {
+        if (element.complete) {
+          this.start();
+        } else {
+          addListener(element, EVENT_LOAD, start);
+        }
+      } else {
+        addListener(image, EVENT_LOAD, start);
+        addListener(image, EVENT_ERROR, stop);
+        addClass(image, CLASS_HIDE);
+        insertBefore(element, image);
+      }
+    },
+
+    start: function (event) {
+      var image = this.isImg ? this.element : this.image;
+
+      if (event) {
+        removeListener(image, EVENT_LOAD, this._start);
+        removeListener(image, EVENT_ERROR, this._stop);
+      }
+
+      getImageSize(image, proxy(function (naturalWidth, naturalHeight) {
+        this.imageData = {
+          naturalWidth: naturalWidth,
+          naturalHeight: naturalHeight,
+          aspectRatio: naturalWidth / naturalHeight
+        };
+
+        this.ready = true;
+        this.build();
+      }, this));
+    },
+
+    stop: function () {
+      var image = this.image;
+
+      removeListener(image, EVENT_LOAD, this._start);
+      removeListener(image, EVENT_ERROR, this._stop);
+
+      removeChild(image);
+      this.image = null;
+    }
+  });
+
+  extend(prototype, {
+    build: function () {
+      var options = this.options;
+      var element = this.element;
+      var image = this.image;
+      var template;
+      var cropper;
+      var canvas;
+      var dragBox;
+      var cropBox;
+      var face;
+
+      if (!this.ready) {
+        return;
+      }
+
+      // Unbuild first when replace
+      if (this.built) {
+        this.unbuild();
+      }
+
+      template = document.createElement('div');
+      template.innerHTML = Cropper.TEMPLATE;
+
+      // Create cropper elements
+      this.container = element.parentNode;
+      this.cropper = cropper = querySelector(template, '.cropper-container');
+      this.canvas = canvas = querySelector(cropper, '.cropper-canvas');
+      this.dragBox = dragBox = querySelector(cropper, '.cropper-drag-box');
+      this.cropBox = cropBox = querySelector(cropper, '.cropper-crop-box');
+      this.viewBox = querySelector(cropper, '.cropper-view-box');
+      this.face = face = querySelector(cropBox, '.cropper-face');
+
+      appendChild(canvas, image);
+
+      // Hide the original image
+      addClass(element, CLASS_HIDDEN);
+      insertBefore(element, cropper);
+
+      // Show the image if is hidden
+      if (!this.isImg) {
+        removeClass(image, CLASS_HIDE);
+      }
+
+      this.initPreview();
+      this.bind();
+
+      // Format aspect ratio (0 -> NaN)
+      options.aspectRatio = num(options.aspectRatio) || NaN;
+
+      if (options.autoCrop) {
+        this.cropped = true;
+
+        if (options.modal) {
+          addClass(dragBox, CLASS_MODAL);
+        }
+      } else {
+        addClass(cropBox, CLASS_HIDDEN);
+      }
+
+      if (!options.guides) {
+        addClass(querySelectorAll(cropBox, '.cropper-dashed'), CLASS_HIDDEN);
+      }
+
+      if (!options.center) {
+        addClass(querySelector(cropBox, '.cropper-center'), CLASS_HIDDEN);
+      }
+
+      if (options.background) {
+        addClass(cropper, CLASS_BG);
+      }
+
+      if (!options.highlight) {
+        addClass(face, CLASS_INVISIBLE);
+      }
+
+      if (options.cropBoxMovable) {
+        addClass(face, CLASS_MOVE);
+        setData(face, DATA_ACTION, ACTION_ALL);
+      }
+
+      if (!options.cropBoxResizable) {
+        addClass(querySelectorAll(cropBox, '.cropper-line'), CLASS_HIDDEN);
+        addClass(querySelectorAll(cropBox, '.cropper-point'), CLASS_HIDDEN);
+      }
+
+      this.setDragMode(
+        options.dragCrop ? ACTION_CROP :
+        options.movable ? ACTION_MOVE :
+        ACTION_NONE
+      );
+
+      this.render();
+      this.built = true;
+      this.setData(options.data);
+
+      // Call the built asynchronously to keep "image.cropper" is defined
+      setTimeout(proxy(function () {
+        if (isFunction(options.built)) {
+          options.built.call(element);
+        }
+
+        if (isFunction(options.crop)) {
+          options.crop.call(element, this.getData());
+        }
+
+        this.complete = true;
+      }, this), 0);
+    },
+
+    unbuild: function () {
+      if (!this.built) {
+        return;
+      }
+
+      this.built = false;
+      this.initialImageData = null;
+
+      // Clear `initialCanvasData` is necessary when replace
+      this.initialCanvasData = null;
+      this.initialCropBoxData = null;
+      this.containerData = null;
+      this.canvasData = null;
+
+      // Clear `cropBoxData` is necessary when replace
+      this.cropBoxData = null;
+      this.unbind();
+
+      this.resetPreview();
+      this.previews = null;
+
+      this.viewBox = null;
+      this.cropBox = null;
+      this.dragBox = null;
+      this.canvas = null;
+      this.container = null;
+
+      removeChild(this.cropper);
+      this.cropper = null;
+    }
+  });
+
+  extend(prototype, {
+    render: function () {
+      this.initContainer();
+      this.initCanvas();
+      this.initCropBox();
+
+      this.renderCanvas();
+
+      if (this.cropped) {
+        this.renderCropBox();
+      }
+    },
+
+    initContainer: function () {
+      var options = this.options;
+      var element = this.element;
+      var container = this.container;
+      var cropper = this.cropper;
+      var containerData;
+
+      addClass(cropper, CLASS_HIDDEN);
+      removeClass(element, CLASS_HIDDEN);
+
+      this.containerData = containerData = {
+        width: max(container.offsetWidth, num(options.minContainerWidth) || 200),
+        height: max(container.offsetHeight, num(options.minContainerHeight) || 100)
+      };
+
+      cropper.style.cssText = (
+        'width:' + containerData.width + 'px;' +
+        'height:' + containerData.height + 'px'
+      );
+
+      addClass(element, CLASS_HIDDEN);
+      removeClass(cropper, CLASS_HIDDEN);
+    },
+
+    // Canvas (image wrapper)
+    initCanvas: function () {
+      var containerData = this.containerData;
+      var containerWidth = containerData.width;
+      var containerHeight = containerData.height;
+      var imageData = this.imageData;
+      var aspectRatio = imageData.aspectRatio;
+      var canvasData = {
+            aspectRatio: aspectRatio,
+            width: containerWidth,
+            height: containerHeight
+          };
+
+      if (containerHeight * aspectRatio > containerWidth) {
+        canvasData.height = containerWidth / aspectRatio;
+      } else {
+        canvasData.width = containerHeight * aspectRatio;
+      }
+
+      canvasData.oldLeft = canvasData.left = (containerWidth - canvasData.width) / 2;
+      canvasData.oldTop = canvasData.top = (containerHeight - canvasData.height) / 2;
+
+      this.canvasData = canvasData;
+      this.limitCanvas(true, true);
+      this.initialImageData = extend({}, imageData);
+      this.initialCanvasData = extend({}, canvasData);
+    },
+
+    limitCanvas: function (size, position) {
+      var options = this.options;
+      var strict = options.strict;
+      var containerData = this.containerData;
+      var containerWidth = containerData.width;
+      var containerHeight = containerData.height;
+      var canvasData = this.canvasData;
+      var aspectRatio = canvasData.aspectRatio;
+      var cropBoxData = this.cropBoxData;
+      var cropped = this.cropped && cropBoxData;
+      var initialCanvasData = this.initialCanvasData || canvasData;
+      var initialCanvasWidth = initialCanvasData.width;
+      var initialCanvasHeight = initialCanvasData.height;
+      var minCanvasWidth;
+      var minCanvasHeight;
+
+      if (size) {
+        minCanvasWidth = num(options.minCanvasWidth) || 0;
+        minCanvasHeight = num(options.minCanvasHeight) || 0;
+
+        if (minCanvasWidth) {
+          if (strict) {
+            minCanvasWidth = max(
+              cropped ? cropBoxData.width : initialCanvasWidth,
+              minCanvasWidth
+            );
+          }
+
+          minCanvasHeight = minCanvasWidth / aspectRatio;
+        } else if (minCanvasHeight) {
+          if (strict) {
+            minCanvasHeight = max(
+              cropped ? cropBoxData.height : initialCanvasHeight,
+              minCanvasHeight
+            );
+          }
+
+          minCanvasWidth = minCanvasHeight * aspectRatio;
+        } else if (strict) {
+          if (cropped) {
+            minCanvasWidth = cropBoxData.width;
+            minCanvasHeight = cropBoxData.height;
+
+            if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+              minCanvasWidth = minCanvasHeight * aspectRatio;
+            } else {
+              minCanvasHeight = minCanvasWidth / aspectRatio;
+            }
+          } else {
+            minCanvasWidth = initialCanvasWidth;
+            minCanvasHeight = initialCanvasHeight;
+          }
+        }
+
+        extend(canvasData, {
+          minWidth: minCanvasWidth,
+          minHeight: minCanvasHeight,
+          maxWidth: Infinity,
+          maxHeight: Infinity
+        });
+      }
+
+      if (position) {
+        if (strict) {
+          if (cropped) {
+            canvasData.minLeft = min(
+              cropBoxData.left,
+              cropBoxData.left + cropBoxData.width - canvasData.width
+            );
+            canvasData.minTop = min(
+              cropBoxData.top,
+              cropBoxData.top + cropBoxData.height - canvasData.height
+            );
+            canvasData.maxLeft = cropBoxData.left;
+            canvasData.maxTop = cropBoxData.top;
+          } else {
+            canvasData.minLeft = min(0, containerWidth - canvasData.width);
+            canvasData.minTop = min(0, containerHeight - canvasData.height);
+            canvasData.maxLeft = max(0, containerWidth - canvasData.width);
+            canvasData.maxTop = max(0, containerHeight - canvasData.height);
+          }
+        } else {
+          canvasData.minLeft = -canvasData.width;
+          canvasData.minTop = -canvasData.height;
+          canvasData.maxLeft = containerWidth;
+          canvasData.maxTop = containerHeight;
+        }
+      }
+    },
+
+    renderCanvas: function (changed) {
+      var options = this.options;
+      var canvasData = this.canvasData;
+      var imageData = this.imageData;
+      var aspectRatio;
+      var rotated;
+
+      if (this.rotated) {
+        this.rotated = false;
+
+        // Computes rotated sizes with image sizes
+        rotated = getRotatedSizes({
+          width: imageData.width,
+          height: imageData.height,
+          degree: imageData.rotate
+        });
+
+        aspectRatio = rotated.width / rotated.height;
+
+        if (aspectRatio !== canvasData.aspectRatio) {
+          canvasData.left -= (rotated.width - canvasData.width) / 2;
+          canvasData.top -= (rotated.height - canvasData.height) / 2;
+          canvasData.width = rotated.width;
+          canvasData.height = rotated.height;
+          canvasData.aspectRatio = aspectRatio;
+          this.limitCanvas(true, false);
+        }
+      }
+
+      if (canvasData.width > canvasData.maxWidth || canvasData.width < canvasData.minWidth) {
+        canvasData.left = canvasData.oldLeft;
+      }
+
+      if (canvasData.height > canvasData.maxHeight || canvasData.height < canvasData.minHeight) {
+        canvasData.top = canvasData.oldTop;
+      }
+
+      canvasData.width = min(
+        max(canvasData.width, canvasData.minWidth),
+        canvasData.maxWidth
+      );
+      canvasData.height = min(
+        max(canvasData.height, canvasData.minHeight),
+        canvasData.maxHeight
+      );
+
+      this.limitCanvas(false, true);
+
+      canvasData.oldLeft = canvasData.left = min(
+        max(canvasData.left, canvasData.minLeft),
+        canvasData.maxLeft
+      );
+      canvasData.oldTop = canvasData.top = min(
+        max(canvasData.top, canvasData.minTop),
+        canvasData.maxTop
+      );
+
+      this.canvas.style.cssText = (
+        'width:' + canvasData.width + 'px;' +
+        'height:' + canvasData.height + 'px;' +
+        'left:' + canvasData.left + 'px;' +
+        'top:' + canvasData.top + 'px;'
+      );
+
+      this.renderImage();
+
+      if (this.cropped && options.strict) {
+        this.limitCropBox(true, true);
+      }
+
+      if (changed) {
+        this.output();
+      }
+    },
+
+    renderImage: function (changed) {
+      var canvasData = this.canvasData;
+      var imageData = this.imageData;
+      var reversed;
+
+      if (imageData.rotate) {
+        reversed = getRotatedSizes({
+          width: canvasData.width,
+          height: canvasData.height,
+          degree: imageData.rotate,
+          aspectRatio: imageData.aspectRatio
+        }, true);
+      }
+
+      extend(imageData, reversed ? {
+        width: reversed.width,
+        height: reversed.height,
+        left: (canvasData.width - reversed.width) / 2,
+        top: (canvasData.height - reversed.height) / 2
+      } : {
+        width: canvasData.width,
+        height: canvasData.height,
+        left: 0,
+        top: 0
+      });
+
+      this.image.style.cssText = (
+        'width:' + imageData.width + 'px;' +
+        'height:' + imageData.height + 'px;' +
+        'margin-left:' + imageData.left + 'px;' +
+        'margin-top:' + imageData.top + 'px;' +
+        'transform:' + getTransform(imageData)
+      );
+
+      if (changed) {
+        this.output();
+      }
+    },
+
+    initCropBox: function () {
+      var options = this.options;
+      var aspectRatio = options.aspectRatio;
+      var autoCropArea = num(options.autoCropArea) || 0.8;
+      var canvasData = this.canvasData;
+      var cropBoxData = {
+            width: canvasData.width,
+            height: canvasData.height
+          };
+
+      if (aspectRatio) {
+        if (canvasData.height * aspectRatio > canvasData.width) {
+          cropBoxData.height = cropBoxData.width / aspectRatio;
+        } else {
+          cropBoxData.width = cropBoxData.height * aspectRatio;
+        }
+      }
+
+      this.cropBoxData = cropBoxData;
+      this.limitCropBox(true, true);
+
+      // Initialize auto crop area
+      cropBoxData.width = min(
+        max(cropBoxData.width, cropBoxData.minWidth),
+        cropBoxData.maxWidth
+      );
+      cropBoxData.height = min(
+        max(cropBoxData.height, cropBoxData.minHeight),
+        cropBoxData.maxHeight
+      );
+
+      // The width/height of auto crop area must large than "minWidth/Height"
+      cropBoxData.width = max(
+        cropBoxData.minWidth,
+        cropBoxData.width * autoCropArea
+      );
+      cropBoxData.height = max(
+        cropBoxData.minHeight,
+        cropBoxData.height * autoCropArea
+      );
+      cropBoxData.oldLeft = cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
+      cropBoxData.oldTop = cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
+
+      this.initialCropBoxData = extend({}, cropBoxData);
+    },
+
+    limitCropBox: function (size, position) {
+      var options = this.options;
+      var strict = options.strict;
+      var containerData = this.containerData;
+      var containerWidth = containerData.width;
+      var containerHeight = containerData.height;
+      var canvasData = this.canvasData;
+      var cropBoxData = this.cropBoxData;
+      var aspectRatio = options.aspectRatio;
+      var minCropBoxWidth;
+      var minCropBoxHeight;
+
+      if (size) {
+        minCropBoxWidth = num(options.minCropBoxWidth) || 0;
+        minCropBoxHeight = num(options.minCropBoxHeight) || 0;
+
+        // The "min/maxCropBoxWidth/Height" must less than container width/height
+        cropBoxData.minWidth = min(containerWidth, minCropBoxWidth);
+        cropBoxData.minHeight = min(containerHeight, minCropBoxHeight);
+        cropBoxData.maxWidth = min(
+          containerWidth,
+          strict ? canvasData.width : containerWidth
+        );
+        cropBoxData.maxHeight = min(
+          containerHeight,
+          strict ? canvasData.height : containerHeight
+        );
+
+        if (aspectRatio) {
+
+          // Compare crop box size with container first
+          if (cropBoxData.maxHeight * aspectRatio > cropBoxData.maxWidth) {
+            cropBoxData.minHeight = cropBoxData.minWidth / aspectRatio;
+            cropBoxData.maxHeight = cropBoxData.maxWidth / aspectRatio;
+          } else {
+            cropBoxData.minWidth = cropBoxData.minHeight * aspectRatio;
+            cropBoxData.maxWidth = cropBoxData.maxHeight * aspectRatio;
+          }
+        }
+
+        // The "minWidth/Height" must be less than "maxWidth/Height"
+        cropBoxData.minWidth = min(cropBoxData.maxWidth, cropBoxData.minWidth);
+        cropBoxData.minHeight = min(cropBoxData.maxHeight, cropBoxData.minHeight);
+      }
+
+      if (position) {
+        if (strict) {
+          cropBoxData.minLeft = max(0, canvasData.left);
+          cropBoxData.minTop = max(0, canvasData.top);
+          cropBoxData.maxLeft = min(containerWidth, canvasData.left + canvasData.width) - cropBoxData.width;
+          cropBoxData.maxTop = min(containerHeight, canvasData.top + canvasData.height) - cropBoxData.height;
+        } else {
+          cropBoxData.minLeft = 0;
+          cropBoxData.minTop = 0;
+          cropBoxData.maxLeft = containerWidth - cropBoxData.width;
+          cropBoxData.maxTop = containerHeight - cropBoxData.height;
+        }
+      }
+    },
+
+    renderCropBox: function () {
+      var options = this.options;
+      var containerData = this.containerData;
+      var containerWidth = containerData.width;
+      var containerHeight = containerData.height;
+      var cropBoxData = this.cropBoxData;
+
+      if (cropBoxData.width > cropBoxData.maxWidth || cropBoxData.width < cropBoxData.minWidth) {
+        cropBoxData.left = cropBoxData.oldLeft;
+      }
+
+      if (cropBoxData.height > cropBoxData.maxHeight || cropBoxData.height < cropBoxData.minHeight) {
+        cropBoxData.top = cropBoxData.oldTop;
+      }
+
+      cropBoxData.width = min(
+        max(cropBoxData.width, cropBoxData.minWidth),
+        cropBoxData.maxWidth
+      );
+      cropBoxData.height = min(
+        max(cropBoxData.height, cropBoxData.minHeight),
+        cropBoxData.maxHeight
+      );
+
+      this.limitCropBox(false, true);
+
+      cropBoxData.oldLeft = cropBoxData.left = min(
+        max(cropBoxData.left, cropBoxData.minLeft),
+        cropBoxData.maxLeft
+      );
+      cropBoxData.oldTop = cropBoxData.top = min(
+        max(cropBoxData.top, cropBoxData.minTop),
+        cropBoxData.maxTop
+      );
+
+      if (options.movable && options.cropBoxDataMovable) {
+
+        // Turn to move the canvas when the crop box is equal to the container
+        setData(this.face, DATA_ACTION, (cropBoxData.width === containerWidth && cropBoxData.height === containerHeight) ? ACTION_MOVE : ACTION_ALL);
+      }
+
+      this.cropBox.style.cssText = (
+        'width:' + cropBoxData.width + 'px;' +
+        'height:' + cropBoxData.height + 'px;' +
+        'left:' + cropBoxData.left + 'px;' +
+        'top:' + cropBoxData.top + 'px;'
+      );
+
+      if (this.cropped && options.strict) {
+        this.limitCanvas(true, true);
+      }
+
+      if (!this.disabled) {
+        this.output();
+      }
+    },
+
+    output: function () {
+      var options = this.options;
+
+      this.preview();
+
+      if (this.complete && isFunction(options.crop)) {
+        options.crop.call(this.element, this.getData());
+      }
+    }
+  });
+
+  extend(prototype, {
+    initPreview: function () {
+      var preview = this.options.preview;
+      var url = this.url;
+      var image = document.createElement('img');
+      var previews;
+
+      image.src = url;
+      appendChild(this.viewBox, image);
+
+      if (!preview) {
+        return;
+      }
+
+      this.previews = previews = querySelectorAll(document, preview);
+      each(previews, function (element) {
+        var image = document.createElement('img');
+
+        // Save the original size for recover
+        setData(element, DATA_PREVIEW, {
+          width: element.offsetWidth,
+          height: element.offsetHeight,
+          html: element.innerHTML
+        });
+
+        image.src = url;
+
+        /**
+         * Override img element styles
+         * Add `display:block` to avoid margin top issue
+         * Add `height:auto` to override `height` attribute on IE8
+         * (Occur only when margin-top <= -height)
+         */
+        image.style.cssText = (
+          'display:block;width:100%;height:auto;' +
+          'min-width:0!important;min-height:0!important;' +
+          'max-width:none!important;max-height:none!important;' +
+          'image-orientation:0deg!important"'
+        );
+
+        empty(element);
+        appendChild(element, image);
+      });
+    },
+
+    resetPreview: function () {
+      each(this.previews, function (element) {
+        element.innerHTML = getData(element, DATA_PREVIEW).html;
+        removeData(element, DATA_PREVIEW);
+      });
+    },
+
+    preview: function () {
+      var imageData = this.imageData;
+      var canvasData = this.canvasData;
+      var cropBoxData = this.cropBoxData;
+      var cropBoxWidth = cropBoxData.width;
+      var cropBoxHeight = cropBoxData.height;
+      var width = imageData.width;
+      var height = imageData.height;
+      var left = cropBoxData.left - canvasData.left - imageData.left;
+      var top = cropBoxData.top - canvasData.top - imageData.top;
+
+      if (!this.cropped || this.disabled) {
+        return;
+      }
+
+      querySelector(this.viewBox, 'img').style.cssText = (
+        'width:' + width + 'px;' +
+        'height:' + height + 'px;' +
+        'margin-left:' + -left + 'px;' +
+        'margin-top:' + -top + 'px;' +
+        'transform:' + getTransform(imageData)
+      );
+
+      each(this.previews, function (element) {
+        var data = getData(element, DATA_PREVIEW);
+        var originalWidth = data.width;
+        var originalHeight = data.height;
+        var newWidth = originalWidth;
+        var newHeight = originalHeight;
+        var ratio = 1;
+        var elementStyle = element.style;
+        var imageStyle = querySelector(element, 'img').style;
+
+        if (cropBoxWidth) {
+          ratio = originalWidth / cropBoxWidth;
+          newHeight = cropBoxHeight * ratio;
+        }
+
+        if (cropBoxHeight && newHeight > originalHeight) {
+          ratio = originalHeight / cropBoxHeight;
+          newWidth = cropBoxWidth * ratio;
+          newHeight = originalHeight;
+        }
+
+        elementStyle.width = newWidth + 'px';
+        elementStyle.height = newHeight + 'px';
+        imageStyle.width = width * ratio + 'px';
+        imageStyle.height = height * ratio + 'px';
+        imageStyle.marginLeft = -left * ratio + 'px';
+        imageStyle.marginTop = -top * ratio + 'px';
+        imageStyle.transform = getTransform(imageData);
+      });
+    }
+  });
+
+  extend(prototype, {
+    bind: function () {
+      var options = this.options;
+      var cropper = this.cropper;
+
+      addListener(cropper, EVENT_MOUSE_DOWN, proxy(this.cropStart, this));
+
+      if (options.zoomable && options.mouseWheelZoom) {
+        addListener(cropper, EVENT_WHEEL, proxy(this.wheel, this));
+      }
+
+      if (options.doubleClickToggle) {
+        addListener(cropper, EVENT_DBLCLICK, proxy(this.dblclick, this));
+      }
+
+      addListener(document, EVENT_MOUSE_MOVE, (this._cropMove = proxy(this.cropMove, this)));
+      addListener(document, EVENT_MOUSE_UP, (this._cropEnd = proxy(this.cropEnd, this)));
+
+      if (options.responsive) {
+        addListener(window, EVENT_RESIZE, (this._resize = proxy(this.resize, this)));
+      }
+    },
+
+    unbind: function () {
+      var options = this.options;
+      var cropper = this.cropper;
+
+      removeListener(cropper, EVENT_MOUSE_DOWN, this.cropStart);
+
+      if (options.zoomable && options.mouseWheelZoom) {
+        removeListener(cropper, EVENT_WHEEL, this.wheel);
+      }
+
+      if (options.doubleClickToggle) {
+        removeListener(cropper, EVENT_DBLCLICK, this.dblclick);
+      }
+
+      removeListener(document, EVENT_MOUSE_MOVE, this._cropMove);
+      removeListener(document, EVENT_MOUSE_UP, this._cropEnd);
+
+      if (options.responsive) {
+        removeListener(window, EVENT_RESIZE, this._resize);
+      }
+    }
+  });
+
+  extend(prototype, {
+    resize: function () {
+      var container = this.container;
+      var containerData = this.containerData;
+      var canvasData;
+      var cropBoxData;
+      var ratio;
+
+      // Check `container` is necessary for IE8
+      if (this.disabled || !containerData) {
+        return;
+      }
+
+      ratio = container.offsetWidth / containerData.width;
+
+      // Resize when width changed or height changed
+      if (ratio !== 1 || container.offsetHeight !== containerData.height) {
+        canvasData = this.getCanvasData();
+        cropBoxData = this.getCropBoxData();
+
+        this.render();
+        this.setCanvasData(each(canvasData, function (n, i) {
+          canvasData[i] = n * ratio;
+        }));
+        this.setCropBoxData(each(cropBoxData, function (n, i) {
+          cropBoxData[i] = n * ratio;
+        }));
+      }
+    },
+
+    dblclick: function () {
+      if (this.disabled) {
+        return;
+      }
+
+      this.setDragMode(hasClass(this.dragBox, CLASS_CROP) ? ACTION_MOVE : ACTION_CROP);
+    },
+
+    wheel: function (event) {
+      var e = getEvent(event);
+      var ratio = num(this.options.wheelZoomRatio) || 0.1;
+      var delta = 1;
+
+      if (this.disabled) {
+        return;
+      }
+
+      preventDefault(e);
+
+      if (e.deltaY) {
+        delta = e.deltaY > 0 ? 1 : -1;
+      } else if (e.wheelDelta) {
+        delta = -e.wheelDelta / 120;
+      } else if (e.detail) {
+        delta = e.detail > 0 ? 1 : -1;
+      }
+
+      this.zoom(-delta * ratio, e);
+    },
+
+    cropStart: function (event) {
+      var options = this.options;
+      var e = getEvent(event);
+      var touches = e.touches;
+      var touchesLength;
+      var touch;
+      var action;
+
+      if (this.disabled) {
+        return;
+      }
+
+      if (touches) {
+        touchesLength = touches.length;
+
+        if (touchesLength > 1) {
+          if (options.zoomable && options.touchDragZoom && touchesLength === 2) {
+            touch = touches[1];
+            this.startX2 = touch.pageX;
+            this.startY2 = touch.pageY;
+            action = ACTION_ZOOM;
+          } else {
+            return;
+          }
+        }
+
+        touch = touches[0];
+      }
+
+      action = action || getData(e.target, DATA_ACTION);
+
+      if (REGEXP_ACTIONS.test(action)) {
+        if (isFunction(options.cropstart) && options.cropstart.call(this.element, {
+          originalEvent: e,
+          action: action
+        }) === false) {
+          return;
+        }
+
+        preventDefault(e);
+
+        this.action = action;
+        this.cropping = false;
+
+        this.startX = touch ? touch.pageX : e.pageX;
+        this.startY = touch ? touch.pageY : e.pageY;
+
+        if (action === ACTION_CROP) {
+          this.cropping = true;
+          addClass(this.dragBox, CLASS_MODAL);
+        }
+      }
+    },
+
+    cropMove: function (event) {
+      var options = this.options;
+      var e = getEvent(event);
+      var touches = e.touches;
+      var action = this.action;
+      var touchesLength;
+      var touch;
+
+      if (this.disabled) {
+        return;
+      }
+
+      if (touches) {
+        touchesLength = touches.length;
+
+        if (touchesLength > 1) {
+          if (options.zoomable && options.touchDragZoom && touchesLength === 2) {
+            touch = touches[1];
+            this.endX2 = touch.pageX;
+            this.endY2 = touch.pageY;
+          } else {
+            return;
+          }
+        }
+
+        touch = touches[0];
+      }
+
+      if (action) {
+        if (isFunction(options.cropmove) && options.cropmove.call(this.element, {
+          originalEvent: e,
+          action: action
+        }) === false) {
+          return;
+        }
+
+        preventDefault(e);
+
+        this.endX = touch ? touch.pageX : e.pageX;
+        this.endY = touch ? touch.pageY : e.pageY;
+
+        this.change(e.shiftKey, action === ACTION_ZOOM ? e : null);
+      }
+    },
+
+    cropEnd: function (event) {
+      var options = this.options;
+      var e = getEvent(event);
+      var action = this.action;
+
+      if (this.disabled) {
+        return;
+      }
+
+      if (action) {
+        preventDefault(e);
+
+        if (this.cropping) {
+          this.cropping = false;
+          toggleClass(this.dragBox, CLASS_MODAL, this.cropped && options.modal);
+        }
+
+        this.action = '';
+
+        if (isFunction(options.cropend)) {
+          options.cropend.call(this.element, {
+            originalEvent: e,
+            action: action
+          });
+        }
+      }
+    }
+  });
+
+  extend(prototype, {
+    change: function (shiftKey, originalEvent) {
+      var options = this.options;
+      var aspectRatio = options.aspectRatio;
+      var action = this.action;
+      var containerData = this.containerData;
+      var canvasData = this.canvasData;
+      var cropBoxData = this.cropBoxData;
+      var width = cropBoxData.width;
+      var height = cropBoxData.height;
+      var left = cropBoxData.left;
+      var top = cropBoxData.top;
+      var right = left + width;
+      var bottom = top + height;
+      var minLeft = 0;
+      var minTop = 0;
+      var maxWidth = containerData.width;
+      var maxHeight = containerData.height;
+      var renderable = true;
+      var offset;
+      var range;
+
+      // Locking aspect ratio in "free mode" by holding shift key
+      if (!aspectRatio && shiftKey) {
+        aspectRatio = width && height ? width / height : 1;
+      }
+
+      if (options.strict) {
+        minLeft = cropBoxData.minLeft;
+        minTop = cropBoxData.minTop;
+        maxWidth = minLeft + min(containerData.width, canvasData.width);
+        maxHeight = minTop + min(containerData.height, canvasData.height);
+      }
+
+      range = {
+        x: this.endX - this.startX,
+        y: this.endY - this.startY
+      };
+
+      if (aspectRatio) {
+        range.X = range.y * aspectRatio;
+        range.Y = range.x / aspectRatio;
+      }
+
+      switch (action) {
+        // Move crop box
+        case ACTION_ALL:
+          left += range.x;
+          top += range.y;
+          break;
+
+        // Resize crop box
+        case ACTION_EAST:
+          if (range.x >= 0 && (right >= maxWidth || aspectRatio &&
+            (top <= minTop || bottom >= maxHeight))) {
+
+            renderable = false;
+            break;
+          }
+
+          width += range.x;
+
+          if (aspectRatio) {
+            height = width / aspectRatio;
+            top -= range.Y / 2;
+          }
+
+          if (width < 0) {
+            action = ACTION_WEST;
+            width = 0;
+          }
+
+          break;
+
+        case ACTION_NORTH:
+          if (range.y <= 0 && (top <= minTop || aspectRatio &&
+            (left <= minLeft || right >= maxWidth))) {
+
+            renderable = false;
+            break;
+          }
+
+          height -= range.y;
+          top += range.y;
+
+          if (aspectRatio) {
+            width = height * aspectRatio;
+            left += range.X / 2;
+          }
+
+          if (height < 0) {
+            action = ACTION_SOUTH;
+            height = 0;
+          }
+
+          break;
+
+        case ACTION_WEST:
+          if (range.x <= 0 && (left <= minLeft || aspectRatio &&
+            (top <= minTop || bottom >= maxHeight))) {
+
+            renderable = false;
+            break;
+          }
+
+          width -= range.x;
+          left += range.x;
+
+          if (aspectRatio) {
+            height = width / aspectRatio;
+            top += range.Y / 2;
+          }
+
+          if (width < 0) {
+            action = ACTION_EAST;
+            width = 0;
+          }
+
+          break;
+
+        case ACTION_SOUTH:
+          if (range.y >= 0 && (bottom >= maxHeight || aspectRatio &&
+            (left <= minLeft || right >= maxWidth))) {
+
+            renderable = false;
+            break;
+          }
+
+          height += range.y;
+
+          if (aspectRatio) {
+            width = height * aspectRatio;
+            left -= range.X / 2;
+          }
+
+          if (height < 0) {
+            action = ACTION_NORTH;
+            height = 0;
+          }
+
+          break;
+
+        case ACTION_NORTH_EAST:
+          if (aspectRatio) {
+            if (range.y <= 0 && (top <= minTop || right >= maxWidth)) {
+              renderable = false;
+              break;
+            }
+
+            height -= range.y;
+            top += range.y;
+            width = height * aspectRatio;
+          } else {
+            if (range.x >= 0) {
+              if (right < maxWidth) {
+                width += range.x;
+              } else if (range.y <= 0 && top <= minTop) {
+                renderable = false;
+              }
+            } else {
+              width += range.x;
+            }
+
+            if (range.y <= 0) {
+              if (top > minTop) {
+                height -= range.y;
+                top += range.y;
+              }
+            } else {
+              height -= range.y;
+              top += range.y;
+            }
+          }
+
+          if (width < 0 && height < 0) {
+            action = ACTION_SOUTH_WEST;
+            height = 0;
+            width = 0;
+          } else if (width < 0) {
+            action = ACTION_NORTH_WEST;
+            width = 0;
+          } else if (height < 0) {
+            action = ACTION_SOUTH_EAST;
+            height = 0;
+          }
+
+          break;
+
+        case ACTION_NORTH_WEST:
+          if (aspectRatio) {
+            if (range.y <= 0 && (top <= minTop || left <= minLeft)) {
+              renderable = false;
+              break;
+            }
+
+            height -= range.y;
+            top += range.y;
+            width = height * aspectRatio;
+            left += range.X;
+          } else {
+            if (range.x <= 0) {
+              if (left > minLeft) {
+                width -= range.x;
+                left += range.x;
+              } else if (range.y <= 0 && top <= minTop) {
+                renderable = false;
+              }
+            } else {
+              width -= range.x;
+              left += range.x;
+            }
+
+            if (range.y <= 0) {
+              if (top > minTop) {
+                height -= range.y;
+                top += range.y;
+              }
+            } else {
+              height -= range.y;
+              top += range.y;
+            }
+          }
+
+          if (width < 0 && height < 0) {
+            action = ACTION_SOUTH_EAST;
+            height = 0;
+            width = 0;
+          } else if (width < 0) {
+            action = ACTION_NORTH_EAST;
+            width = 0;
+          } else if (height < 0) {
+            action = ACTION_SOUTH_WEST;
+            height = 0;
+          }
+
+          break;
+
+        case ACTION_SOUTH_WEST:
+          if (aspectRatio) {
+            if (range.x <= 0 && (left <= minLeft || bottom >= maxHeight)) {
+              renderable = false;
+              break;
+            }
+
+            width -= range.x;
+            left += range.x;
+            height = width / aspectRatio;
+          } else {
+            if (range.x <= 0) {
+              if (left > minLeft) {
+                width -= range.x;
+                left += range.x;
+              } else if (range.y >= 0 && bottom >= maxHeight) {
+                renderable = false;
+              }
+            } else {
+              width -= range.x;
+              left += range.x;
+            }
+
+            if (range.y >= 0) {
+              if (bottom < maxHeight) {
+                height += range.y;
+              }
+            } else {
+              height += range.y;
+            }
+          }
+
+          if (width < 0 && height < 0) {
+            action = ACTION_NORTH_EAST;
+            height = 0;
+            width = 0;
+          } else if (width < 0) {
+            action = ACTION_SOUTH_EAST;
+            width = 0;
+          } else if (height < 0) {
+            action = ACTION_NORTH_WEST;
+            height = 0;
+          }
+
+          break;
+
+        case ACTION_SOUTH_EAST:
+          if (aspectRatio) {
+            if (range.x >= 0 && (right >= maxWidth || bottom >= maxHeight)) {
+              renderable = false;
+              break;
+            }
+
+            width += range.x;
+            height = width / aspectRatio;
+          } else {
+            if (range.x >= 0) {
+              if (right < maxWidth) {
+                width += range.x;
+              } else if (range.y >= 0 && bottom >= maxHeight) {
+                renderable = false;
+              }
+            } else {
+              width += range.x;
+            }
+
+            if (range.y >= 0) {
+              if (bottom < maxHeight) {
+                height += range.y;
+              }
+            } else {
+              height += range.y;
+            }
+          }
+
+          if (width < 0 && height < 0) {
+            action = ACTION_NORTH_WEST;
+            height = 0;
+            width = 0;
+          } else if (width < 0) {
+            action = ACTION_SOUTH_WEST;
+            width = 0;
+          } else if (height < 0) {
+            action = ACTION_NORTH_EAST;
+            height = 0;
+          }
+
+          break;
+
+        // Move canvas
+        case ACTION_MOVE:
+          this.move(range.x, range.y);
+          renderable = false;
+          break;
+
+        // Zoom canvas
+        case ACTION_ZOOM:
+          this.zoom((function (x1, y1, x2, y2) {
+            var z1 = sqrt(x1 * x1 + y1 * y1);
+            var z2 = sqrt(x2 * x2 + y2 * y2);
+
+            return (z2 - z1) / z1;
+          })(
+            abs(this.startX - this.startX2),
+            abs(this.startY - this.startY2),
+            abs(this.endX - this.endX2),
+            abs(this.endY - this.endY2)
+          ), originalEvent);
+          this.startX2 = this.endX2;
+          this.startY2 = this.endY2;
+          renderable = false;
+          break;
+
+        // Create crop box
+        case ACTION_CROP:
+          if (range.x && range.y) {
+            offset = getOffset(this.cropper);
+            left = this.startX - offset.left;
+            top = this.startY - offset.top;
+            width = cropBoxData.minWidth;
+            height = cropBoxData.minHeight;
+
+            if (range.x > 0) {
+              if (range.y > 0) {
+                action = ACTION_SOUTH_EAST;
+              } else {
+                action = ACTION_NORTH_EAST;
+                top -= height;
+              }
+            } else {
+              if (range.y > 0) {
+                action = ACTION_SOUTH_WEST;
+                left -= width;
+              } else {
+                action = ACTION_NORTH_WEST;
+                left -= width;
+                top -= height;
+              }
+            }
+
+            // Show the crop box if is hidden
+            if (!this.cropped) {
+              this.cropped = true;
+              removeClass(this.cropBox, CLASS_HIDDEN);
+            }
+          }
+
+          break;
+
+        // No default
+      }
+
+      if (renderable) {
+        cropBoxData.width = width;
+        cropBoxData.height = height;
+        cropBoxData.left = left;
+        cropBoxData.top = top;
+        this.action = action;
+
+        this.renderCropBox();
+      }
+
+      // Override
+      this.startX = this.endX;
+      this.startY = this.endY;
+    }
+  });
+
+  extend(prototype, {
+
+    // Show the crop box manually
+    crop: function () {
+      if (this.built && !this.disabled) {
+        if (!this.cropped) {
+          this.cropped = true;
+          this.limitCropBox(true, true);
+
+          if (this.options.modal) {
+            addClass(this.dragBox, CLASS_MODAL);
+          }
+
+          removeClass(this.cropBox, CLASS_HIDDEN);
+        }
+
+        this.setCropBoxData(this.initialCropBoxData);
+      }
+
+      return this;
+    },
+
+    // Reset the image and crop box to their initial states
+    reset: function () {
+      if (this.built && !this.disabled) {
+        this.imageData = extend({}, this.initialImageData);
+        this.canvasData = extend({}, this.initialCanvasData);
+
+        // Required for strict mode
+        this.cropBoxData = extend({}, this.initialCropBoxData);
+
+        this.renderCanvas();
+
+        if (this.cropped) {
+          this.renderCropBox();
+        }
+      }
+
+      return this;
+    },
+
+    // Clear the crop box
+    clear: function () {
+      if (this.cropped && !this.disabled) {
+        extend(this.cropBoxData, {
+          left: 0,
+          top: 0,
+          width: 0,
+          height: 0
+        });
+
+        this.cropped = false;
+        this.renderCropBox();
+
+        this.limitCanvas();
+
+        // Render canvas after crop box rendered
+        this.renderCanvas();
+
+        removeClass(this.dragBox, CLASS_MODAL);
+        addClass(this.cropBox, CLASS_HIDDEN);
+      }
+
+      return this;
+    },
+
+    /**
+     * Replace the image's src and rebuild the cropper
+     *
+     * @param {String} url
+     */
+    replace: function (url) {
+      if (!this.disabled && url) {
+        if (this.isImg) {
+          this.replaced = true;
+          this.element.src = url;
+        }
+
+        // Clear previous data
+        this.options.data = null;
+        this.load(url);
+      }
+
+      return this;
+    },
+
+    // Enable (unfreeze) the cropper
+    enable: function () {
+      if (this.built) {
+        this.disabled = false;
+        removeClass(this.cropper, CLASS_DISABLED);
+      }
+
+      return this;
+    },
+
+    // Disable (freeze) the cropper
+    disable: function () {
+      if (this.built) {
+        this.disabled = true;
+        addClass(this.cropper, CLASS_DISABLED);
+      }
+
+      return this;
+    },
+
+    // Destroy the cropper and remove the instance from the image
+    destroy: function () {
+      var element = this.element;
+      var image = this.image;
+
+      if (this.ready) {
+        if (this.isImg && this.replaced) {
+          element.asrc = this.originalUrl;
+        }
+
+        this.unbuild();
+        removeClass(element, CLASS_HIDDEN);
+      } else {
+        if (this.isImg) {
+          element.off(EVENT_LOAD, this.start);
+        } else if (image) {
+          removeChild(image);
+        }
+      }
+
+      removeData(element, NAMESPACE);
+
+      return this;
+    },
+
+    /**
+     * Move the canvas
+     *
+     * @param {Number} offsetX
+     * @param {Number} offsetY (optional)
+     */
+    move: function (offsetX, offsetY) {
+      var canvasData = this.canvasData;
+
+      // If "offsetY" is not present, its default value is "offsetX"
+      if (isUndefined(offsetY)) {
+        offsetY = offsetX;
+      }
+
+      offsetX = num(offsetX);
+      offsetY = num(offsetY);
+
+      if (this.built && !this.disabled && this.options.movable) {
+        canvasData.left += isNumber(offsetX) ? offsetX : 0;
+        canvasData.top += isNumber(offsetY) ? offsetY : 0;
+        this.renderCanvas(true);
+      }
+
+      return this;
+    },
+
+    /**
+     * Zoom the canvas
+     *
+     * @param {Number} ratio
+     * @param {Event} _originalEvent (private)
+     */
+    zoom: function (ratio, _originalEvent) {
+      var options = this.options;
+      var canvasData = this.canvasData;
+      var width;
+      var height;
+
+      ratio = num(ratio);
+
+      if (ratio && this.built && !this.disabled && options.zoomable) {
+        if (isFunction(options.zoom) && options.zoom.call(this.element, {
+          originalEvent: _originalEvent,
+          ratio: ratio
+        }) === false) {
+          return this;
+        }
+
+        if (ratio < 0) {
+          ratio =  1 / (1 - ratio);
+        } else {
+          ratio = 1 + ratio;
+        }
+
+        width = canvasData.width * ratio;
+        height = canvasData.height * ratio;
+        canvasData.left -= (width - canvasData.width) / 2;
+        canvasData.top -= (height - canvasData.height) / 2;
+        canvasData.width = width;
+        canvasData.height = height;
+        this.renderCanvas(true);
+        this.setDragMode(ACTION_MOVE);
+      }
+
+      return this;
+    },
+
+    /**
+     * Rotate the canvas
+     * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotate()
+     *
+     * @param {Number} degree
+     */
+    rotate: function (degree) {
+      var imageData = this.imageData;
+      var rotate = imageData.rotate || 0;
+
+      degree = num(degree) || 0;
+
+      if (this.built && !this.disabled && this.options.rotatable) {
+        imageData.rotate = (rotate + degree) % 360;
+        this.rotated = true;
+        this.renderCanvas(true);
+      }
+
+      return this;
+    },
+
+    /**
+     * Scale the image
+     * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#scale()
+     *
+     * @param {Number} scaleX
+     * @param {Number} scaleY (optional)
+     */
+    scale: function (scaleX, scaleY) {
+      var imageData = this.imageData;
+
+      // If "scaleY" is not present, its default value is "scaleX"
+      if (isUndefined(scaleY)) {
+        scaleY = scaleX;
+      }
+
+      scaleX = num(scaleX);
+      scaleY = num(scaleY);
+
+      if (this.built && !this.disabled && this.options.scalable) {
+        imageData.scaleX = isNumber(scaleX) ? scaleX : 1;
+        imageData.scaleY = isNumber(scaleY) ? scaleY : 1;
+        this.renderImage(true);
+      }
+
+      return this;
+    },
+
+    /**
+     * Get the cropped area position and size data (base on the original image)
+     *
+     * @param {Boolean} rounded (optional)
+     * @return {Object} data
+     */
+    getData: function (rounded) {
+      var options = this.options;
+      var imageData = this.imageData;
+      var canvasData = this.canvasData;
+      var cropBoxData = this.cropBoxData;
+      var ratio;
+      var data;
+
+      if (this.built && this.cropped) {
+        data = {
+          x: cropBoxData.left - canvasData.left,
+          y: cropBoxData.top - canvasData.top,
+          width: cropBoxData.width,
+          height: cropBoxData.height
+        };
+
+        ratio = imageData.width / imageData.naturalWidth;
+
+        each(data, function (n, i) {
+          n = n / ratio;
+          data[i] = rounded ? Math.round(n) : n;
+        });
+
+      } else {
+        data = {
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0
+        };
+      }
+
+      if (options.rotatable) {
+        data.rotate = imageData.rotate || 0;
+      }
+
+      if (options.scalable) {
+        data.scaleX = imageData.scaleX || 1;
+        data.scaleY = imageData.scaleY || 1;
+      }
+
+      return data;
+    },
+
+    /**
+     * Set the cropped area position and size with new data
+     *
+     * @param {Object} data
+     */
+    setData: function (data) {
+      var options = this.options;
+      var imageData = this.imageData;
+      var canvasData = this.canvasData;
+      var cropBoxData = {};
+      var rotated;
+      var scaled;
+      var ratio;
+
+      if (isFunction(data)) {
+        data = data.call(this.element);
+      }
+
+      if (this.built && !this.disabled && isPlainObject(data)) {
+        if (options.rotatable) {
+          if (isNumber(data.rotate) && data.rotate !== imageData.rotate) {
+            imageData.rotate = data.rotate;
+            this.rotated = rotated = true;
+          }
+        }
+
+        if (options.scalable) {
+          if (isNumber(data.scaleX) && data.scaleX !== imageData.scaleX) {
+            imageData.scaleX = data.scaleX;
+            scaled = true;
+          }
+
+          if (isNumber(data.scaleY) && data.scaleY !== imageData.scaleY) {
+            imageData.scaleY = data.scaleY;
+            scaled = true;
+          }
+        }
+
+        if (rotated) {
+          this.renderCanvas();
+        } else if (scaled) {
+          this.renderImage();
+        }
+
+        ratio = imageData.width / imageData.naturalWidth;
+
+        if (isNumber(data.x)) {
+          cropBoxData.left = data.x * ratio + canvasData.left;
+        }
+
+        if (isNumber(data.y)) {
+          cropBoxData.top = data.y * ratio + canvasData.top;
+        }
+
+        if (isNumber(data.width)) {
+          cropBoxData.width = data.width * ratio;
+        }
+
+        if (isNumber(data.height)) {
+          cropBoxData.height = data.height * ratio;
+        }
+
+        this.setCropBoxData(cropBoxData);
+      }
+
+      return this;
+    },
+
+    /**
+     * Get the container size data
+     *
+     * @return {Object} data
+     */
+    getContainerData: function () {
+      return this.built ? this.containerData : {};
+    },
+
+    /**
+     * Get the image position and size data
+     *
+     * @return {Object} data
+     */
+    getImageData: function () {
+      return this.ready ? this.imageData : {};
+    },
+
+    /**
+     * Get the canvas position and size data
+     *
+     * @return {Object} data
+     */
+    getCanvasData: function () {
+      var canvasData = this.canvasData;
+      var data;
+
+      if (this.built) {
+        data = {
+          left: canvasData.left,
+          top: canvasData.top,
+          width: canvasData.width,
+          height: canvasData.height
+        };
+      }
+
+      return data || {};
+    },
+
+    /**
+     * Set the canvas position and size with new data
+     *
+     * @param {Object} data
+     */
+    setCanvasData: function (data) {
+      var canvasData = this.canvasData;
+      var aspectRatio = canvasData.aspectRatio;
+
+      if (isFunction(data)) {
+        data = data.call(this.element);
+      }
+
+      if (this.built && !this.disabled && isPlainObject(data)) {
+        if (isNumber(data.left)) {
+          canvasData.left = data.left;
+        }
+
+        if (isNumber(data.top)) {
+          canvasData.top = data.top;
+        }
+
+        if (isNumber(data.width)) {
+          canvasData.width = data.width;
+          canvasData.height = data.width / aspectRatio;
+        } else if (isNumber(data.height)) {
+          canvasData.height = data.height;
+          canvasData.width = data.height * aspectRatio;
+        }
+
+        this.renderCanvas(true);
+      }
+
+      return this;
+    },
+
+    /**
+     * Get the crop box position and size data
+     *
+     * @return {Object} data
+     */
+    getCropBoxData: function () {
+      var cropBoxData = this.cropBoxData;
+      var data;
+
+      if (this.built && this.cropped) {
+        data = {
+          left: cropBoxData.left,
+          top: cropBoxData.top,
+          width: cropBoxData.width,
+          height: cropBoxData.height
+        };
+      }
+
+      return data || {};
+    },
+
+    /**
+     * Set the crop box position and size with new data
+     *
+     * @param {Object} data
+     */
+    setCropBoxData: function (data) {
+      var cropBoxData = this.cropBoxData;
+      var aspectRatio = this.options.aspectRatio;
+      var widthChanged;
+      var heightChanged;
+
+      if (isFunction(data)) {
+        data = data.call(this.element);
+      }
+
+      if (this.built && this.cropped && !this.disabled && isPlainObject(data)) {
+
+        if (isNumber(data.left)) {
+          cropBoxData.left = data.left;
+        }
+
+        if (isNumber(data.top)) {
+          cropBoxData.top = data.top;
+        }
+
+        if (isNumber(data.width) && data.width !== cropBoxData.width) {
+          widthChanged = true;
+          cropBoxData.width = data.width;
+        }
+
+        if (isNumber(data.height) && data.height !== cropBoxData.height) {
+          heightChanged = true;
+          cropBoxData.height = data.height;
+        }
+
+        if (aspectRatio) {
+          if (widthChanged) {
+            cropBoxData.height = cropBoxData.width / aspectRatio;
+          } else if (heightChanged) {
+            cropBoxData.width = cropBoxData.height * aspectRatio;
+          }
+        }
+
+        this.renderCropBox();
+      }
+
+      return this;
+    },
+
+    /**
+     * Get a canvas drawn the cropped image
+     *
+     * @param {Object} options (optional)
+     * @return {HTMLCanvasElement} canvas
+     */
+    getCroppedCanvas: function (options) {
+      var originalWidth;
+      var originalHeight;
+      var canvasWidth;
+      var canvasHeight;
+      var scaledWidth;
+      var scaledHeight;
+      var scaledRatio;
+      var aspectRatio;
+      var canvas;
+      var context;
+      var data;
+
+      if (!this.built || !this.cropped || !SUPPORT_CANVAS) {
+        return;
+      }
+
+      if (!isPlainObject(options)) {
+        options = {};
+      }
+
+      data = this.getData();
+      originalWidth = data.width;
+      originalHeight = data.height;
+      aspectRatio = originalWidth / originalHeight;
+
+      if (isPlainObject(options)) {
+        scaledWidth = options.width;
+        scaledHeight = options.height;
+
+        if (scaledWidth) {
+          scaledHeight = scaledWidth / aspectRatio;
+          scaledRatio = scaledWidth / originalWidth;
+        } else if (scaledHeight) {
+          scaledWidth = scaledHeight * aspectRatio;
+          scaledRatio = scaledHeight / originalHeight;
+        }
+      }
+
+      canvasWidth = scaledWidth || originalWidth;
+      canvasHeight = scaledHeight || originalHeight;
+
+      canvas = document.createElement('canvas');
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      context = canvas.getContext('2d');
+
+      if (options.fillColor) {
+        context.fillStyle = options.fillColor;
+        context.fillRect(0, 0, canvasWidth, canvasHeight);
+      }
+
+      // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
+      context.drawImage.apply(context, (function () {
+        var source = getSourceCanvas(this.image, this.imageData);
+        var sourceWidth = source.width;
+        var sourceHeight = source.height;
+        var args = [source];
+
+        // Source canvas
+        var srcX = data.x;
+        var srcY = data.y;
+        var srcWidth;
+        var srcHeight;
+
+        // Destination canvas
+        var dstX;
+        var dstY;
+        var dstWidth;
+        var dstHeight;
+
+        if (srcX <= -originalWidth || srcX > sourceWidth) {
+          srcX = srcWidth = dstX = dstWidth = 0;
+        } else if (srcX <= 0) {
+          dstX = -srcX;
+          srcX = 0;
+          srcWidth = dstWidth = min(sourceWidth, originalWidth + srcX);
+        } else if (srcX <= sourceWidth) {
+          dstX = 0;
+          srcWidth = dstWidth = min(originalWidth, sourceWidth - srcX);
+        }
+
+        if (srcWidth <= 0 || srcY <= -originalHeight || srcY > sourceHeight) {
+          srcY = srcHeight = dstY = dstHeight = 0;
+        } else if (srcY <= 0) {
+          dstY = -srcY;
+          srcY = 0;
+          srcHeight = dstHeight = min(sourceHeight, originalHeight + srcY);
+        } else if (srcY <= sourceHeight) {
+          dstY = 0;
+          srcHeight = dstHeight = min(originalHeight, sourceHeight - srcY);
+        }
+
+        args.push(srcX, srcY, srcWidth, srcHeight);
+
+        // Scale destination sizes
+        if (scaledRatio) {
+          dstX *= scaledRatio;
+          dstY *= scaledRatio;
+          dstWidth *= scaledRatio;
+          dstHeight *= scaledRatio;
+        }
+
+        // Avoid "IndexSizeError" in IE and Firefox
+        if (dstWidth > 0 && dstHeight > 0) {
+          args.push(dstX, dstY, dstWidth, dstHeight);
+        }
+
+        return args;
+      }).call(this));
+
+      return canvas;
+    },
+
+    /**
+     * Change the aspect ratio of the crop box
+     *
+     * @param {Number} aspectRatio
+     */
+    setAspectRatio: function (aspectRatio) {
+      var options = this.options;
+
+      if (!this.disabled && !isUndefined(aspectRatio)) {
+
+        // 0 -> NaN
+        options.aspectRatio = num(aspectRatio) || NaN;
+
+        if (this.built) {
+          this.initCropBox();
+
+          if (this.cropped) {
+            this.renderCropBox();
+          }
+        }
+      }
+
+      return this;
+    },
+
+    /**
+     * Change the drag mode
+     *
+     * @param {String} mode (optional)
+     */
+    setDragMode: function (mode) {
+      var options = this.options;
+      var dragBox = this.dragBox;
+      var face = this.face;
+      var croppable;
+      var movable;
+
+      if (this.ready && !this.disabled) {
+        croppable = options.dragCrop && mode === ACTION_CROP;
+        movable = options.movable && mode === ACTION_MOVE;
+        mode = (croppable || movable) ? mode : ACTION_NONE;
+
+        setData(dragBox, DATA_ACTION, mode);
+        toggleClass(dragBox, CLASS_CROP, croppable);
+        toggleClass(dragBox, CLASS_MOVE, movable);
+
+        if (!options.cropBoxMovable) {
+
+          // Sync drag mode to crop box when it is not movable
+          setData(face, DATA_ACTION, mode);
+          toggleClass(face, CLASS_CROP, croppable);
+          toggleClass(face, CLASS_MOVE, movable);
+        }
+      }
+
+      return this;
+    }
+  });
+
+  extend(Cropper.prototype, prototype);
+
+  Cropper.DEFAULTS = {
+
+    // Define the aspect ratio of the crop box
+    aspectRatio: NaN,
+
+    // An object with the previous cropping result data
+    data: null,
+
+    // A selector for adding extra containers to preview
+    preview: '',
+
+    // Strict mode, the image cannot zoom out less than the container
+    strict: true,
+
+    // Rebuild when resize the window
+    responsive: true,
+
+    // Check if the target image is cross origin
+    checkImageOrigin: true,
+
+    // Show the black modal
+    modal: true,
+
+    // Show the dashed lines for guiding
+    guides: true,
+
+    // Show the center indicator for guiding
+    center: true,
+
+    // Show the white modal to highlight the crop box
+    highlight: true,
+
+    // Show the grid background
+    background: true,
+
+    // Enable to crop the image automatically when initialize
+    autoCrop: true,
+
+    // Define the percentage of automatic cropping area when initializes
+    autoCropArea: 0.8,
+
+    // Enable to create new crop box by dragging over the image
+    dragCrop: true,
+
+    // Enable to move the image
+    movable: true,
+
+    // Enable to rotate the image
+    rotatable: true,
+
+    // Enable to scale the image
+    scalable: true,
+
+    // Enable to zoom the image
+    zoomable: true,
+
+    // Enable to zoom the image by wheeling mouse
+    mouseWheelZoom: true,
+
+    // Define zoom ratio when zoom the image by wheeling mouse
+    wheelZoomRatio: 0.1,
+
+    // Enable to zoom the image by dragging touch
+    touchDragZoom: true,
+
+    // Enable to move the crop box
+    cropBoxMovable: true,
+
+    // Enable to resize the crop box
+    cropBoxResizable: true,
+
+    // Toggle drag mode between "crop" and "move" when double click on the cropper
+    doubleClickToggle: true,
+
+    // Size limitation
+    minCanvasWidth: 0,
+    minCanvasHeight: 0,
+    minCropBoxWidth: 0,
+    minCropBoxHeight: 0,
+    minContainerWidth: 200,
+    minContainerHeight: 100,
+
+    // Shortcuts of events
+    build: null,
+    built: null,
+    cropstart: null,
+    cropmove: null,
+    cropend: null,
+    crop: null,
+    zoom: null
+  };
+
+  Cropper.TEMPLATE = (
+    '<div class="cropper-container">' +
+      '<div class="cropper-canvas"></div>' +
+      '<div class="cropper-drag-box"></div>' +
+      '<div class="cropper-crop-box">' +
+        '<span class="cropper-view-box"></span>' +
+        '<span class="cropper-dashed dashed-h"></span>' +
+        '<span class="cropper-dashed dashed-v"></span>' +
+        '<span class="cropper-center"></span>' +
+        '<span class="cropper-face"></span>' +
+        '<span class="cropper-line line-e" data-action="e"></span>' +
+        '<span class="cropper-line line-n" data-action="n"></span>' +
+        '<span class="cropper-line line-w" data-action="w"></span>' +
+        '<span class="cropper-line line-s" data-action="s"></span>' +
+        '<span class="cropper-point point-e" data-action="e"></span>' +
+        '<span class="cropper-point point-n" data-action="n"></span>' +
+        '<span class="cropper-point point-w" data-action="w"></span>' +
+        '<span class="cropper-point point-s" data-action="s"></span>' +
+        '<span class="cropper-point point-ne" data-action="ne"></span>' +
+        '<span class="cropper-point point-nw" data-action="nw"></span>' +
+        '<span class="cropper-point point-sw" data-action="sw"></span>' +
+        '<span class="cropper-point point-se" data-action="se"></span>' +
+      '</div>' +
+    '</div>'
+  );
+
+  var _Cropper = window.Cropper;
+
+  Cropper.noConflict = function () {
+    window.Cropper = _Cropper;
+    return Cropper;
+  };
+
+  Cropper.setDefaults = function (options) {
+    extend(Cropper.DEFAULTS, options);
+  };
+
+  if (typeof define === 'function' && define.amd) {
+    define('cropper', [], function () {
+      return Cropper;
+    });
+  }
+
+  if (typeof noGlobal === 'undefined') {
+    window.Cropper = Cropper;
+  }
+
+  return Cropper;
+
+});
+
+},{}],26:[function(require,module,exports){
 ;(function () {
 	'use strict';
 
@@ -1709,7 +4595,7 @@ process.umask = function() { return 0; };
 	}
 }());
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1791,7 +4677,7 @@ var assign = createAssigner(function(object, source, customizer) {
 
 module.exports = assign;
 
-},{"lodash._baseassign":27,"lodash._createassigner":29,"lodash.keys":33}],27:[function(require,module,exports){
+},{"lodash._baseassign":28,"lodash._createassigner":30,"lodash.keys":34}],28:[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1820,7 +4706,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"lodash._basecopy":28,"lodash.keys":33}],28:[function(require,module,exports){
+},{"lodash._basecopy":29,"lodash.keys":34}],29:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1854,7 +4740,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /**
  * lodash 3.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1908,7 +4794,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"lodash._bindcallback":30,"lodash._isiterateecall":31,"lodash.restparam":32}],30:[function(require,module,exports){
+},{"lodash._bindcallback":31,"lodash._isiterateecall":32,"lodash.restparam":33}],31:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1975,7 +4861,7 @@ function identity(value) {
 
 module.exports = bindCallback;
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /**
  * lodash 3.0.9 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2109,7 +4995,7 @@ function isObject(value) {
 
 module.exports = isIterateeCall;
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /**
  * lodash 3.6.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2178,7 +5064,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /**
  * lodash 3.1.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2416,7 +5302,7 @@ function keysIn(object) {
 
 module.exports = keys;
 
-},{"lodash._getnative":34,"lodash.isarguments":35,"lodash.isarray":36}],34:[function(require,module,exports){
+},{"lodash._getnative":35,"lodash.isarguments":36,"lodash.isarray":37}],35:[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2555,7 +5441,7 @@ function isNative(value) {
 
 module.exports = getNative;
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2663,7 +5549,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2845,7 +5731,7 @@ function isNative(value) {
 
 module.exports = isArray;
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 //! moment.js
 //! version : 2.10.6
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -6041,7 +8927,7 @@ module.exports = isArray;
     return _moment;
 
 }));
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 (function (root) {
 // lazy require symbols table
 var _symbols, removelist;
@@ -6255,7 +9141,7 @@ if (typeof define !== 'undefined' && define.amd) { // AMD
 
 }(this));
 
-},{"unicode/category/So":23}],39:[function(require,module,exports){
+},{"unicode/category/So":23}],40:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -6291,7 +9177,7 @@ module.exports = rng;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 //     uuid.js
 //
 //     Copyright (c) 2010-2012 Robert Kieffer
@@ -6476,7 +9362,7 @@ uuid.unparse = unparse;
 
 module.exports = uuid;
 
-},{"./rng":39}],41:[function(require,module,exports){
+},{"./rng":40}],42:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6587,7 +9473,7 @@ exports['default'] = function (Vue) {
 };
 
 module.exports = exports['default'];
-},{"../util":53}],42:[function(require,module,exports){
+},{"../util":54}],43:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -6678,7 +9564,7 @@ exports['default'] = function (Vue) {
 };
 
 module.exports = exports['default'];
-},{"../pipeline":48,"../util":53}],43:[function(require,module,exports){
+},{"../pipeline":49,"../util":54}],44:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -6729,7 +9615,7 @@ var AbstractHistory = (function () {
 
 exports['default'] = AbstractHistory;
 module.exports = exports['default'];
-},{"../util":53,"babel-runtime/helpers/class-call-check":56,"babel-runtime/helpers/create-class":57}],44:[function(require,module,exports){
+},{"../util":54,"babel-runtime/helpers/class-call-check":57,"babel-runtime/helpers/create-class":58}],45:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -6803,7 +9689,7 @@ var HashHistory = (function () {
 
 exports['default'] = HashHistory;
 module.exports = exports['default'];
-},{"../util":53,"babel-runtime/helpers/class-call-check":56,"babel-runtime/helpers/create-class":57}],45:[function(require,module,exports){
+},{"../util":54,"babel-runtime/helpers/class-call-check":57,"babel-runtime/helpers/create-class":58}],46:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -6903,7 +9789,7 @@ var HTML5History = (function () {
 
 exports['default'] = HTML5History;
 module.exports = exports['default'];
-},{"../util":53,"babel-runtime/helpers/class-call-check":56,"babel-runtime/helpers/create-class":57}],46:[function(require,module,exports){
+},{"../util":54,"babel-runtime/helpers/class-call-check":57,"babel-runtime/helpers/create-class":58}],47:[function(require,module,exports){
 'use strict';
 
 var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
@@ -7079,7 +9965,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(Router);
 }
 module.exports = exports['default'];
-},{"./directives/link":41,"./directives/view":42,"./history/abstract":43,"./history/hash":44,"./history/html5":45,"./override":47,"./router/api":50,"./router/internal":51,"./util":53,"babel-runtime/helpers/class-call-check":56,"babel-runtime/helpers/interop-require-default":58,"route-recognizer":70}],47:[function(require,module,exports){
+},{"./directives/link":42,"./directives/view":43,"./history/abstract":44,"./history/hash":45,"./history/html5":46,"./override":48,"./router/api":51,"./router/internal":52,"./util":54,"babel-runtime/helpers/class-call-check":57,"babel-runtime/helpers/interop-require-default":59,"route-recognizer":71}],48:[function(require,module,exports){
 // overriding Vue's $addChild method, so that every child
 'use strict';
 
@@ -7123,7 +10009,7 @@ exports['default'] = function (Vue) {
 
 module.exports = exports['default'];
 // instance inherits the route data
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -7374,7 +10260,7 @@ function loadData(component, transition, hook, cb, cleanup) {
     expectData: true
   });
 }
-},{"./util":53,"babel-runtime/core-js/object/keys":55}],49:[function(require,module,exports){
+},{"./util":54,"babel-runtime/core-js/object/keys":56}],50:[function(require,module,exports){
 "use strict";
 
 var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
@@ -7426,7 +10312,7 @@ var Route = function Route(path, router) {
 
 exports["default"] = Route;
 module.exports = exports["default"];
-},{"babel-runtime/helpers/class-call-check":56}],50:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":57}],51:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -7575,7 +10461,7 @@ exports['default'] = function (Vue, Router) {
 };
 
 module.exports = exports['default'];
-},{"../util":53}],51:[function(require,module,exports){
+},{"../util":54}],52:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -7876,7 +10762,7 @@ exports['default'] = function (Vue, Router) {
 };
 
 module.exports = exports['default'];
-},{"../route":49,"../transition":52,"../util":53,"babel-runtime/helpers/interop-require-default":58}],52:[function(require,module,exports){
+},{"../route":50,"../transition":53,"../util":54,"babel-runtime/helpers/interop-require-default":59}],53:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -8180,7 +11066,7 @@ function isPlainOjbect(val) {
   return Object.prototype.toString.call(val) === '[object Object]';
 }
 module.exports = exports['default'];
-},{"./pipeline":48,"./util":53,"babel-runtime/helpers/class-call-check":56,"babel-runtime/helpers/create-class":57}],53:[function(require,module,exports){
+},{"./pipeline":49,"./util":54,"babel-runtime/helpers/class-call-check":57,"babel-runtime/helpers/create-class":58}],54:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -8352,11 +11238,11 @@ function replaceParam(path, params, key) {
     return m.charAt(m.length - 1) === '/' ? value + '/' : value;
   });
 }
-},{"babel-runtime/helpers/interop-require-default":58,"route-recognizer":70}],54:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":59,"route-recognizer":71}],55:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/define-property"), __esModule: true };
-},{"core-js/library/fn/object/define-property":59}],55:[function(require,module,exports){
+},{"core-js/library/fn/object/define-property":60}],56:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/keys"), __esModule: true };
-},{"core-js/library/fn/object/keys":60}],56:[function(require,module,exports){
+},{"core-js/library/fn/object/keys":61}],57:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -8366,7 +11252,7 @@ exports["default"] = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 "use strict";
 
 var _Object$defineProperty = require("babel-runtime/core-js/object/define-property")["default"];
@@ -8391,7 +11277,7 @@ exports["default"] = (function () {
 })();
 
 exports.__esModule = true;
-},{"babel-runtime/core-js/object/define-property":54}],58:[function(require,module,exports){
+},{"babel-runtime/core-js/object/define-property":55}],59:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (obj) {
@@ -8401,18 +11287,18 @@ exports["default"] = function (obj) {
 };
 
 exports.__esModule = true;
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 var $ = require('../../modules/$');
 module.exports = function defineProperty(it, key, desc){
   return $.setDesc(it, key, desc);
 };
-},{"../../modules/$":66}],60:[function(require,module,exports){
+},{"../../modules/$":67}],61:[function(require,module,exports){
 require('../../modules/es6.object.keys');
 module.exports = require('../../modules/$.core').Object.keys;
-},{"../../modules/$.core":61,"../../modules/es6.object.keys":69}],61:[function(require,module,exports){
+},{"../../modules/$.core":62,"../../modules/es6.object.keys":70}],62:[function(require,module,exports){
 var core = module.exports = {version: '1.2.1'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 var global    = require('./$.global')
   , core      = require('./$.core')
   , PROTOTYPE = 'prototype';
@@ -8460,13 +11346,13 @@ $def.P = 8;  // proto
 $def.B = 16; // bind
 $def.W = 32; // wrap
 module.exports = $def;
-},{"./$.core":61,"./$.global":65}],63:[function(require,module,exports){
+},{"./$.core":62,"./$.global":66}],64:[function(require,module,exports){
 // 7.2.1 RequireObjectCoercible(argument)
 module.exports = function(it){
   if(it == undefined)throw TypeError("Can't call method on  " + it);
   return it;
 };
-},{}],64:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 module.exports = function(exec){
   try {
     return !!exec();
@@ -8474,13 +11360,13 @@ module.exports = function(exec){
     return true;
   }
 };
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var UNDEFINED = 'undefined';
 var global = module.exports = typeof window != UNDEFINED && window.Math == Math
   ? window : typeof self != UNDEFINED && self.Math == Math ? self : Function('return this')();
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 var $Object = Object;
 module.exports = {
   create:     $Object.create,
@@ -8494,7 +11380,7 @@ module.exports = {
   getSymbols: $Object.getOwnPropertySymbols,
   each:       [].forEach
 };
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 // most Object methods by ES6 should accept primitives
 module.exports = function(KEY, exec){
   var $def = require('./$.def')
@@ -8503,13 +11389,13 @@ module.exports = function(KEY, exec){
   exp[KEY] = exec(fn);
   $def($def.S + $def.F * require('./$.fails')(function(){ fn(1); }), 'Object', exp);
 };
-},{"./$.core":61,"./$.def":62,"./$.fails":64}],68:[function(require,module,exports){
+},{"./$.core":62,"./$.def":63,"./$.fails":65}],69:[function(require,module,exports){
 // 7.1.13 ToObject(argument)
 var defined = require('./$.defined');
 module.exports = function(it){
   return Object(defined(it));
 };
-},{"./$.defined":63}],69:[function(require,module,exports){
+},{"./$.defined":64}],70:[function(require,module,exports){
 // 19.1.2.14 Object.keys(O)
 var toObject = require('./$.to-object');
 
@@ -8518,7 +11404,7 @@ require('./$.object-sap')('keys', function($keys){
     return $keys(toObject(it));
   };
 });
-},{"./$.object-sap":67,"./$.to-object":68}],70:[function(require,module,exports){
+},{"./$.object-sap":68,"./$.to-object":69}],71:[function(require,module,exports){
 (function() {
     "use strict";
     function $$route$recognizer$dsl$$Target(path, matcher, delegate) {
@@ -9172,7 +12058,7 @@ require('./$.object-sap')('keys', function($keys){
 }).call(this);
 
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -9223,7 +12109,7 @@ exports.$addChild = function (opts, BaseCtor) {
   return child
 }
 
-},{"../util":132}],72:[function(require,module,exports){
+},{"../util":133}],73:[function(require,module,exports){
 var Watcher = require('../watcher')
 var Path = require('../parsers/path')
 var textParser = require('../parsers/text')
@@ -9384,7 +12270,7 @@ exports.$log = function (path) {
   console.log(data)
 }
 
-},{"../parsers/directive":120,"../parsers/expression":121,"../parsers/path":122,"../parsers/text":124,"../watcher":136}],73:[function(require,module,exports){
+},{"../parsers/directive":121,"../parsers/expression":122,"../parsers/path":123,"../parsers/text":125,"../watcher":137}],74:[function(require,module,exports){
 var _ = require('../util')
 var transition = require('../transition')
 
@@ -9612,7 +12498,7 @@ function remove (el, vm, cb) {
   if (cb) cb()
 }
 
-},{"../transition":125,"../util":132}],74:[function(require,module,exports){
+},{"../transition":126,"../util":133}],75:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -9788,7 +12674,7 @@ function modifyListenerCount (vm, event, count) {
   }
 }
 
-},{"../util":132}],75:[function(require,module,exports){
+},{"../util":133}],76:[function(require,module,exports){
 var _ = require('../util')
 var config = require('../config')
 
@@ -9919,7 +12805,7 @@ config._assetTypes.forEach(function (type) {
   }
 })
 
-},{"../compiler":81,"../config":83,"../parsers/directive":120,"../parsers/expression":121,"../parsers/path":122,"../parsers/template":123,"../parsers/text":124,"../util":132}],76:[function(require,module,exports){
+},{"../compiler":82,"../config":84,"../parsers/directive":121,"../parsers/expression":122,"../parsers/path":123,"../parsers/template":124,"../parsers/text":125,"../util":133}],77:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -9992,7 +12878,7 @@ exports.$compile = function (el, host) {
 
 }).call(this,require('_process'))
 
-},{"../compiler":81,"../util":132,"_process":24}],77:[function(require,module,exports){
+},{"../compiler":82,"../util":133,"_process":24}],78:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -10095,7 +12981,7 @@ exports.push = function (watcher) {
 
 }).call(this,require('_process'))
 
-},{"./config":83,"./util":132,"_process":24}],78:[function(require,module,exports){
+},{"./config":84,"./util":133,"_process":24}],79:[function(require,module,exports){
 /**
  * A doubly linked list-based Least Recently Used (LRU)
  * cache. Will keep most recently used items while
@@ -10209,7 +13095,7 @@ p.get = function (key, returnEntry) {
 
 module.exports = Cache
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var textParser = require('../parsers/text')
@@ -10397,7 +13283,7 @@ function getDefault (options) {
 
 }).call(this,require('_process'))
 
-},{"../config":83,"../directives/prop":99,"../parsers/path":122,"../parsers/text":124,"../util":132,"_process":24}],80:[function(require,module,exports){
+},{"../config":84,"../directives/prop":100,"../parsers/path":123,"../parsers/text":125,"../util":133,"_process":24}],81:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compileProps = require('./compile-props')
@@ -11032,13 +13918,13 @@ function directiveComparator (a, b) {
 
 }).call(this,require('_process'))
 
-},{"../config":83,"../directives/component":88,"../parsers/directive":120,"../parsers/template":123,"../parsers/text":124,"../util":132,"./compile-props":79,"_process":24}],81:[function(require,module,exports){
+},{"../config":84,"../directives/component":89,"../parsers/directive":121,"../parsers/template":124,"../parsers/text":125,"../util":133,"./compile-props":80,"_process":24}],82:[function(require,module,exports){
 var _ = require('../util')
 
 _.extend(exports, require('./compile'))
 _.extend(exports, require('./transclude'))
 
-},{"../util":132,"./compile":80,"./transclude":82}],82:[function(require,module,exports){
+},{"../util":133,"./compile":81,"./transclude":83}],83:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -11187,7 +14073,7 @@ function mergeAttrs (from, to) {
 
 }).call(this,require('_process'))
 
-},{"../config":83,"../parsers/template":123,"../util":132,"_process":24}],83:[function(require,module,exports){
+},{"../config":84,"../parsers/template":124,"../util":133,"_process":24}],84:[function(require,module,exports){
 module.exports = {
 
   /**
@@ -11313,7 +14199,7 @@ Object.defineProperty(module.exports, 'delimiters', {
   }
 })
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -11572,7 +14458,7 @@ module.exports = Directive
 
 }).call(this,require('_process'))
 
-},{"./config":83,"./parsers/expression":121,"./parsers/text":124,"./util":132,"./watcher":136,"_process":24}],85:[function(require,module,exports){
+},{"./config":84,"./parsers/expression":122,"./parsers/text":125,"./util":133,"./watcher":137,"_process":24}],86:[function(require,module,exports){
 // xlink
 var xlinkNS = 'http://www.w3.org/1999/xlink'
 var xlinkRE = /^xlink:/
@@ -11633,7 +14519,7 @@ module.exports = {
   }
 }
 
-},{}],86:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 var _ = require('../util')
 var addClass = _.addClass
 var removeClass = _.removeClass
@@ -11705,7 +14591,7 @@ function stringToObject (value) {
   return res
 }
 
-},{"../util":132}],87:[function(require,module,exports){
+},{"../util":133}],88:[function(require,module,exports){
 var config = require('../config')
 
 module.exports = {
@@ -11717,7 +14603,7 @@ module.exports = {
   }
 }
 
-},{"../config":83}],88:[function(require,module,exports){
+},{"../config":84}],89:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -12066,7 +14952,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../config":83,"../parsers/template":123,"../util":132,"_process":24}],89:[function(require,module,exports){
+},{"../config":84,"../parsers/template":124,"../util":133,"_process":24}],90:[function(require,module,exports){
 module.exports = {
 
   isLiteral: true,
@@ -12080,7 +14966,7 @@ module.exports = {
   }
 }
 
-},{}],90:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 var _ = require('../util')
 var templateParser = require('../parsers/template')
 
@@ -12122,7 +15008,7 @@ module.exports = {
   }
 }
 
-},{"../parsers/template":123,"../util":132}],91:[function(require,module,exports){
+},{"../parsers/template":124,"../util":133}],92:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -12252,7 +15138,7 @@ function callDetach (child) {
 
 }).call(this,require('_process'))
 
-},{"../cache":78,"../compiler":81,"../parsers/template":123,"../transition":125,"../util":132,"_process":24}],92:[function(require,module,exports){
+},{"../cache":79,"../compiler":82,"../parsers/template":124,"../transition":126,"../util":133,"_process":24}],93:[function(require,module,exports){
 // manipulation directives
 exports.text = require('./text')
 exports.html = require('./html')
@@ -12278,7 +15164,7 @@ exports['if'] = require('./if')
 exports._component = require('./component')
 exports._prop = require('./prop')
 
-},{"./attr":85,"./class":86,"./cloak":87,"./component":88,"./el":89,"./html":90,"./if":91,"./model":94,"./on":98,"./prop":99,"./ref":100,"./repeat":101,"./show":102,"./style":103,"./text":104,"./transition":105}],93:[function(require,module,exports){
+},{"./attr":86,"./class":87,"./cloak":88,"./component":89,"./el":90,"./html":91,"./if":92,"./model":95,"./on":99,"./prop":100,"./ref":101,"./repeat":102,"./show":103,"./style":104,"./text":105,"./transition":106}],94:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -12322,7 +15208,7 @@ module.exports = {
   }
 }
 
-},{"../../util":132}],94:[function(require,module,exports){
+},{"../../util":133}],95:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 
@@ -12409,7 +15295,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../../util":132,"./checkbox":93,"./radio":95,"./select":96,"./text":97,"_process":24}],95:[function(require,module,exports){
+},{"../../util":133,"./checkbox":94,"./radio":96,"./select":97,"./text":98,"_process":24}],96:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -12444,7 +15330,7 @@ module.exports = {
   }
 }
 
-},{"../../util":132}],96:[function(require,module,exports){
+},{"../../util":133}],97:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var Watcher = require('../../watcher')
@@ -12685,7 +15571,7 @@ function indexOf (arr, val) {
 
 }).call(this,require('_process'))
 
-},{"../../parsers/directive":120,"../../util":132,"../../watcher":136,"_process":24}],97:[function(require,module,exports){
+},{"../../parsers/directive":121,"../../util":133,"../../watcher":137,"_process":24}],98:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -12819,7 +15705,7 @@ module.exports = {
   }
 }
 
-},{"../../util":132}],98:[function(require,module,exports){
+},{"../../util":133}],99:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -12883,7 +15769,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../util":132,"_process":24}],99:[function(require,module,exports){
+},{"../util":133,"_process":24}],100:[function(require,module,exports){
 // NOTE: the prop internal directive is compiled and linked
 // during _initScope(), before the created hook is called.
 // The purpose is to make the initial prop values available
@@ -12947,7 +15833,7 @@ module.exports = {
   }
 }
 
-},{"../config":83,"../util":132,"../watcher":136}],100:[function(require,module,exports){
+},{"../config":84,"../util":133,"../watcher":137}],101:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -12974,7 +15860,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../util":132,"_process":24}],101:[function(require,module,exports){
+},{"../util":133,"_process":24}],102:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -13749,7 +16635,7 @@ function isPrimitive (value) {
 
 }).call(this,require('_process'))
 
-},{"../compiler":81,"../config":83,"../parsers/expression":121,"../parsers/template":123,"../parsers/text":124,"../util":132,"_process":24}],102:[function(require,module,exports){
+},{"../compiler":82,"../config":84,"../parsers/expression":122,"../parsers/template":124,"../parsers/text":125,"../util":133,"_process":24}],103:[function(require,module,exports){
 var transition = require('../transition')
 
 module.exports = function (value) {
@@ -13759,7 +16645,7 @@ module.exports = function (value) {
   }, this.vm)
 }
 
-},{"../transition":125}],103:[function(require,module,exports){
+},{"../transition":126}],104:[function(require,module,exports){
 var _ = require('../util')
 var prefixes = ['-webkit-', '-moz-', '-ms-']
 var camelPrefixes = ['Webkit', 'Moz', 'ms']
@@ -13871,7 +16757,7 @@ function prefix (prop) {
   }
 }
 
-},{"../util":132}],104:[function(require,module,exports){
+},{"../util":133}],105:[function(require,module,exports){
 var _ = require('../util')
 
 module.exports = {
@@ -13887,7 +16773,7 @@ module.exports = {
   }
 }
 
-},{"../util":132}],105:[function(require,module,exports){
+},{"../util":133}],106:[function(require,module,exports){
 var _ = require('../util')
 var Transition = require('../transition/transition')
 
@@ -13915,7 +16801,7 @@ module.exports = {
   }
 }
 
-},{"../transition/transition":127,"../util":132}],106:[function(require,module,exports){
+},{"../transition/transition":128,"../util":133}],107:[function(require,module,exports){
 var _ = require('../util')
 var clone = require('../parsers/template').clone
 
@@ -14028,11 +16914,11 @@ function extractFragment (nodes, parent, main) {
   return frag
 }
 
-},{"../parsers/template":123,"../util":132}],107:[function(require,module,exports){
+},{"../parsers/template":124,"../util":133}],108:[function(require,module,exports){
 exports.content = require('./content')
 exports.partial = require('./partial')
 
-},{"./content":106,"./partial":108}],108:[function(require,module,exports){
+},{"./content":107,"./partial":109}],109:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var templateParser = require('../parsers/template')
@@ -14110,7 +16996,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"../cache":78,"../compiler":81,"../directives/if":91,"../parsers/template":123,"../parsers/text":124,"../util":132,"_process":24}],109:[function(require,module,exports){
+},{"../cache":79,"../compiler":82,"../directives/if":92,"../parsers/template":124,"../parsers/text":125,"../util":133,"_process":24}],110:[function(require,module,exports){
 var _ = require('../util')
 var Path = require('../parsers/path')
 
@@ -14209,7 +17095,7 @@ function contains (val, search) {
   }
 }
 
-},{"../parsers/path":122,"../util":132}],110:[function(require,module,exports){
+},{"../parsers/path":123,"../util":133}],111:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -14357,7 +17243,7 @@ exports.debounce = function (handler, delay) {
 
 _.extend(exports, require('./array-filters'))
 
-},{"../util":132,"./array-filters":109}],111:[function(require,module,exports){
+},{"../util":133,"./array-filters":110}],112:[function(require,module,exports){
 var _ = require('../util')
 var Directive = require('../directive')
 var compiler = require('../compiler')
@@ -14559,7 +17445,7 @@ exports._cleanup = function () {
   this.$off()
 }
 
-},{"../compiler":81,"../directive":84,"../util":132}],112:[function(require,module,exports){
+},{"../compiler":82,"../directive":85,"../util":133}],113:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var inDoc = _.inDoc
@@ -14703,7 +17589,7 @@ exports._callHook = function (hook) {
 
 }).call(this,require('_process'))
 
-},{"../util":132,"_process":24}],113:[function(require,module,exports){
+},{"../util":133,"_process":24}],114:[function(require,module,exports){
 var mergeOptions = require('../util').mergeOptions
 
 /**
@@ -14794,7 +17680,7 @@ exports._init = function (options) {
   }
 }
 
-},{"../util":132}],114:[function(require,module,exports){
+},{"../util":133}],115:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -14892,7 +17778,7 @@ exports._resolveComponent = function (id, cb) {
 
 }).call(this,require('_process'))
 
-},{"../util":132,"_process":24}],115:[function(require,module,exports){
+},{"../util":133,"_process":24}],116:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -15179,7 +18065,7 @@ exports._defineMeta = function (key, value) {
 
 }).call(this,require('_process'))
 
-},{"../compiler":81,"../observer":118,"../observer/dep":117,"../util":132,"../watcher":136,"_process":24}],116:[function(require,module,exports){
+},{"../compiler":82,"../observer":119,"../observer/dep":118,"../util":133,"../watcher":137,"_process":24}],117:[function(require,module,exports){
 var _ = require('../util')
 var arrayProto = Array.prototype
 var arrayMethods = Object.create(arrayProto)
@@ -15279,7 +18165,7 @@ _.define(
 
 module.exports = arrayMethods
 
-},{"../util":132}],117:[function(require,module,exports){
+},{"../util":133}],118:[function(require,module,exports){
 var _ = require('../util')
 var uid = 0
 
@@ -15342,7 +18228,7 @@ Dep.prototype.notify = function () {
 
 module.exports = Dep
 
-},{"../util":132}],118:[function(require,module,exports){
+},{"../util":133}],119:[function(require,module,exports){
 var _ = require('../util')
 var config = require('../config')
 var Dep = require('./dep')
@@ -15578,7 +18464,7 @@ function copyAugment (target, src, keys) {
 
 module.exports = Observer
 
-},{"../config":83,"../util":132,"./array":116,"./dep":117,"./object":119}],119:[function(require,module,exports){
+},{"../config":84,"../util":133,"./array":117,"./dep":118,"./object":120}],120:[function(require,module,exports){
 var _ = require('../util')
 var objProto = Object.prototype
 
@@ -15662,7 +18548,7 @@ _.define(
   }
 )
 
-},{"../util":132}],120:[function(require,module,exports){
+},{"../util":133}],121:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var cache = new Cache(1000)
@@ -15844,7 +18730,7 @@ exports.parse = function (s) {
   return dirs
 }
 
-},{"../cache":78,"../util":132}],121:[function(require,module,exports){
+},{"../cache":79,"../util":133}],122:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Path = require('./path')
@@ -16113,7 +18999,7 @@ exports.isSimplePath = function (exp) {
 
 }).call(this,require('_process'))
 
-},{"../cache":78,"../util":132,"./path":122,"_process":24}],122:[function(require,module,exports){
+},{"../cache":79,"../util":133,"./path":123,"_process":24}],123:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Cache = require('../cache')
@@ -16466,7 +19352,7 @@ function warnNonExistent (path) {
 
 }).call(this,require('_process'))
 
-},{"../cache":78,"../util":132,"_process":24}],123:[function(require,module,exports){
+},{"../cache":79,"../util":133,"_process":24}],124:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var templateCache = new Cache(1000)
@@ -16756,7 +19642,7 @@ exports.parse = function (template, clone, noSelector) {
     : frag
 }
 
-},{"../cache":78,"../util":132}],124:[function(require,module,exports){
+},{"../cache":79,"../util":133}],125:[function(require,module,exports){
 var Cache = require('../cache')
 var config = require('../config')
 var dirParser = require('./directive')
@@ -16936,7 +19822,7 @@ function inlineFilters (exp, single) {
   }
 }
 
-},{"../cache":78,"../config":83,"./directive":120}],125:[function(require,module,exports){
+},{"../cache":79,"../config":84,"./directive":121}],126:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -17066,7 +19952,7 @@ var apply = exports.apply = function (el, direction, op, vm, cb) {
   transition[action](op, cb)
 }
 
-},{"../util":132}],126:[function(require,module,exports){
+},{"../util":133}],127:[function(require,module,exports){
 var _ = require('../util')
 var queue = []
 var queued = false
@@ -17103,7 +19989,7 @@ function flush () {
   return f
 }
 
-},{"../util":132}],127:[function(require,module,exports){
+},{"../util":133}],128:[function(require,module,exports){
 var _ = require('../util')
 var queue = require('./queue')
 var addClass = _.addClass
@@ -17462,7 +20348,7 @@ function isHidden (el) {
 
 module.exports = Transition
 
-},{"../util":132,"./queue":126}],128:[function(require,module,exports){
+},{"../util":133,"./queue":127}],129:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 
@@ -17591,7 +20477,7 @@ function formatValue (val) {
 
 }).call(this,require('_process'))
 
-},{"./index":132,"_process":24}],129:[function(require,module,exports){
+},{"./index":133,"_process":24}],130:[function(require,module,exports){
 (function (process){
 /**
  * Enable debug utilities.
@@ -17660,7 +20546,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 }).call(this,require('_process'))
 
-},{"../config":83,"_process":24}],130:[function(require,module,exports){
+},{"../config":84,"_process":24}],131:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -17937,7 +20823,7 @@ exports.createAnchor = function (content, persist) {
 
 }).call(this,require('_process'))
 
-},{"../config":83,"./index":132,"_process":24}],131:[function(require,module,exports){
+},{"../config":84,"./index":133,"_process":24}],132:[function(require,module,exports){
 // can we use __proto__?
 exports.hasProto = '__proto__' in {}
 
@@ -18024,7 +20910,7 @@ exports.nextTick = (function () {
   }
 })()
 
-},{}],132:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 var lang = require('./lang')
 var extend = lang.extend
 
@@ -18035,7 +20921,7 @@ extend(exports, require('./options'))
 extend(exports, require('./component'))
 extend(exports, require('./debug'))
 
-},{"./component":128,"./debug":129,"./dom":130,"./env":131,"./lang":133,"./options":134}],133:[function(require,module,exports){
+},{"./component":129,"./debug":130,"./dom":131,"./env":132,"./lang":134,"./options":135}],134:[function(require,module,exports){
 /**
  * Check if a string starts with $ or _
  *
@@ -18347,7 +21233,7 @@ exports.looseEqual = function (a, b) {
   /* eslint-enable eqeqeq */
 }
 
-},{}],134:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -18709,7 +21595,7 @@ exports.resolveAsset = function resolve (options, type, id) {
 
 }).call(this,require('_process'))
 
-},{"../config":83,"./index":132,"_process":24}],135:[function(require,module,exports){
+},{"../config":84,"./index":133,"_process":24}],136:[function(require,module,exports){
 var _ = require('./util')
 var extend = _.extend
 
@@ -18800,7 +21686,7 @@ extend(p, require('./api/lifecycle'))
 
 module.exports = _.Vue = Vue
 
-},{"./api/child":71,"./api/data":72,"./api/dom":73,"./api/events":74,"./api/global":75,"./api/lifecycle":76,"./directives":92,"./element-directives":107,"./filters":110,"./instance/compile":111,"./instance/events":112,"./instance/init":113,"./instance/misc":114,"./instance/scope":115,"./util":132}],136:[function(require,module,exports){
+},{"./api/child":72,"./api/data":73,"./api/dom":74,"./api/events":75,"./api/global":76,"./api/lifecycle":77,"./directives":93,"./element-directives":108,"./filters":111,"./instance/compile":112,"./instance/events":113,"./instance/init":114,"./instance/misc":115,"./instance/scope":116,"./util":133}],137:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -19117,7 +22003,7 @@ module.exports = Watcher
 
 }).call(this,require('_process'))
 
-},{"./batcher":77,"./config":83,"./observer/dep":117,"./parsers/expression":121,"./util":132,"_process":24}]},{},[1])
+},{"./batcher":78,"./config":84,"./observer/dep":118,"./parsers/expression":122,"./util":133,"_process":24}]},{},[1])
 
 
 //# sourceMappingURL=all.js.map
