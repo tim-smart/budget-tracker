@@ -93,6 +93,7 @@ export default Vue.extend({
     clearImage(event) {
       event.preventDefault()
       this.transaction.image = null
+      this.imagePreview = null
     }
   },
 

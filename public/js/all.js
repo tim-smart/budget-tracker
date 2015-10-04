@@ -748,6 +748,7 @@ exports['default'] = _vue2['default'].extend({
     clearImage: function clearImage(event) {
       event.preventDefault();
       this.transaction.image = null;
+      this.imagePreview = null;
     }
   },
 
