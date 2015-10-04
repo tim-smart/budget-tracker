@@ -56,6 +56,7 @@
   "dependencies": {
     "blueimp-load-image": "^1.14.0",
     "bootstrap": "twbs/bootstrap#v4-dev",
+    "cropperjs": "^0.1.0",
     "fastclick": "^1.0.6",
     "lodash.assign": "^3.2.0",
     "moment": "^2.10.6",

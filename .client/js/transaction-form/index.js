@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import _assign from 'lodash.assign'
 import imageReader from '../lib/image-reader.js'
+import Cropper from 'cropperjs'
 
 export default Vue.extend({
   name: 'transaction-form',
@@ -12,7 +13,8 @@ export default Vue.extend({
         amount: '',
         categoryId: null,
         image: null
-      }
+      },
+      imagePreview: null
     }
   },
 
@@ -32,9 +34,18 @@ export default Vue.extend({
     }
   },
 
+  ready() {
+    const self = this;
+  },
+
   methods: {
     save(event) {
       event.preventDefault()
+
+      // Image crop?
+      if (this.imagePreview) {
+        this.transaction.image = this.$.cropper.getCroppedCanvas().toDataURL('image/jpg', 0.8)
+      }
 
       const transactions = this.$root.$.transactions
       const attributes = this.transaction
@@ -63,6 +74,15 @@ export default Vue.extend({
       imageReader(input.files[0])
       .then(function(data) {
         self.transaction.image = data
+        if (self.$.cropper) {
+          self.$.cropper.destroy()
+        }
+        self.imagePreview = data
+        self.$nextTick(function() {
+          self.$.cropper = new Cropper(self.$$.imagePreview, {
+            mouseWheelZoom: false
+          })
+        })
       })
       .catch(function(err) {
         console.error(err)

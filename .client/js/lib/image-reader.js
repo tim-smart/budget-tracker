@@ -1,6 +1,6 @@
 import 'blueimp-load-image/js/load-image.all.min'
 
-export default function(file, maxWidth = 500) {
+export default function(file, maxWidth = 800) {
   return new Promise(function(resolve, reject) {
     loadImage.parseMetaData(file, function(data) {
       let orientation = null

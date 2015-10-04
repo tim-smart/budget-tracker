@@ -1,6 +1,6 @@
-
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import 'shared/cropper';
 
 @import 'app/index';
 @import 'navbar/index';
-@import 'shared/card'
+@import 'shared/card';
