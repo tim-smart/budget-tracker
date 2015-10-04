@@ -737,7 +737,8 @@ exports['default'] = _vue2['default'].extend({
         self.$nextTick(function () {
           self.$.cropper = new _cropperjs2['default'](self.$$.imagePreview, {
             mouseWheelZoom: false,
-            dragCrop: false
+            dragCrop: false,
+            movable: false
           });
         });
       })['catch'](function (err) {

@@ -81,7 +81,8 @@ export default Vue.extend({
         self.$nextTick(function() {
           self.$.cropper = new Cropper(self.$$.imagePreview, {
             mouseWheelZoom: false,
-            dragCrop: false
+            dragCrop: false,
+            movable: false
           })
         })
       })
